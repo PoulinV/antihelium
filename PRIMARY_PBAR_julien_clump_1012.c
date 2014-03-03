@@ -134,7 +134,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
         pt_Pbar->BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] += (dx_vert * weight_SIMPSON_vert) *
         q_pbar_primary_i_z[i_vert] *
         pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar] *
-        exp(- pt_Propagation->VENT_GALACTIQUE*z_vert*CM_PAR_KPC / (2.*K_pbar));
+        exp(- pt_Propagation->VENT_GALACTIQUE*z_vert*CM_PAR_KPC / (2.*K_pbar)) *
         sinh((Si/2.)*(pt_Propagation->E_DIFFUS-z_vert)) / sinh((Si/2.)*pt_Propagation->E_DIFFUS); //[antiprotons cm^{-3} s^{-1} GeV^{-1}].
 						
 		
