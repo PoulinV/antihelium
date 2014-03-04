@@ -1,5 +1,5 @@
-#ifndef BESSEL_PRELIM_H
-#define BESSEL_PRELIM_H
+#ifndef PROTON_H
+#define PROTON_H
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
@@ -10,34 +10,28 @@
 #include <time.h>
 #include <locale.h>
 
-#include "besselj0_next.h"
-#include "besselj1_next.h"
-
 #include "COMMON.h"
 #include "STRUCTURES.h"
 
-
-
-/**********************************************************************************************************************************************************************************************************/
-/**********************************************************************************************************************************************************************************************************/
-
-//	DECLARATION DES CONSTANTES
-
-#define NINT_PRODUCTION 50000
-/* Nombre de pas dans l'integration de la fonction production */
+#include "besselj0_next.h"
+#include "besselj1_next.h"
+#include "CROSS_SECTIONS.h"
+#include "DIFFUSION_PROPAGATION.h"
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
 
 //	DECLARATION DES FONCTIONS
 
-void bessel_preliminary_write_file(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium);
-void bessel_preliminary_read_file (double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium);
+double flux_proton_EXP(double E_proton);
 
-void search_for_zero(double alpha_i[NDIM+1]);
-void search(double z1,double z2,double *zero);
-void production(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Nuclei);
-double f_PSRD(double u);
+double Q_proton_tot(double E_proton, double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation);
+void calcul_method_A_BESSEL_Pi(double E_proton, double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation);
+void calcul_method_B_BESSEL_Pi(double E_proton, double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation);
+void calculation_BESSEL_PROTON_Ep_i(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation);
+
+double flux_proton_TH(double r,double z,double E_proton, double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation);
+double pbar_emissivity_per_H_solar(double E_pbar);
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/

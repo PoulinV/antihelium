@@ -8,13 +8,13 @@
 #include "STRUCTURES.h"
 
 #include "BESSEL_PRELIM.h"
+#include "CROSS_SECTIONS.h"
+#include "DIFFUSION_PROPAGATION.h"
 #include "SOLAR_MOD.h"
-#include "PROTON_0809.h"
-#include "HELIUM_0809.h"
-#include "DAVID_CROSS_SECTIONS_torsten.h"
+#include "PROTON.h"
+#include "HELIUM.h"
+#include "PRIMARY_PBAR.h"
 #include "ANTI_PROTON.h"
-#include "DIFFUSION_PROPAGATION_julien_clump_1012.h"
-#include "PRIMARY_PBAR_julien_clump_1012.h"
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -162,15 +162,15 @@ int main(void)
 
 //		CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
 
-		//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+		calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 		//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
 //		CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE
 //		PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 
-		calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
-		calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
-		calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+  //calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
+  //calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
+  //calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 		calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 
 //		CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
@@ -293,4 +293,3 @@ LA_FIN :
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
-
