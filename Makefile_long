@@ -1,0 +1,103 @@
+#Long version of the Makefile for the antiproton code.
+#Each file is presented with its dependencies.
+#Authors Mathieu Boudaud and Pierre Salati
+
+FC = gcc
+#CFLAGS =
+CFLAGS = -Wall
+OBJECTS = nrutil.o GAUSSJ.o TRIDAG.o\
+		besselj0_next.o besselj1_next.o BESSEL_PRELIM.o\
+		CROSS_SECTIONS.o DIFFUSION_PROPAGATION.o SOLAR_MOD.o\
+		PROTON.o HELIUM.o PRIMARY_PBAR.o ANTI_PROTON.o MAIN.o
+
+all: executable
+
+executable: $(OBJECTS)
+		$(FC) -lm -o executable $(OBJECTS)
+
+nrutil.o: nrutil.c nrutil.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+GAUSSJ.o: GAUSSJ.c nrutil.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+TRIDAG.o: TRIDAG.c TRIDAG.h nrutil.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+besselj0_next.o: besselj0_next.c besselj0_next.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+besselj1_next.o: besselj1_next.c besselj1_next.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+BESSEL_PRELIM.o: BESSEL_PRELIM.c BESSEL_PRELIM.h besselj0_next.h besselj1_next.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+CROSS_SECTIONS.o: CROSS_SECTIONS.c CROSS_SECTIONS.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+DIFFUSION_PROPAGATION.o: DIFFUSION_PROPAGATION.c DIFFUSION_PROPAGATION.h\
+		besselj0_next.h besselj1_next.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+SOLAR_MOD.o: SOLAR_MOD.c SOLAR_MOD.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+PROTON.o: PROTON.c PROTON.h besselj0_next.h besselj1_next.h\
+		CROSS_SECTIONS.h DIFFUSION_PROPAGATION.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+HELIUM.o: HELIUM.c HELIUM.h besselj0_next.h besselj1_next.h\
+		CROSS_SECTIONS.h DIFFUSION_PROPAGATION.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+PRIMARY_PBAR.o: PRIMARY_PBAR.c PRIMARY_PBAR.h besselj0_next.h besselj1_next.h\
+		CROSS_SECTIONS.h DIFFUSION_PROPAGATION.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+ANTI_PROTON.o: ANTI_PROTON.c ANTI_PROTON.h TRIDAG.h nrutil.h\
+		CROSS_SECTIONS.h DIFFUSION_PROPAGATION.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+MAIN.o: MAIN.c TRIDAG.h nrutil.h BESSEL_PRELIM.h besselj0_next.h besselj1_next.h\
+		CROSS_SECTIONS.h DIFFUSION_PROPAGATION.h SOLAR_MOD.h\
+		PROTON.h HELIUM.h PRIMARY_PBAR.h ANTI_PROTON.h STRUCTURES.h COMMON.h
+		@echo ========================================================================================
+		$(FC) -o $@ -c $< $(CFLAGS)
+		@echo ========================================================================================
+
+clean:
+		@echo ========================================================================================
+		@echo ========================================================================================
+		rm -f *.o core
+		@echo ========================================================================================
+		@echo ========================================================================================
+
+mrproper: clean
+		rm -f executable
