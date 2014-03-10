@@ -1,4 +1,4 @@
-#include "PRIMARY_PBAR_julien_clump_1012.h"
+#include "PRIMARY_PBAR.h"
 
 /********************************************************************************************/
 /********************************************************************************************/
@@ -365,10 +365,10 @@ double dNpbar_on_dEpbar_primary_calculation(double mass_chi, int channel, struct
 		exit (0);
 	}
 
-    for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-    {
-      pt_Primary_Source_Term->DNPBAR_ON_DEPBAR[i_pbar] = 0.0;
-  	}
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		pt_Primary_Source_Term->DNPBAR_ON_DEPBAR[i_pbar] = 0.0;
+	}
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
@@ -397,6 +397,7 @@ double dNpbar_on_dEpbar_primary_calculation(double mass_chi, int channel, struct
 			pt_Primary_Source_Term->DNPBAR_ON_DEPBAR[i_pbar]  = 0.0;
 		}	
 	}
+	return (1.0);
 }
 
 /********************************************************************************************/

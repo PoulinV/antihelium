@@ -1,5 +1,5 @@
-#ifndef DAVID_CROSS_SECTIONS_TORSTEN_H
-#define DAVID_CROSS_SECTIONS_TORSTEN_H
+#ifndef CROSS_SECTIONS_H
+#define CROSS_SECTIONS_H
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
@@ -9,7 +9,7 @@
 * DES ANTIDEUTERONS SUR L'HYDROGENE, SECTION EFFICACE PARAMETREE PAR LES DONNEES DU CERN
 * (http://pdg.lbl.gov)
 *
-* THE PARAMETRIZATION IS
+* THE PARAMETERIZATION IS
 * sigma(p) = A + B*p^n + C*ln^2(p) + D*ln(p)
 * WHERE SIGMA IS IN MILLIBARN AND p IS IN GEV/C. THE BEST-FIT COEFFICIENTS A, B, C AND D,
 * AND THE EXPONENT n ARE TABULATED BELOW. ALSO GIVEN IS THE RANGE OF MOMENTUM OVER WHICH
@@ -155,7 +155,6 @@
 #define PMASS 0.93827231
 //in units of [GeV]
 
-
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
 
@@ -202,7 +201,6 @@ double E_d3S_on_d3P_PBAR_H_ON_H_LAB_duperray(double E_proton,double pL,double pT
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(double E_proton,double E_pbar,long n_step);
 
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(double E_proton,double E_pbar,long n_step);
-
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
