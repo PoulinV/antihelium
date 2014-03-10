@@ -4,7 +4,7 @@
 /********************************************************************************************/
 /*
 * Dans ce module, nous calculons les coefficients du tableau pt_Pbar->BESSEL_PBAR_PRI_Epbar_i
-* en fonction de l'énergie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
+* en fonction de l'energie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
 *
 */
 void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alpha_i[NDIM+1],
@@ -21,8 +21,8 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
   double x_rad, r_rad, dx_rad, weight_SIMPSON_rad;
   static double q_pbar_primary_i_z[2001];
 /*
-* Protection concernant le fait que n_vert doit être inférieur ou égal à 1000
-* mais pas supérieur !
+* Protection concernant le fait que n_vert doit etre inferieur ou egal a 1000
+* mais pas superieur !
 */
   if (n_vert > 1000)
   {
@@ -30,8 +30,8 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
     exit (0);
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_PRI_Epbar_i.
-* On pourrait d'ailleurs le remettre à zero plus loin.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_PRI_Epbar_i.
+* On pourrait d'ailleurs le remettre a zero plus loin.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -46,16 +46,16 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
   for (i=1;i<=NDIM;i++)
   {
 /*
-*   Nous commençons par le calcul de l'intégrale radiale q_pbar_primary_i_z.
+*   Nous commencons par le calcul de l'integrale radiale q_pbar_primary_i_z.
 *   \beq
 *   q_pbar_primary_i_z = \frac{2}{J_{1}^{2}(\alpha_{i})} \times
 *   \int_{0}^{1} \, x \, dx \, J_{0} \left( \alpha_{i} x \right) \,
 *   \left\{ \frac{\rho_{\chi}}{\rho_0} \right\}^{2} \;\; .
 *   \eeq
 *
-*   Cette intégrale dépend de i et de z et nous stockons les résultats
-*   correspondant à l'ordre de Bessel i dans le tableau q_pbar_primary_i_z
-*   qui ne dépend que de z.
+*   Cette integrale depend de i et de z et nous stockons les resultats
+*   correspondant a l'ordre de Bessel i dans le tableau q_pbar_primary_i_z
+*   qui ne depend que de z.
 *
 *   Nous entamons une boucle sur z suivie par une boucle sur r.
 */
@@ -64,7 +64,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
     for (i_vert=0;i_vert<=(2*n_vert);i_vert++)
     {
       z_vert = pt_Propagation->E_DIFFUS * x_vert;
-/*    z_vert est la coordonnée verticale exprimée en [kpc].
+/*    z_vert est la coordonnee verticale exprimee en [kpc].
 */
       q_pbar_primary_i_z[i_vert] = 0.0;
       dx_rad = 1. / (double) (2*n_rad);
@@ -72,7 +72,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
       for (i_rad=0;i_rad<=(2*n_rad);i_rad++)
       {
         r_rad = R_GAL * x_rad;
-/*      r_rad est le rayon galactocentrique exprimé en [kpc].
+/*      r_rad est le rayon galactocentrique exprime en [kpc].
 */
         if (i_rad==0 || i_rad==(2*n_rad)) {weight_SIMPSON_rad = 1./3.;}
         else {weight_SIMPSON_rad = (1. + (double)(i_rad % 2)) * 2. / 3.;}
@@ -87,7 +87,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
       x_vert += dx_vert;
     }
 /*
-*   Nous continuons ensuite par une boucle sur l'énergie des antiprotons
+*   Nous continuons ensuite par une boucle sur l'energie des antiprotons
 *   englobant la boucle sur la variable verticale permettant ainsi de
 *   calculer pt_Pbar->BESSEL_PBAR_PRI_Epbar_i[i_pbar][i].
 */
@@ -100,12 +100,12 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
       v_pbar         = CELERITY_LIGHT * impulsion_pbar / E_pbar;
       K_pbar         = K_space_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
 	  
-/*    Si est exprimé en [kpc^{-1}].  */
+/*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_pbar,2));
 
 
-/*    Abar_i est exprimé en [cm s^{-1}].  */
+/*    Abar_i est exprime en [cm s^{-1}].  */
       Abar_i  = pt_Propagation->VENT_GALACTIQUE;
 	  Abar_i += 2.0*E_DISC*CM_PAR_KPC *
       ((sigma_inelastic_pbarH_TAN_and_NG(E_pbar) - sigma_inelastic_NOANN_pbarH_TAN_and_NG(E_pbar)) * v_pbar * (DENSITE_H_DISC + pow(4.,(2./3.))*1.0*DENSITE_HE_DISC));
@@ -114,7 +114,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
 	  pt_Pbar->TABLE_Abar_i[i_pbar][i] = Abar_i;
 
 
-/*    Il convient maintenant d'intégrer sur la variable verticale x_vert
+/*    Il convient maintenant d'integrer sur la variable verticale x_vert
 *     ainsi que sur la variable radiale x_rad.
 */
       dx_vert = 1. / (double) (2*n_vert);
@@ -123,7 +123,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
       for (i_vert=0;i_vert<=(2*n_vert);i_vert++)
       {
         z_vert = pt_Propagation->E_DIFFUS * x_vert;
-/*      z_vert est la coordonnée verticale exprimée en [kpc].
+/*      z_vert est la coordonnee verticale exprimee en [kpc].
 */
         if (i_vert==0 || i_vert==(2*n_vert)) {weight_SIMPSON_vert = 1./3.;}
         else {weight_SIMPSON_vert = (1. + (double)(i_vert % 2)) * 2. / 3.;}
@@ -143,7 +143,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
       pt_Pbar->BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] *= 2. * pt_Propagation->E_DIFFUS*CM_PAR_KPC / Abar_i;
 	  
 	  
-/*    S'exprime maintenant en unités de [antiprotons cm^{-3} GeV^{-1}].
+/*    S'exprime maintenant en unites de [antiprotons cm^{-3} GeV^{-1}].
 */
     }
   }
@@ -154,12 +154,12 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
 /********************************************************************************************/
 /*
  * Nous calculons ici le rapport $\left\{ \frac{\rho_{\chi}}{\rho_0} \right\}$
- * où $\rho_{\chi}$ désigne la masse volumique des neutralinos exprimée
- * en [GeV cm^{-3}] et dépendante des coordonnées cylindriques rr et z.
- * La masse volumique de référence est $\rho_0$ = 1 [GeV cm^{-3}].
- * Le résultat final est sans dimension et dépend de DEUX variables :
- * - Le rayon galactocentrique rr est exprimé en [kpc].
- * - La distance verticale z est également exprimée en [kpc].
+ * ou $\rho_{\chi}$ designe la masse volumique des neutralinos exprimee
+ * en [GeV cm^{-3}] et dependante des coordonnees cylindriques rr et z.
+ * La masse volumique de reference est $\rho_0$ = 1 [GeV cm^{-3}].
+ * Le resultat final est sans dimension et depend de DEUX variables :
+ * - Le rayon galactocentrique rr est exprime en [kpc].
+ * - La distance verticale z est egalement exprimee en [kpc].
  *
  */
 double rapport_rho_chi_sur_rho_0(double rr,double z)
@@ -244,7 +244,7 @@ double rapport_rho_chi_sur_rho_0(double rr,double z)
 		r             = RC_SMBH;
 	}
 	rho_chi  = (1. + pow((R_EARTH/core),alpha)) / (1. + pow((r/core),alpha));
-	rho_chi  = RHO_CHI_SOLAR * /* rho_{CDM \odot} est exprimé en [GeV cm^{-3}] */
+	rho_chi  = RHO_CHI_SOLAR * /* rho_{CDM \odot} est exprime en [GeV cm^{-3}] */
 	pow((R_EARTH/r),gamma) * pow(rho_chi,((beta - gamma)/alpha));
 	rho_chi /= RHO_CHI_0;
 

@@ -118,7 +118,7 @@
 #define  P7_pbarp_el -1.5916		/* erreur=+/- 0.11591 	*/
 
 /*
-* Pour l'interaction antiproton sur cible de deutrium ou antideutrium
+* Pour l'interaction antiproton sur cible de deuterium ou antideuterium
 * sur proton, l'approximation devient
 *
 * sigma = P1 + P2*p + P3*p^2 + P4*p^3 + P5*p^4 + P6*p^5 + P7*p^6 +
@@ -147,7 +147,7 @@
 #define mb_cm2 (1.e-27)         /* Constante de conversion mb en cm2 */
 #define uma_Gev (931.48e-3)     /* Constante de conversion uma en Gev */
 #define m_p 1.00794
-#define MASSE_DEUT 1.876        /* La masse du deutron est exprime en [GeV] */
+#define MASSE_DEUT 1.876        /* La masse du deuteron est exprimee en [GeV] */
 
 /*
 * CODE DE LAURENT DEROME

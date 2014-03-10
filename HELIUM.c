@@ -3,8 +3,8 @@
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-*  Il s'agit du flux interstellaire des noyaux d'hlium. Ce flux est un flux
-* diffrentiel par rapport  l'ENERGIE PAR NUCLEON. Il est donc exprim en unit
+*  Il s'agit du flux interstellaire des noyaux d'helium. Ce flux est un flux
+* differentiel par rapport a l'ENERGIE PAR NUCLEON. Il est donc exprime en unite
 * de [cm^{-2} s^{-1} sr^{-1} (GeV/nucleon)^{-1}].
 *
 * FEBRUARY 2000
@@ -166,7 +166,7 @@ void calcul_method_B_BESSEL_HEi(double E_nucleon, double alpha_i[NDIM+1], struct
   double production_E_helium,Si,Ai;
   
 /*
-* On remet  zro le tableau BESSEL_COEF_i[i].
+* On remet a zero le tableau BESSEL_COEF_i[i].
 */
   for (i=0;i<=NDIM;i++)
   {
@@ -182,17 +182,17 @@ void calcul_method_B_BESSEL_HEi(double E_nucleon, double alpha_i[NDIM+1], struct
 
   for (i=1;i<=NDIM;i++)
   {
-/*  Si est exprim en [kpc^{-1}].  */
+/*  Si est exprime en [kpc^{-1}].  */
     Si =
     sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_helium,2));
-/*  Ai est exprim en [cm s^{-1}].  */
+/*  Ai est exprime en [cm s^{-1}].  */
     Ai  = pt_Propagation->VENT_GALACTIQUE;
     Ai += 2.0*E_DISC*CM_PAR_KPC *
     (pow(A_HE,2.2/3.) * sigma_total_pH(E_nucleon) * v_helium * DENSITE_H_DISC);
     Ai += K_helium * Si / CM_PAR_KPC / tanh(Si*pt_Propagation->E_DIFFUS/2.);
     
     pt_Helium->BESSEL_COEF_i[i] = pt_Helium->q_i[i] / Ai;
-/*  S'exprime pour l'instant en units de [s^{+1} cm^{-3}].
+/*  S'exprime pour l'instant en unites de [s^{+1} cm^{-3}].
 */
   }
 /*
@@ -202,12 +202,12 @@ void calcul_method_B_BESSEL_HEi(double E_nucleon, double alpha_i[NDIM+1], struct
   production_E_helium = flux_helium_EXP(E_nucleon) /
   GENERIC_FLUX(R_EARTH,0.,(A_HE*E_nucleon),(A_HE*MASSE_PROTON),Z_HE,alpha_i,pt_Helium->BESSEL_COEF_i,pt_Propagation);
 /*
-* S'exprime en [hlions s^{-1} (GeV/nucleon)^{-1}]
+* S'exprime en [helions s^{-1} (GeV/nucleon)^{-1}]
 */
   for (i=1;i<=NDIM;i++)
   {
     pt_Helium->BESSEL_COEF_i[i] *= production_E_helium;
-/*  S'exprime maintenant en units de [hlions cm^{-3} (GeV/nucleon)^{-1}].
+/*  S'exprime maintenant en unites de [helions cm^{-3} (GeV/nucleon)^{-1}].
 */
   }
   return;
@@ -216,7 +216,7 @@ void calcul_method_B_BESSEL_HEi(double E_nucleon, double alpha_i[NDIM+1], struct
 /********************************************************************************************/
 /*
 * Dans ce module, nous calculons les coefficients du tableau pt_Helium->BESSEL_COEF_Enuc_i
-* en fonction de l'nergie par nucleon E_nucleon des noyaux d'hlium  et des
+* en fonction de l'energie par nucleon E_nucleon des noyaux d'helium  et des
 * coefficients de BESSEL i.
 *
 */
@@ -227,7 +227,7 @@ void calculation_BESSEL_HELIUM_Ep_i(double alpha_i[NDIM+1], struct Structure_Nuc
   double T_nucleon,E_nucleon;
   long i_nucleon,i;
 /*
-* On remet  zro le tableau pt_Helium->BESSEL_COEF_Enuc_i.
+* On remet a zero le tableau pt_Helium->BESSEL_COEF_Enuc_i.
 */
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
@@ -280,7 +280,7 @@ double flux_helium_TH(double r,double z,double E_nucleon, double alpha_i[NDIM+1]
 
     for (i=1;i<=NDIM;i++)
     {
-/*    Si est exprim en [kpc^{-1}].  */
+/*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_helium,2));
       resultat += pt_Helium->BESSEL_COEF_i[i] * besselj0(alpha_i[i]*x) *
@@ -288,7 +288,7 @@ double flux_helium_TH(double r,double z,double E_nucleon, double alpha_i[NDIM+1]
       sinh((Si/2.)*(pt_Propagation->E_DIFFUS-az)) / sinh((Si/2.)*pt_Propagation->E_DIFFUS);
     }
     resultat *= (1. / 4. / PI) * v_helium;
-    return resultat; /* [cm^{-2} s^{-1} sr^{-1} (GeV/nuclon)^{-1}] */
+    return resultat; /* [cm^{-2} s^{-1} sr^{-1} (GeV/nucleon)^{-1}] */
   }
 }
 

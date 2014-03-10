@@ -15,7 +15,7 @@
 /********************************************************************************************/
 /*
 * sigma_total_pH est la section efficace totale de collision d'un proton cosmique
-* avec un atome d'hydrogène au repos. Cette section efficace est exprimée en [cm^{2}].
+* avec un atome d'hydrogene au repos. Cette section efficace est exprimee en [cm^{2}].
 *
 */
 double sigma_total_pH(double E_proton)
@@ -42,10 +42,10 @@ double sigma_total_pH(double E_proton)
 
 /********************************************************************************************/
 /*
-* sigma_inelastic_pH_TAN_and_NG est la section efficace inélastique de
-* collision d'un proton cosmique avec un atome d'hydrogène au repos.
+* sigma_inelastic_pH_TAN_and_NG est la section efficace inelastique de
+* collision d'un proton cosmique avec un atome d'hydrogene au repos.
 *
-* Cette section efficace est exprimée en [cm^{2}].
+* Cette section efficace est exprimee en [cm^{2}].
 * TAN et NG la notent \sigma^{i}_{p}.
 *
 */
@@ -97,7 +97,7 @@ double sigma_inelastic_pH_TAN_and_NG(double E_proton)
 /********************************************************************************************/
 /*
 * sigma_total_pbarH est la section efficace totale de collision d'un antiproton cosmique
-* avec un atome d'hydrogène au repos. Cette section efficace est exprimée en [cm^{2}].
+* avec un atome d'hydrogene au repos. Cette section efficace est exprimee en [cm^{2}].
 * Remarquons que :
 * sigma_total_pbarH = sigma_elastic_pbarH + sigma_inelastic_pbarH.
 *
@@ -124,18 +124,18 @@ double sigma_total_pbarH(double E_pbar)
 
 /********************************************************************************************/
 /*
-* sigma_elastic_pbarH est la section efficace élastique de collision d'un antiproton
-* cosmique avec un atome d'hydrogène au repos.
-* Cette section efficace est exprimée en [cm^{2}]. Elle correspond au processus
+* sigma_elastic_pbarH est la section efficace elastique de collision d'un antiproton
+* cosmique avec un atome d'hydrogene au repos.
+* Cette section efficace est exprimee en [cm^{2}]. Elle correspond au processus
 *
 * pbar + p -----> pbar + p.
 *
-* En diffusant élastiquement sur des protons interstellaires au repos, les antiprotons
-* ne perdent pas d'énergie dans la mesure où l'angle de déviation est estimé très faible.
+* En diffusant elastiquement sur des protons interstellaires au repos, les antiprotons
+* ne perdent pas d'energie dans la mesure ou l'angle de deviation est estime tres faible.
 *
 * Cependant, ils peuvent entrer en interaction avec des protons au repos en les excitant
-* de maniere inélastique sans toutefois s'annihiler avec eux. Cette interaction inélastique
-* mais non-annihilante engendre une forte déperdition d'énergie pour les antiprotons.
+* de maniere inelastique sans toutefois s'annihiler avec eux. Cette interaction inelastique
+* mais non-annihilante engendre une forte deperdition d'energie pour les antiprotons.
 *
 */
 double sigma_elastic_pbarH(double E_pbar)
@@ -160,9 +160,9 @@ double sigma_elastic_pbarH(double E_pbar)
 
 /********************************************************************************************/
 /*
-* sigma_inelastic_pbarH_TAN_and_NG est la section efficace inélastique de
-* collision d'un antiproton cosmique avec un atome d'hydrogène au repos.
-* Cette section efficace est exprimée en [cm^{2}]. Remarquons que :
+* sigma_inelastic_pbarH_TAN_and_NG est la section efficace inelastique de
+* collision d'un antiproton cosmique avec un atome d'hydrogene au repos.
+* Cette section efficace est exprimee en [cm^{2}]. Remarquons que :
 *
 * sigma_inelastic_pbarH_TAN_and_NG =
 * sigma_ANN_pbarH_TAN_and_NG + sigma_inelastic_NOANN_pbarH_TAN_and_NG.
@@ -170,14 +170,14 @@ double sigma_elastic_pbarH(double E_pbar)
 * TAN et NG notent cette relation sous la forme
 * \sigma^{inel}_{pbar} \; = \; \sigma^{an}_{pbar} + \sigma^{i}_{pbar} \;\; .
 *
-* sigma_inelastic_pbarH_TAN_and_NG       est désignée par \sigma^{inel}_{pbar}
-* sigma_ANN_pbarH_TAN_and_NG             est désignée par \sigma^{an}_{pbar}
-* sigma_inelastic_NOANN_pbarH_TAN_and_NG est désignée par \sigma^{i}_{pbar}
+* sigma_inelastic_pbarH_TAN_and_NG       est designee par \sigma^{inel}_{pbar}
+* sigma_ANN_pbarH_TAN_and_NG             est designee par \sigma^{an}_{pbar}
+* sigma_inelastic_NOANN_pbarH_TAN_and_NG est designee par \sigma^{i}_{pbar}
 *
-* A basse énergie, l'annihilation domine. Par contre, à haute énergie, l'interaction
-* inélastique d'un antiproton avec un proton devient non-annihilante.
+* A basse energie, l'annihilation domine. Par contre, a haute energie, l'interaction
+* inelastique d'un antiproton avec un proton devient non-annihilante.
 *
-* A la limite des hautes énergies, on a de surcroît le comportement asymptotique
+* A la limite des hautes energies, on a de surcroit le comportement asymptotique
 * \sigma^{i}_{pbar} \simeq \sigma^{i}_{p} \;\; .
 *
 */
@@ -209,14 +209,14 @@ double sigma_inelastic_pbarH_TAN_and_NG(double E_pbar)
 
 /********************************************************************************************/
 /*
-* sigma_inelastic_NOANN_pbarH_TAN_and_NG est la section efficace inélastique
-* MAIS NON-ANNIHILANTE d'un antiproton cosmique avec un atome d'hydrogène au
-* repos. Cette section efficace est exprimée en [cm^{2}].
+* sigma_inelastic_NOANN_pbarH_TAN_and_NG est la section efficace inelastique
+* MAIS NON-ANNIHILANTE d'un antiproton cosmique avec un atome d'hydrogene au
+* repos. Cette section efficace est exprimee en [cm^{2}].
 *
-* En diffusant inélastiquement sur des protons interstellaires au repos,
+* En diffusant inelastiquement sur des protons interstellaires au repos,
 * les antiprotons peuvent parfois ne pas s'annihiler. Ils perdent alors
-* une grande quantité d'énergie en réchappant de l'annihilation, énergie
-* qu'ils transfèrent aux cibles excitées.
+* une grande quantite d'energie en rechappant de l'annihilation, energie
+* qu'ils transferent aux cibles excitees.
 *
 */
 double sigma_inelastic_NOANN_pbarH_TAN_and_NG(double E_pbar)
@@ -273,12 +273,12 @@ double sigma_inelastic_NOANN_pbarH_TAN_and_NG(double E_pbar)
 /********************************************************************************************/
 /*
 * sigma_total_dbarH est la section efficace totale de collision d'un antideuteron cosmique
-* avec un atome d'hydrogène au repos. Cette section efficace est exprimée en [cm^{2}].
-* Voir Physical Review D, 45 (1992) page III.83 et III.98. Voir plus récemment The
+* avec un atome d'hydrogene au repos. Cette section efficace est exprimee en [cm^{2}].
+* Voir Physical Review D, 45 (1992) page III.83 et III.98. Voir plus recemment The
 * Review of Particles Physics, The European Physical Journal C, 208 (1998).
 *
-* Par conjugaison de charge, elle est égale à la section efficace d'interaction
-* d'un antiproton sur un cible de deutérium.
+* Par conjugaison de charge, elle est egale a la section efficace d'interaction
+* d'un antiproton sur un cible de deuterium.
 *
 */
 double sigma_total_dbarH(double E_dbar)
@@ -311,10 +311,10 @@ double sigma_total_dbarH(double E_dbar)
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module calcule la section efficace invariante de Lorentz (LI) de la réaction
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
 * proton + proton -----> antiproton + X
-* considérée dans le référentiel du centre de masse CMF.
-* Cette LI section efficace est exprimée en unités de [millibarns GeV^{-2}].
+* consideree dans le referentiel du centre de masse CMF.
+* Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
 double E_d3S_on_d3P_PBAR_ECM(double E_CMF,double pLstar,double pTstar)
@@ -360,10 +360,10 @@ LA_FIN :
 
 /********************************************************************************************/
 /*
-* Ce module calcule la section efficace invariante de Lorentz (LI) de la réaction
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
 * proton + proton -----> antiproton + X
-* considérée dans le référentiel du laboratoire dans lequel un des protons est au repos.
-* Cette LI section efficace est exprimée en unités de [millibarns GeV^{-2}].
+* consideree dans le referentiel du laboratoire dans lequel un des protons est au repos.
+* Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
 double E_d3S_on_d3P_PBAR_LAB(double E_proton,double pL,double pT,
@@ -384,12 +384,12 @@ double *E_CMF,double *pLstar,double *pTstar)
 
 /********************************************************************************************/
 /*
-* Ce module évalue la section efficace différentielle du processus
+* Ce module evalue la section efficace differentielle du processus
 * proton (E_proton) + proton (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'intégrale sur le cosinus de l'angle \theta que font les impulsions
-* de l'antiproton final et du proton incident est menée de manière DIRECTE.
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee de maniere DIRECTE.
 *
 */
 double dSpbar_sur_dEpbar_DIRECTE(double E_proton,double E_pbar,long n_step_theta)
@@ -432,9 +432,9 @@ double dSpbar_sur_dEpbar_DIRECTE(double E_proton,double E_pbar,long n_step_theta
 * La section efficace de TAN et NG ne concerne que la production d'antiprotons
 * lors d'une collision proton sur proton. Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -446,12 +446,12 @@ LA_FIN :
 
 /********************************************************************************************/
 /*
-* Ce module évalue la section efficace différentielle du processus
+* Ce module evalue la section efficace differentielle du processus
 * proton (E_proton) + proton (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'intégrale sur le cosinus de l'angle \theta que font les impulsions
-* de l'antiproton final et du proton incident est menée par la méthode de SIMPSON.
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee par la methode de SIMPSON.
 *
 */
 double dSpbar_sur_dEpbar_SIMPSON(double E_proton,double E_pbar,long n_step_theta)
@@ -474,7 +474,7 @@ double dSpbar_sur_dEpbar_SIMPSON(double E_proton,double E_pbar,long n_step_theta
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) /
   (2.*E_CMF);
   
-  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problèmes avec le sin_theta */
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
   if (cos_theta_min<=-1.0) {cos_theta_min = -1.0;}
   if (cos_theta_min>=+1.0) {goto LA_FIN;}
@@ -518,9 +518,9 @@ double dSpbar_sur_dEpbar_SIMPSON(double E_proton,double E_pbar,long n_step_theta
 * La section efficace de TAN et NG ne concerne que la production d'antiprotons
 * lors d'une collision proton sur proton. Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -533,17 +533,17 @@ LA_FIN :
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module écrit dans le fichier FILE_NAME_H_ON_H le tableau dénoté
+* Ce module ecrit dans le fichier FILE_NAME_H_ON_H le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs de la section efficace différentielle du processus
+* enregistrees les valeurs de la section efficace differentielle du processus
 * proton (E_proton) + proton (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'énergie TOTALE des protons E_proton varie de E_PROTON_MIN à E_PROTON_MAX
-* en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE des protons E_proton varie de E_PROTON_MIN a E_PROTON_MAX
+* en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -552,7 +552,7 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cros
   double E_proton,T_pbar,E_pbar;
   FILE *p_to_pbar_file;
 /*
-* On remet à zéro le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton].
+* On remet a zero le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton].
 */
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
@@ -589,13 +589,13 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cros
 
 /********************************************************************************************/
 /*
-* Ce module nettoie -- remet à zéro -- tous les éléments des fichiers où seront
-* stockées les valeurs de la section efficace differentielle de production des
-* antiprotons \frac{d \sigma_{\pbar}}{d E_{\pbar}} au cours de la réaction générique
+* Ce module nettoie -- remet a zero -- tous les elements des fichiers ou seront
+* stockees les valeurs de la section efficace differentielle de production des
+* antiprotons \frac{d \sigma_{\pbar}}{d E_{\pbar}} au cours de la reaction generique
 *
 * {P ou ALPHA} + {H ou HE}_{milieu interstellaire au repos} -----> PBAR + X
 *
-* Liste des tableaux remis à zéro :
+* Liste des tableaux remis a zero :
 * - pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H  [i_pbar][i_proton]
 * - pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE [i_pbar][i_proton]
 * - pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H [i_pbar][i_nucleon]
@@ -606,7 +606,7 @@ void CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR(struct Structure_Cross_Section* pt_Cross
 {
   long i_proton,i_pbar;
 /*
-* On remet à zéro les tableaux pt_Cross_Section->DSPBAR_SUR_DEPBAR_A_ON_B[i_pbar][i_proton].
+* On remet a zero les tableaux pt_Cross_Section->DSPBAR_SUR_DEPBAR_A_ON_B[i_pbar][i_proton].
 */
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
@@ -623,18 +623,18 @@ void CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR(struct Structure_Cross_Section* pt_Cross
 
 /********************************************************************************************/
 /*
-* Ce module lit dans le fichier FILE_NAME_H_ON_H le tableau dénoté
+* Ce module lit dans le fichier FILE_NAME_H_ON_H le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs -- exprimées en [cm^{2} GeV^{-1}] -- de la section
+* enregistrees les valeurs -- exprimees en [cm^{2} GeV^{-1}] -- de la section
 * efficace \frac{d \sigma_{\pbar}}{d E_{\pbar}} du processus
 *
 * PROTON INCIDENT + HYDROGENE AU REPOS -----> PBAR + X.
 *
-* L'énergie TOTALE des protons E_proton varie de E_PROTON_MIN à E_PROTON_MAX
-* en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE des protons E_proton varie de E_PROTON_MIN a E_PROTON_MAX
+* en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -658,18 +658,18 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross
 
 /********************************************************************************************/
 /*
-* Ce module lit dans le fichier FILE_NAME_H_ON_HE le tableau dénoté
+* Ce module lit dans le fichier FILE_NAME_H_ON_HE le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs -- exprimées en [cm^{2} GeV^{-1}] -- de la section
+* enregistrees les valeurs -- exprimees en [cm^{2} GeV^{-1}] -- de la section
 * efficace \frac{d \sigma_{\pbar}}{d E_{\pbar}} du processus
 *
 * PROTON INCIDENT + HELIUM AU REPOS -----> PBAR + X.
 *
-* L'énergie TOTALE des protons E_proton varie de E_PROTON_MIN à E_PROTON_MAX
-* en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE des protons E_proton varie de E_PROTON_MIN a E_PROTON_MAX
+* en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -693,18 +693,18 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cros
 
 /********************************************************************************************/
 /*
-* Ce module lit dans le fichier FILE_NAME_HE_ON_H le tableau dénoté
+* Ce module lit dans le fichier FILE_NAME_HE_ON_H le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs -- exprimées en [cm^{2} GeV^{-1}] -- de la section
+* enregistrees les valeurs -- exprimees en [cm^{2} GeV^{-1}] -- de la section
 * efficace \frac{d \sigma_{\pbar}}{d E_{\pbar}} du processus
 *
 * ALPHA INCIDENT + HYDROGENE AU REPOS -----> PBAR + X.
 *
-* L'énergie TOTALE PAR NUCLEON E_nucleon des particules alpha incidentes varie
-* de E_PROTON_MIN à E_PROTON_MAX en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE PAR NUCLEON E_nucleon des particules alpha incidentes varie
+* de E_PROTON_MIN a E_PROTON_MAX en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -728,18 +728,18 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cros
 
 /********************************************************************************************/
 /*
-* Ce module lit dans le fichier FILE_NAME_HE_ON_HE le tableau dénoté
+* Ce module lit dans le fichier FILE_NAME_HE_ON_HE le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs -- exprimées en [cm^{2} GeV^{-1}] -- de la section
+* enregistrees les valeurs -- exprimees en [cm^{2} GeV^{-1}] -- de la section
 * efficace \frac{d \sigma_{\pbar}}{d E_{\pbar}} du processus
 *
 * ALPHA INCIDENT + HELIUM AU REPOS -----> PBAR + X.
 *
-* L'énergie TOTALE PAR NUCLEON E_nucleon des particules alpha incidentes varie
-* de E_PROTON_MIN à E_PROTON_MAX en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE PAR NUCLEON E_nucleon des particules alpha incidentes varie
+* de E_PROTON_MIN a E_PROTON_MAX en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -767,14 +767,14 @@ void DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file(struct Structure_Cross_Section* pt_Cro
 /* CODE DE LAURENT DEROME POUR LES CALCULS DE LA REACTION H ON NUCLEUS WITH ATOMIC NUMBER A
 *
 *  retourne la multiplicite invariante 1/sig_reac * Edsig/d3p : p + A ---> ap + X
-*  en unités de [GeV^{-2}] avec
+*  en unites de [GeV^{-2}] avec
 *
 *  At : Target atomic number
 *  p1 : projectile momentum (GeV/c) (target reference system)
 *  y  : produced particle rapidity  (target reference system) y = atanh(pl/E) = atanh(beta_CM) + atanh(pl_star /E_star)
 *  mt : produced particle transverse mass (GeV/c2) = sqrt(m^2+pt^2)
 *
-*  #define PMASS 0.93827231 en unités de [GeV]
+*  #define PMASS 0.93827231 en unites de [GeV]
 *
 */
 double GetInvarMul_pAapX(double At,double p1,double y,double mt)
@@ -845,7 +845,7 @@ double GetReactionCrossSection(double At,double Pproj)
 	{
 /*
 *   Section efficace totale de reaction p + Noyau avec dependance en masse A et energie labo Elab
-*   selon Letaw (Ap.J.Suppl.,51,271) en unités de [millibarns]. 
+*   selon Letaw (Ap.J.Suppl.,51,271) en unites de [millibarns]. 
 *
 */
     double sig0=45.*pow(At,0.695)*(1.+0.016*sin(5.3-2.63*log(At)));
@@ -867,10 +867,10 @@ double GetReactionCrossSection(double At,double Pproj)
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module calcule la section efficace invariante de Lorentz (LI) de la réaction
-* proton (E_proton) + hélium (repos) -----> antiproton (E_pbar) + X.
-* considérée dans le référentiel du laboratoire dans lequel le noyau d'hélium est au repos.
-* Cette LI section efficace est exprimée en unités de [millibarns GeV^{-2}].
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
+* proton (E_proton) + helium (repos) -----> antiproton (E_pbar) + X.
+* consideree dans le referentiel du laboratoire dans lequel le noyau d'helium est au repos.
+* Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
 double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT)
@@ -888,15 +888,15 @@ double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT)
 
 /********************************************************************************************/
 /*
-* Ce module évalue la section efficace différentielle du processus
-* proton (E_proton) + hélium (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* Ce module evalue la section efficace differentielle du processus
+* proton (E_proton) + helium (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'intégrale sur le cosinus de l'angle \theta que font les impulsions
-* de l'antiproton final et du proton incident est menée par la méthode de SIMPSON.
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee par la methode de SIMPSON.
 *
-* Lorsque cet angle est petit, une intégrale sur la masse transverse mt de l'antiproton final
-* est alors menée par la méthode de SIMPSON.
+* Lorsque cet angle est petit, une integrale sur la masse transverse mt de l'antiproton final
+* est alors menee par la methode de SIMPSON.
 *
 */
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_step)
@@ -923,7 +923,7 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_st
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
 
 
-  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problèmes avec le sin_theta */
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
 	if (cos_theta_min>=cos_theta_max){return resultat;}
 	if (cos_theta_min<=0.0)
@@ -977,11 +977,11 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_st
   resultat *= 2. * PI * P_pbar * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de LAURENT DEROME ne concerne que la production d'antiprotons
-* lors d'une collision proton sur hélium (He). Dans notre contexte astrophysique,
+* lors d'une collision proton sur helium (He). Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1030,11 +1030,11 @@ TRANSVERSE_MASS :
   resultat *= 2. * PI * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de LAURENT DEROME ne concerne que la production d'antiprotons
-* lors d'une collision proton sur hélium (He). Dans notre contexte astrophysique,
+* lors d'une collision proton sur helium (He). Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1044,17 +1044,17 @@ TRANSVERSE_MASS :
 
 /********************************************************************************************/
 /*
-* Ce module écrit dans le fichier FILE_NAME_H_ON_HE le tableau dénoté
+* Ce module ecrit dans le fichier FILE_NAME_H_ON_HE le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs de la section efficace différentielle du processus
-* proton (E_proton) + hélium (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* enregistrees les valeurs de la section efficace differentielle du processus
+* proton (E_proton) + helium (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'énergie TOTALE des protons E_proton varie de E_PROTON_MIN à E_PROTON_MAX
-* en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE des protons E_proton varie de E_PROTON_MIN a E_PROTON_MAX
+* en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -1063,7 +1063,7 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cro
   double E_proton,T_pbar,E_pbar;
   FILE *p_to_pbar_file;
 /*
-* On remet à zéro le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton].
+* On remet a zero le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton].
 */
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
@@ -1098,10 +1098,10 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cro
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module calcule la section efficace invariante de Lorentz (LI) de la réaction
-* hélium (E_nucleon) + proton (repos) -----> antiproton (E_pbar) + X.
-* considérée dans le référentiel du laboratoire dans lequel le proton est au repos.
-* Cette LI section efficace est exprimée en unités de [millibarns GeV^{-2}].
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
+* helium (E_nucleon) + proton (repos) -----> antiproton (E_pbar) + X.
+* consideree dans le referentiel du laboratoire dans lequel le proton est au repos.
+* Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
 double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT)
@@ -1120,15 +1120,15 @@ double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT)
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module évalue la section efficace différentielle du processus
-* hélium (E_nucleon) + proton (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* Ce module evalue la section efficace differentielle du processus
+* helium (E_nucleon) + proton (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'intégrale sur le cosinus de l'angle \theta que font les impulsions
-* de l'antiproton final et du nucléon incident est menée par la méthode de SIMPSON.
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du nucleon incident est menee par la methode de SIMPSON.
 *
-* Lorsque cet angle est petit, une intégrale sur la masse transverse mt de l'antiproton final
-* est alors menée par la méthode de SIMPSON.
+* Lorsque cet angle est petit, une integrale sur la masse transverse mt de l'antiproton final
+* est alors menee par la methode de SIMPSON.
 *
 */
 double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_step)
@@ -1155,7 +1155,7 @@ double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_s
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
 
 
-  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problèmes avec le sin_theta */
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
 	if (cos_theta_min>=cos_theta_max){return resultat;}
 	if (cos_theta_min<=0.0)
@@ -1210,11 +1210,11 @@ double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_s
   resultat *= 2. * PI * P_pbar * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de LAURENT DEROME ne concerne que la production d'antiprotons
-* lors d'une collision d'hélium (He) sur proton. Dans notre contexte astrophysique,
+* lors d'une collision d'helium (He) sur proton. Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* d'hélions de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* d'helions de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1263,11 +1263,11 @@ TRANSVERSE_MASS :
   resultat *= 2. * PI * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de LAURENT DEROME ne concerne que la production d'antiprotons
-* lors d'une collision d'hélium (He) sur proton. Dans notre contexte astrophysique,
+* lors d'une collision d'helium (He) sur proton. Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* d'hélions de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* d'helions de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1277,17 +1277,17 @@ TRANSVERSE_MASS :
 
 /********************************************************************************************/
 /*
-* Ce module écrit dans le fichier FILE_NAME_HE_ON_H le tableau dénoté
+* Ce module ecrit dans le fichier FILE_NAME_HE_ON_H le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs de la section efficace différentielle du processus
-* hélium (E_nucleon) + proton (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* enregistrees les valeurs de la section efficace differentielle du processus
+* helium (E_nucleon) + proton (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'énergie TOTALE PAR NUCLEON E_nucleon de l'hélium incident varie de E_PROTON_MIN à E_PROTON_MAX
-* en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE PAR NUCLEON E_nucleon de l'helium incident varie de E_PROTON_MIN a E_PROTON_MAX
+* en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -1296,7 +1296,7 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cro
   double E_nucleon,T_pbar,E_pbar;
   FILE *p_to_pbar_file;
 /*
-* On remet à zéro le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_nucleon].
+* On remet a zero le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_nucleon].
 */
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
@@ -1331,17 +1331,17 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cro
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module écrit dans le fichier FILE_NAME_HE_ON_HE le tableau dénoté
+* Ce module ecrit dans le fichier FILE_NAME_HE_ON_HE le tableau denote
 * pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[DIM_TAB_PBAR+1][DIM_TAB_PROTON+1] dans lequel sont
-* enregistrées les valeurs de la section efficace différentielle du processus
-* hélium (E_nucleon) + hélium (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* enregistrees les valeurs de la section efficace differentielle du processus
+* helium (E_nucleon) + helium (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'énergie TOTALE PAR NUCLEON E_nucleon de l'hélium incident varie de E_PROTON_MIN à E_PROTON_MAX
-* en prenant (DIM_TAB_PROTON + 1) valeurs différentes.
+* L'energie TOTALE PAR NUCLEON E_nucleon de l'helium incident varie de E_PROTON_MIN a E_PROTON_MAX
+* en prenant (DIM_TAB_PROTON + 1) valeurs differentes.
 *
-* L'énergie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN à T_PBAR_MAX
-* en prenant (DIM_TAB_PBAR + 1) valeurs différentes.
+* L'energie CINETIQUE des antiprotons T_pbar varie de T_PBAR_MIN a T_PBAR_MAX
+* en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
 void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section)
@@ -1350,7 +1350,7 @@ void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cr
   double E_nucleon,T_pbar,E_pbar;
   FILE *p_to_pbar_file;
 /*
-* On remet à zéro le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_nucleon].
+* On remet a zero le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_nucleon].
 */
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
@@ -1392,13 +1392,13 @@ void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cr
 * [arXiv:astro-ph/0305274].
 *
 *  Ce code retourne la multiplicite invariante 1/sig_reac * Edsig/d3p : p + H ---> ap + X
-*  en unités de [GeV^{-2}] avec
+*  en unites de [GeV^{-2}] avec
 *
 *  p1 : projectile momentum (GeV/c) (target reference system)
 *  y  : produced particle rapidity  (target reference system) y = atanh(pl/E) = atanh(beta_CM) + atanh(pl_star/E_star)
 *  mt : produced particle transverse mass (GeV/c2) = sqrt(m^2+pt^2)
 *
-*  #define PMASS 0.93827231 en unités de [GeV]
+*  #define PMASS 0.93827231 en unites de [GeV]
 *
 */
 double invariant_multiplicity_pH_apX(double p1,double y,double mt)
@@ -1450,10 +1450,10 @@ double invariant_multiplicity_pH_apX(double p1,double y,double mt)
 
 /********************************************************************************************/
 /*
-* Ce module calcule la section efficace invariante de Lorentz (LI) de la réaction
-* proton (E_proton) + hydrogène (repos) -----> antiproton (E_pbar) + X.
-* considérée dans le référentiel du laboratoire dans lequel l'hydrogène est au repos.
-* Cette LI section efficace est exprimée en unités de [millibarns GeV^{-2}].
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
+* proton (E_proton) + hydrogene (repos) -----> antiproton (E_pbar) + X.
+* consideree dans le referentiel du laboratoire dans lequel l'hydrogene est au repos.
+* Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
 double E_d3S_on_d3P_PBAR_H_ON_H_LAB_duperray(double E_proton,double pL,double pT)
@@ -1472,15 +1472,15 @@ double E_d3S_on_d3P_PBAR_H_ON_H_LAB_duperray(double E_proton,double pL,double pT
 
 /********************************************************************************************/
 /*
-* Ce module évalue la section efficace différentielle du processus
-* proton (E_proton) + hydrogène (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* Ce module evalue la section efficace differentielle du processus
+* proton (E_proton) + hydrogene (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'intégrale sur le cosinus de l'angle \theta que font les impulsions
-* de l'antiproton final et du proton incident est menée par la méthode de SIMPSON.
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee par la methode de SIMPSON.
 *
-* Lorsque cet angle est petit, une intégrale sur la masse transverse mt de l'antiproton final
-* est alors menée par la méthode de SIMPSON.
+* Lorsque cet angle est petit, une integrale sur la masse transverse mt de l'antiproton final
+* est alors menee par la methode de SIMPSON.
 *
 */
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(double E_proton,double E_pbar,long n_step)
@@ -1507,7 +1507,7 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(double E_proton,double E_pbar,l
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
 
 
-  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problèmes avec le sin_theta */
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
 	if (cos_theta_min>=cos_theta_max){return resultat;}
 	if (cos_theta_min<=0.0)
@@ -1561,11 +1561,11 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(double E_proton,double E_pbar,l
   resultat *= 2. * PI * P_pbar * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de REMI DUPERRAY ne concerne que la production d'antiprotons
-* lors d'une collision proton sur hydrogène (H). Dans notre contexte astrophysique,
+* lors d'une collision proton sur hydrogene (H). Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1614,11 +1614,11 @@ TRANSVERSE_MASS :
   resultat *= 2. * PI * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de REMI DUPERRAY ne concerne que la production d'antiprotons
-* lors d'une collision proton sur hydrogène (H). Dans notre contexte astrophysique,
+* lors d'une collision proton sur hydrogene (H). Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1630,15 +1630,15 @@ TRANSVERSE_MASS :
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module évalue la section efficace différentielle du processus
-* proton (E_proton) + hydrogène (repos) -----> antiproton (E_pbar) + X.
-* La quantité \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimée en [cm^{2} GeV^{-1}].
+* Ce module evalue la section efficace differentielle du processus
+* proton (E_proton) + hydrogene (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
 *
-* L'intégrale sur le cosinus de l'angle \theta que font les impulsions
-* de l'antiproton final et du proton incident est menée par la méthode de SIMPSON.
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee par la methode de SIMPSON.
 *
-* Lorsque cet angle est petit, une intégrale sur la masse transverse mt de l'antiproton final
-* est alors menée par la méthode de SIMPSON.
+* Lorsque cet angle est petit, une integrale sur la masse transverse mt de l'antiproton final
+* est alors menee par la methode de SIMPSON.
 *
 */
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(double E_proton,double E_pbar,long n_step)
@@ -1665,7 +1665,7 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(double E_proton,double E_p
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
 
 
-  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problèmes avec le sin_theta */
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
 	if (cos_theta_min>=cos_theta_max){return resultat;}
 	if (cos_theta_min<=0.0)
@@ -1719,11 +1719,11 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(double E_proton,double E_p
   resultat *= 2. * PI * P_pbar * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de TAN & NG ne concerne que la production d'antiprotons
-* lors d'une collision proton sur hydrogène (H). Dans notre contexte astrophysique,
+* lors d'une collision proton sur hydrogene (H). Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */
@@ -1772,11 +1772,11 @@ TRANSVERSE_MASS :
   resultat *= 2. * PI * (1.e-27); /* [cm^{2} GeV^{-1}] */
 /*
 * La section efficace de TAN & NG ne concerne que la production d'antiprotons
-* lors d'une collision proton sur hydrogène (H). Dans notre contexte astrophysique,
+* lors d'une collision proton sur hydrogene (H). Dans notre contexte astrophysique,
 * il y a autant d'antineutrons produits que d'antiprotons lors de la spallation
-* de protons de haute énergie sur du gaz interstellaire. Les antineutrons ne
-* sont pas à priori détectés dans les expériences de haute énergie au niveau
-* des accélérateurs de particules alors qu'ils se désintègrent au bout de
+* de protons de haute energie sur du gaz interstellaire. Les antineutrons ne
+* sont pas a priori detectes dans les experiences de haute energie au niveau
+* des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
 */

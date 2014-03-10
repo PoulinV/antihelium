@@ -18,11 +18,11 @@
 //	DECLARATION DES CONSTANTES
 
 #define RIGIDITY_MS_C 0.2
-/* Rigidit critique du modle de Force Field Approximation.
+/* Rigidite critique du modele de Force Field Approximation.
 Voir en particulier les articles de
 J.~S.~Perko, {\em Astronomy \& Astrophysics}~{\bf 184} (1987) 119-121.
 J.~S.~Perko, {\em Astrophysical Journal}~{\bf 397} (1992) 153-157.
-La valeur de RIGIDITY_MS_C, exprime en [GV], est tire de la figure 1.
+La valeur de RIGIDITY_MS_C, exprimee en [GV], est tiree de la figure 1.
 */
 
 /**********************************************************************************************************************************************************************************************************/

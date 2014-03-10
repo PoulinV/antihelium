@@ -24,7 +24,7 @@
 //	DECLARATION DES CONSTANTES
 
 #define A_HE 4.0
-/* Le nombre de nuclons dans un noyau d'helium est note A_HE. */
+/* Le nombre de nucleons dans un noyau d'helium est note A_HE. */
 
 #define Z_HE 2.0
 /* La charge electrique d'un noyau d'helium est note Z_HE. */

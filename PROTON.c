@@ -3,8 +3,8 @@
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-*  Il s'agit du flux interstellaire des protons. Ce flux est un flux différentiel par
-*  rapport à l'énergie. Il est exprimé en unité de [cm^{-2} s^{-1} sr^{-1} GeV^{-1}].
+*  Il s'agit du flux interstellaire des protons. Ce flux est un flux differentiel par
+*  rapport a l'energie. Il est exprime en unite de [cm^{-2} s^{-1} sr^{-1} GeV^{-1}].
 *
 *  Several options are possible.
 *  The GAISSER and SCHAEFER proton spectrum is
@@ -227,16 +227,16 @@ double Q_proton_tot(double E_proton, double alpha_i[NDIM+1], struct Structure_Nu
 
   for (i=1;i<=NDIM;i++)
   {
-/*  Si est exprimé en [kpc^{-1}].  */
+/*  Si est exprime en [kpc^{-1}].  */
     Si =
     sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_proton,2));
-/*  Ai est exprimé en [cm s^{-1}].  */
+/*  Ai est exprime en [cm s^{-1}].  */
     Ai  = pt_Propagation->VENT_GALACTIQUE;
     Ai += 2.0*E_DISC*CM_PAR_KPC * (sigma_total_pH(E_proton) * v_proton * DENSITE_H_DISC);
     Ai += K_proton * Si / CM_PAR_KPC / tanh(Si*pt_Propagation->E_DIFFUS/2.);
     
     production_E_proton += besselj0(alpha_i[i]*(R_EARTH/R_GAL)) * pt_Proton->q_i[i] / Ai;
-/*  S'exprime en unités de [s^{+1} cm^{-3}]
+/*  S'exprime en unites de [s^{+1} cm^{-3}]
 */
   }
   
@@ -253,7 +253,7 @@ void calcul_method_A_BESSEL_COEF_i(double E_proton, double alpha_i[NDIM+1], stru
   double production_E_proton,Si,Ai;
   
 /*
-* On remet à zéro le tableau BESSEL_COEF_i[i].
+* On remet a zero le tableau BESSEL_COEF_i[i].
 */
   for (i=0;i<=NDIM;i++)
   {
@@ -270,16 +270,16 @@ void calcul_method_A_BESSEL_COEF_i(double E_proton, double alpha_i[NDIM+1], stru
 
   for (i=1;i<=NDIM;i++)
   {
-/*  Si est exprimé en [kpc^{-1}].  */
+/*  Si est exprime en [kpc^{-1}].  */
     Si =
     sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_proton,2));
-/*  Ai est exprimé en [cm s^{-1}].  */
+/*  Ai est exprime en [cm s^{-1}].  */
     Ai  = pt_Propagation->VENT_GALACTIQUE;
     Ai += 2.0*E_DISC*CM_PAR_KPC * (sigma_total_pH(E_proton) * v_proton * DENSITE_H_DISC);
     Ai += K_proton * Si / CM_PAR_KPC / tanh(Si*pt_Propagation->E_DIFFUS/2.);
     
     pt_Proton->BESSEL_COEF_i[i] = production_E_proton * pt_Proton->q_i[i] / Ai;
-/*  S'exprime en unités de [protons cm^{-3} GeV^{-1}].
+/*  S'exprime en unites de [protons cm^{-3} GeV^{-1}].
 */
   }
   return;
@@ -293,7 +293,7 @@ void calcul_method_B_BESSEL_Pi(double E_proton, double alpha_i[NDIM+1], struct S
   double production_E_proton,Si,Ai;
   
 /*
-* On remet à zéro le tableau BESSEL_COEF_i[i].
+* On remet a zero le tableau BESSEL_COEF_i[i].
 */
   for (i=0;i<=NDIM;i++)
   {
@@ -306,16 +306,16 @@ void calcul_method_B_BESSEL_Pi(double E_proton, double alpha_i[NDIM+1], struct S
 
   for (i=1;i<=NDIM;i++)
   {
-/*  Si est exprimé en [kpc^{-1}].  */
+/*  Si est exprime en [kpc^{-1}].  */
     Si =
     sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_proton,2));
-/*  Ai est exprimé en [cm s^{-1}].  */
+/*  Ai est exprime en [cm s^{-1}].  */
     Ai  = pt_Propagation->VENT_GALACTIQUE;
     Ai += 2.0*E_DISC*CM_PAR_KPC * (sigma_total_pH(E_proton) * v_proton * DENSITE_H_DISC);
     Ai += K_proton * Si / CM_PAR_KPC / tanh(Si*pt_Propagation->E_DIFFUS/2.);
     
     pt_Proton->BESSEL_COEF_i[i] = pt_Proton->q_i[i] / Ai;
-/*  S'exprime pour l'instant en unités de [s^{+1} cm^{-3}].
+/*  S'exprime pour l'instant en unites de [s^{+1} cm^{-3}].
 */
   }
   production_E_proton = flux_proton_EXP(E_proton) /
@@ -323,7 +323,7 @@ void calcul_method_B_BESSEL_Pi(double E_proton, double alpha_i[NDIM+1], struct S
   for (i=1;i<=NDIM;i++)
   {
     pt_Proton->BESSEL_COEF_i[i] *= production_E_proton;
-/*  S'exprime maintenant en unités de [protons cm^{-3} GeV^{-1}].
+/*  S'exprime maintenant en unites de [protons cm^{-3} GeV^{-1}].
 */
   }
   return;
@@ -332,7 +332,7 @@ void calcul_method_B_BESSEL_Pi(double E_proton, double alpha_i[NDIM+1], struct S
 /********************************************************************************************/
 /*
 * Dans ce module, nous calculons les coefficients du tableau pt_Proton->BESSEL_COEF_Enuc_i
-* en fonction de l'énergie des protons E_protons et des coefficients de BESSEL i.
+* en fonction de l'energie des protons E_protons et des coefficients de BESSEL i.
 *
 */
 void calculation_BESSEL_PROTON_Ep_i(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation)
@@ -342,7 +342,7 @@ void calculation_BESSEL_PROTON_Ep_i(double alpha_i[NDIM+1], struct Structure_Nuc
   double T_proton,E_proton;
   long i_proton,i;
 /*
-* On remet à zéro le tableau pt_Proton->BESSEL_COEF_Enuc_i.
+* On remet a zero le tableau pt_Proton->BESSEL_COEF_Enuc_i.
 */
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
@@ -393,7 +393,7 @@ double flux_proton_TH(double r,double z,double E_proton, double alpha_i[NDIM+1],
 
     for (i=1;i<=NDIM;i++)
     {
-/*    Si est exprimé en [kpc^{-1}].  */
+/*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_proton,2));
       resultat += pt_Proton->BESSEL_COEF_i[i] * besselj0(alpha_i[i]*x) *
@@ -408,10 +408,10 @@ double flux_proton_TH(double r,double z,double E_proton, double alpha_i[NDIM+1],
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module calcule l'émissivité en antiprotons d'un atome d'hydrogène immergé dans
-* le flux de protons flux_proton_EXP(E_proton) défini dans le fichier présent PROTON.c
-* Il convient de procéder à une intégrale par la méthode de SIMPSON.
-* Cette intégrale est menée de E_PROTON_MIN à E_PROTON_MAX en DIM_TAB_PROTON pas.
+* Ce module calcule l'emissivite en antiprotons d'un atome d'hydrogene immerge dans
+* le flux de protons flux_proton_EXP(E_proton) defini dans le fichier present PROTON.c
+* Il convient de proceder a une integrale par la methode de SIMPSON.
+* Cette integrale est menee de E_PROTON_MIN a E_PROTON_MAX en DIM_TAB_PROTON pas.
 *
 */
 double pbar_emissivity_per_H_solar(double E_pbar)

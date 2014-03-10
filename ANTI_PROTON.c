@@ -3,7 +3,7 @@
 #define NRANSI
 
 /********************************************************************************************/
-/* Nous définissons à ce niveau les variables externes du programme ANTI_PROTON.c
+/* Nous definissons a ce niveau les variables externes du programme ANTI_PROTON.c
 * exclusivement.
 */
 //double TABLE_Abar_i[DIM_TAB_PBAR+1][NDIM+1];
@@ -12,7 +12,7 @@
 /********************************************************************************************/
 /*
 * Dans ce module, nous calculons les coefficients du tableau pt_Pbar->BESSEL_PBAR_SEC_Epbar_i
-* en fonction de l'énergie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
+* en fonction de l'energie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
 *
 */
 void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation)
@@ -23,7 +23,7 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
   double dlog_E_proton,E_proton;
   double impulsion_proton[DIM_TAB_PROTON+1],weight_SIMSPON[DIM_TAB_PROTON+1];
 /*
-* On remet à zéro les tableaux pt_Pbar->BESSEL_PBAR_SEC_Epbar_i et TABLE_Abar_i.
+* On remet a zero les tableaux pt_Pbar->BESSEL_PBAR_SEC_Epbar_i et TABLE_Abar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -34,9 +34,9 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
     }
   }
 /*
-* On s'occupe un peu des protons. Il serait bon en effet d'économiser le temps de calcul.
-* Nous bouclons maintenant sur les protons afin d'évaluer E_proton, v_proton et aussi
-* weight_SIMSPON, c'est-à-dire le poids de SIMPSON de chaque point.
+* On s'occupe un peu des protons. Il serait bon en effet d'economiser le temps de calcul.
+* Nous bouclons maintenant sur les protons afin d'evaluer E_proton, v_proton et aussi
+* weight_SIMSPON, c'est-a-dire le poids de SIMPSON de chaque point.
 */
   dlog_E_proton = pow((E_PROTON_MAX/E_PROTON_MIN),(1./(double)DIM_TAB_PROTON)) - 1.;
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
@@ -62,10 +62,10 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
     
     for (i=1;i<=NDIM;i++)
     {
-/*    Si est exprimé en [kpc^{-1}].  */
+/*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_pbar,2));
-/*    Abar_i est exprimé en [cm s^{-1}].  */
+/*    Abar_i est exprime en [cm s^{-1}].  */
       Abar_i  = pt_Propagation->VENT_GALACTIQUE;
       Abar_i += 2.0*E_DISC*CM_PAR_KPC *
       ((sigma_inelastic_pbarH_TAN_and_NG(E_pbar)
@@ -107,7 +107,7 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
         weight_SIMSPON[i_proton] * dlog_E_proton; /* [antiprotons GeV^{-1} s^{-1} cm^{-3}] */
       }
       pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] *= 2. * E_DISC*CM_PAR_KPC / Abar_i;
-/*    S'exprime maintenant en unités de [antiprotons cm^{-3} GeV^{-1}].
+/*    S'exprime maintenant en unites de [antiprotons cm^{-3} GeV^{-1}].
 */
 	}
   }
@@ -117,7 +117,7 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
 /********************************************************************************************/
 /*
 * Dans ce module, nous calculons les coefficients du tableau pt_Pbar->BESSEL_PBAR_TER_Epbar_i
-* en fonction de l'énergie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
+* en fonction de l'energie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
 *
 */
 void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Structure_Pbar* pt_Pbar)
@@ -127,9 +127,9 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
   static double S_inel_NOANN_fois_v_pbar[DIM_TAB_PBAR+1];
   double Abar_i,SUM;
 /*
-* On s'occupe un peu des antiprotons. Il serait bon en effet d'économiser le temps
-* de calcul. Nous bouclons maintenant sur les antiprotons afin d'évaluer le produit
-* sigma_inelastic_NOANN_pbarH_TAN_and_NG * v_pbar afin de le réutiliser dans les
+* On s'occupe un peu des antiprotons. Il serait bon en effet d'economiser le temps
+* de calcul. Nous bouclons maintenant sur les antiprotons afin d'evaluer le produit
+* sigma_inelastic_NOANN_pbarH_TAN_and_NG * v_pbar afin de le reutiliser dans les
 * boucles suivantes.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -144,7 +144,7 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
     * v_pbar;
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_TER_Epbar_i.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TER_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -163,18 +163,18 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
     for (i_pbar=DIM_TAB_PBAR;i_pbar>=0;i_pbar--)
     {
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].  */
+/*    Abar_i est exprime en [cm s^{-1}].  */
 	  
       SUM += dlog_T_pbar * S_inel_NOANN_fois_v_pbar[i_pbar] *
       pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
       
       pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = SUM -
       S_inel_NOANN_fois_v_pbar[i_pbar] * pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
-/*    S'exprime en unités de [antiprotons GeV^{-1} s^{-1}].
+/*    S'exprime en unites de [antiprotons GeV^{-1} s^{-1}].
 */
       pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i] *=
       2. * E_DISC*CM_PAR_KPC * (DENSITE_H_DISC + pow(4.,(2./3.))*1.0*DENSITE_HE_DISC) / Abar_i;
-/*    S'exprime maintenant en unités de [antiprotons cm^{-3} GeV^{-1}].
+/*    S'exprime maintenant en unites de [antiprotons cm^{-3} GeV^{-1}].
 */
     }
   }
@@ -186,7 +186,7 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
 /*
 * Dans ce module, nous calculons les coefficients du tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i
 * en sommant les contributions primaires, secondaires et tertiaires en fonction de
-* l'énergie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
+* l'energie CINETIQUE des antiprotons T_pbar et des coefficients de BESSEL i.
 *
 */
 void calculation_BESSEL_PBAR_SUM_123_Epbar_i(struct Structure_Pbar* pt_Pbar)
@@ -251,7 +251,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
-/*  Ce coefficient s'exprime en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
 /*
@@ -263,11 +263,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
-/*  Ce coefficient s'exprime également en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
 /*
-* On remet à zéro le tableau BESSEL_PBAR_TOT_Epbar_i.
+* On remet a zero le tableau BESSEL_PBAR_TOT_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -277,11 +277,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
     }
   }
 /*
-* On remplit maintenant le tableau BESSEL_PBAR_TOT_Epbar_i à partir
+* On remplit maintenant le tableau BESSEL_PBAR_TOT_Epbar_i a partir
 * de pt_Pbar->BESSEL_PBAR_PRI_Epbar_i, de pt_Pbar->BESSEL_PBAR_SEC_Epbar_i ainsi que
 * de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en inversant une matrice tridiagonale.
 */
-  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unité] */
+  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unite] */
   for (i=1;i<=NDIM;i++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -294,13 +294,13 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
 *     d'antiprotons.
 */      
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].
+/*    Abar_i est exprime en [cm s^{-1}].
 */
       T_pbar = T_PBAR_MIN *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
-*     Nous remplissons les coefficients de la matrice tridiagonale à inverser.
+*     Nous remplissons les coefficients de la matrice tridiagonale a inverser.
 */
       if (i_pbar == 0)
       {
@@ -385,7 +385,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_B(struct Structure_Pbar* pt_Pb
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
-/*  Ce coefficient s'exprime en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
 /*
@@ -397,11 +397,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_B(struct Structure_Pbar* pt_Pb
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
-/*  Ce coefficient s'exprime également en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -411,11 +411,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_B(struct Structure_Pbar* pt_Pb
     }
   }
 /*
-* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i à partir
+* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i a partir
 * de pt_Pbar->BESSEL_PBAR_PRI_Epbar_i, de pt_Pbar->BESSEL_PBAR_SEC_Epbar_i ainsi que
 * de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en inversant une matrice tridiagonale.
 */
-  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unité] */
+  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unite] */
   for (i=1;i<=NDIM;i++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -428,13 +428,13 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_B(struct Structure_Pbar* pt_Pb
 *     d'antiprotons.
 */      
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].
+/*    Abar_i est exprime en [cm s^{-1}].
 */
       T_pbar = T_PBAR_MIN *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
-*     Nous remplissons les coefficients de la matrice tridiagonale à inverser.
+*     Nous remplissons les coefficients de la matrice tridiagonale a inverser.
 */
       if (i_pbar == 0)
       {
@@ -522,7 +522,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_TD_NR(struct Structure_Pbar* p
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
-/*  Ce coefficient s'exprime en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
 /*
@@ -534,11 +534,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_TD_NR(struct Structure_Pbar* p
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
-/*  Ce coefficient s'exprime également en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -548,11 +548,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_TD_NR(struct Structure_Pbar* p
     }
   }
 /*
-* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i à partir
+* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i a partir
 * de pt_Pbar->BESSEL_PBAR_PRI_Epbar_i, de pt_Pbar->BESSEL_PBAR_SEC_Epbar_i ainsi que
 * de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en inversant une matrice tridiagonale.
 */
-  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unité] */
+  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unite] */
   for (i=1;i<=NDIM;i++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -565,13 +565,13 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_TD_NR(struct Structure_Pbar* p
 *     d'antiprotons.
 */      
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].
+/*    Abar_i est exprime en [cm s^{-1}].
 */
       T_pbar = T_PBAR_MIN *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
-*     Nous remplissons les coefficients de la matrice tridiagonale à inverser.
+*     Nous remplissons les coefficients de la matrice tridiagonale a inverser.
 */
       if (i_pbar == 0)
       {
@@ -656,7 +656,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(struct Structure_Pbar* p
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
-/*  Ce coefficient s'exprime en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
 /*
@@ -668,11 +668,11 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(struct Structure_Pbar* p
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
-/*  Ce coefficient s'exprime également en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -682,12 +682,12 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(struct Structure_Pbar* p
     }
   }
 /*
-* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i à partir
+* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i a partir
 * de pt_Pbar->BESSEL_PBAR_PRI_Epbar_i, de pt_Pbar->BESSEL_PBAR_SEC_Epbar_i ainsi que
 * de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en inversant la matrice
-* matrix_A[i_pbar + 1][j_pbar + 1] via la méthode de GAUSS--JORDAN.
+* matrix_A[i_pbar + 1][j_pbar + 1] via la methode de GAUSS--JORDAN.
 */
-  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unité] */
+  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unite] */
   for (i=1;i<=NDIM;i++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -700,13 +700,13 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(struct Structure_Pbar* p
 *     d'antiprotons.
 */      
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].
+/*    Abar_i est exprime en [cm s^{-1}].
 */
       T_pbar = T_PBAR_MIN *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
-*     Nous remplissons les coefficients de la matrice tridiagonale à inverser.
+*     Nous remplissons les coefficients de la matrice tridiagonale a inverser.
 */
       for (j_pbar=0;j_pbar<=DIM_TAB_PBAR;j_pbar++)
       {
@@ -803,7 +803,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
-/*  Ce coefficient s'exprime en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
 /*
@@ -815,11 +815,11 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
-/*  Ce coefficient s'exprime également en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -829,12 +829,12 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
     }
   }
 /*
-* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i à partir
+* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i a partir
 * de pt_Pbar->BESSEL_PBAR_PRI_Epbar_i, de pt_Pbar->BESSEL_PBAR_SEC_Epbar_i ainsi que
-* de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en faisant évoluer dans le temps une
-* distribution diffusant en énergie et s'atténuant peu à peu.
+* de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en faisant evoluer dans le temps une
+* distribution diffusant en energie et s'attenuant peu a peu.
 */
-  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unité] */
+  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unite] */
   DELTA_t = time_max / (double)n_time;
   for (i=1;i<=NDIM;i++)
   {
@@ -853,14 +853,14 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
       pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i];
       
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].
+/*    Abar_i est exprime en [cm s^{-1}].
 */
       T_pbar = T_PBAR_MIN *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
 *   On calcule maintenant les coefficients de la matrice tridiagonale
-*   d'évolution temporelle.
+*   d'evolution temporelle.
 */
       if (i_pbar == 0)
       {
@@ -901,7 +901,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
         pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i] += DELTA_t * vec_u[i_pbar];
         
         Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*      Abar_i est exprimé en [cm s^{-1}].
+/*      Abar_i est exprime en [cm s^{-1}].
 */
         T_pbar = T_PBAR_MIN *
         pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
@@ -992,7 +992,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_B(double time_max,long n_time,
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
-/*  Ce coefficient s'exprime en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
 /*
@@ -1004,11 +1004,11 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_B(double time_max,long n_time,
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
     b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
-/*  Ce coefficient s'exprime également en unités de [GeV s^{-1}].
+/*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
 /*
-* On remet à zéro le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
+* On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i.
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
@@ -1018,12 +1018,12 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_B(double time_max,long n_time,
     }
   }
 /*
-* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i à partir
+* On remplit maintenant le tableau pt_Pbar->BESSEL_PBAR_TOT_Epbar_i a partir
 * de pt_Pbar->BESSEL_PBAR_PRI_Epbar_i, de pt_Pbar->BESSEL_PBAR_SEC_Epbar_i ainsi que
-* de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en faisant évoluer dans le temps une
-* distribution diffusant en énergie et s'atténuant peu à peu.
+* de pt_Pbar->BESSEL_PBAR_TER_Epbar_i en faisant evoluer dans le temps une
+* distribution diffusant en energie et s'attenuant peu a peu.
 */
-  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unité] */
+  DELTA_x = log(T_PBAR_MAX/T_PBAR_MIN) / (double)DIM_TAB_PBAR; /* [sans unite] */
   DELTA_t = time_max / (double)n_time;
   for (i=1;i<=NDIM;i++)
   {
@@ -1042,14 +1042,14 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_B(double time_max,long n_time,
       pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i];
       
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*    Abar_i est exprimé en [cm s^{-1}].
+/*    Abar_i est exprime en [cm s^{-1}].
 */
       T_pbar = T_PBAR_MIN *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
 *   On calcule maintenant les coefficients de la matrice tridiagonale
-*   d'évolution temporelle.
+*   d'evolution temporelle.
 */
       if (i_pbar == 0)
       {
@@ -1093,7 +1093,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_B(double time_max,long n_time,
         pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i] += DELTA_t * vec_u[DIM_TAB_PBAR - i_pbar];
         
         Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
-/*      Abar_i est exprimé en [cm s^{-1}].
+/*      Abar_i est exprime en [cm s^{-1}].
 */
         T_pbar = T_PBAR_MIN *
         pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));

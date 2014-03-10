@@ -4,26 +4,26 @@
 /********************************************************************************************/
 /********************************************************************************************/
 #define NDIM 100
-/* Nombre de fonctions J0(alpha_i*rho) utilisées dans le développement en série de Bessel. */
+/* Nombre de fonctions J0(alpha_i*rho) utilisees dans le developpement en serie de Bessel. */
 
 /********************************************************************************************/
 #define MASSE_PROTON 0.938272013
 #undef  MASSE_PROTON
 #define MASSE_PROTON 0.938
-/* La masse du proton est exprimée en [GeV]. */
+/* La masse du proton est exprimee en [GeV]. */
 
 #define E_PROTON_MIN (7.*MASSE_PROTON)
-/* E_PROTON_MIN désigne l'énergie TOTALE MINIMALE des protons. Nous prenons pour l'instant
+/* E_PROTON_MIN designe l'energie TOTALE MINIMALE des protons. Nous prenons pour l'instant
 le seuil de production des antiprotons lors d'une collision proton + proton -----> pbar + X.
-ATTENTION : quand nous considérerons l'hélium, ce seuil est susceptible de s'abaisser.
-L'énergie est exprimée en [GeV]. */
+ATTENTION : quand nous considererons l'helium, ce seuil est susceptible de s'abaisser.
+L'energie est exprimee en [GeV]. */
 
 #define E_PROTON_MAX (1.e6)
-/* E_PROTON_MAX désigne l'énergie TOTALE MAXIMALE des protons. Elle est exprimée en [GeV]. */
+/* E_PROTON_MAX designe l'energie TOTALE MAXIMALE des protons. Elle est exprimee en [GeV]. */
 
 #define DIM_TAB_PROTON 500
-/* DIM_TAB_PROTON est le nombre d'intervalles en énergie TOTALE de proton.
-ATTENTION : pour pouvoir réaliser une intégration à la SIMPSON, il est impératif
+/* DIM_TAB_PROTON est le nombre d'intervalles en energie TOTALE de proton.
+ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
 d'avoir ici un nombre PAIR. */
 #if ((DIM_TAB_PROTON % 2) == 1)
   #error DIM_TAB_PROTON DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
@@ -31,16 +31,16 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 #define T_PBAR_MIN (0.1)
-/* T_PBAR_MIN est la valeur MINIMALE de l'énergie CINETIQUE des antiprotons
-que l'on considère dans le problème. Elle est exprimée en [GeV]. */
+/* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
+que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
 #define T_PBAR_MAX (10000.)
-/* T_PBAR_MAX est la valeur MAXIMALE de l'énergie CINETIQUE des antiprotons
-que l'on considère dans le problème. Elle est exprimée en [GeV]. */
+/* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
+que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
 #define DIM_TAB_PBAR 250
-/* DIM_TAB_PBAR est le nombre d'intervalles en énergie CINETIQUE des antiprotons.
-ATTENTION : pour pouvoir réaliser une intégration à la SIMPSON, il est impératif
+/* DIM_TAB_PBAR est le nombre d'intervalles en energie CINETIQUE des antiprotons.
+ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
 d'avoir ici un nombre PAIR. */
 #if ((DIM_TAB_PBAR % 2) == 1)
   #error DIM_TAB_PBAR DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
@@ -48,28 +48,28 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 /*
-* Liste des fichiers et de leurs adresses où sont stockées les valeurs de
+* Liste des fichiers et de leurs adresses ou sont stockees les valeurs de
 * la section efficace differentielle de production des antiprotons
-* \frac{d \sigma_{\pbar}}{d E_{\pbar}} au cours de la réaction générique
+* \frac{d \sigma_{\pbar}}{d E_{\pbar}} au cours de la reaction generique
 *
 * {P ou ALPHA} + {H ou HE}_{milieu interstellaire au repos} -----> PBAR + X
 *
-* L'énergie CINETIQUE de l'antiproton produit au cours de cette réaction est
-* notée T_pbar et varie de T_PBAR_MIN à T_PBAR_MAX en prenant (DIM_TAB_PBAR + 1)
-* valeurs différentes.
+* L'energie CINETIQUE de l'antiproton produit au cours de cette reaction est
+* notee T_pbar et varie de T_PBAR_MIN a T_PBAR_MAX en prenant (DIM_TAB_PBAR + 1)
+* valeurs differentes.
 *
-* L'énergie TOTALE E_proton des protons incidents OU ALORS l'énergie TOTALE
-* PAR NUCLEON E_nucleon des particules ALPHA incidentes -- noyaux d'hélium --
-* varie de E_PROTON_MIN à E_PROTON_MAX en prenant (DIM_TAB_PROTON + 1) valeurs
-* différentes.
+* L'energie TOTALE E_proton des protons incidents OU ALORS l'energie TOTALE
+* PAR NUCLEON E_nucleon des particules ALPHA incidentes -- noyaux d'helium --
+* varie de E_PROTON_MIN a E_PROTON_MAX en prenant (DIM_TAB_PROTON + 1) valeurs
+* differentes.
 *
 * - FILE_NAME_H_ON_H   contient le tableau DSPBAR_SUR_DEPBAR_H_ON_H  [i_pbar][i_proton]
 * - FILE_NAME_H_ON_HE  contient le tableau DSPBAR_SUR_DEPBAR_H_ON_HE [i_pbar][i_proton]
 * - FILE_NAME_HE_ON_H  contient le tableau DSPBAR_SUR_DEPBAR_HE_ON_H [i_pbar][i_nucleon]
 * - FILE_NAME_HE_ON_HE contient le tableau DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_nucleon]
 *
-* Le nombre entier i_pbar varie de 0 à DIM_TAB_PBAR.
-* Le nombre entier i_proton OU ALORS i_nucleon varie de 0 à DIM_TAB_PROTON.
+* Le nombre entier i_pbar varie de 0 a DIM_TAB_PBAR.
+* Le nombre entier i_proton OU ALORS i_nucleon varie de 0 a DIM_TAB_PROTON.
 *
 */
 
@@ -80,46 +80,46 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 #define E_DISC      0.1
-/* La demi-épaisseur du disque mince galactique est exprimée en [kpc]. */
+/* La demi-epaisseur du disque mince galactique est exprimee en [kpc]. */
 
 #define R_GAL       20.0
-/* Le rayon du disque galactique est exprimé en [kpc]. */
+/* Le rayon du disque galactique est exprime en [kpc]. */
 
 #define R_EARTH      8.5
-/* Le rayon galactocentrique du systeme solaire est exprimé en [kpc]. */
+/* Le rayon galactocentrique du systeme solaire est exprime en [kpc]. */
 
 #define DENSITE_H_DISC 0.9
-/* La densité d'hydrogène neutre diffus dans le disque mince est exprimée en [cm^{-3}]. */
+/* La densite d'hydrogene neutre diffus dans le disque mince est exprimee en [cm^{-3}]. */
 
 #define DENSITE_HE_DISC 0.1
-/* La densité d'hélium neutre diffus dans le disque mince est exprimée en [cm^{-3}]. */
+/* La densite d'helium neutre diffus dans le disque mince est exprimee en [cm^{-3}]. */
 
 /********************************************************************************************/
 #define PI (acos(-1.))
 //#define PI 3.14159265358979
 
 #define CELERITY_LIGHT 2.99792458e10
-/* La vitesse de la lumière est exprimée en [cm s^{-1}]. */
+/* La vitesse de la lumiere est exprimee en [cm s^{-1}]. */
 
 #define CM_PAR_PARSEC 3.0856775807e+18
-/* Il s'agit du nombre de centimètres correspondant à une distance
+/* Il s'agit du nombre de centimetres correspondant a une distance
  d'un parsec [pc] */
 
 #define CM_PAR_KPC 3.0856775807e+21
-/* Il s'agit du nombre de centimètres correspondant à une distance
+/* Il s'agit du nombre de centimetres correspondant a une distance
  d'un kiloparsec [kpc]. */
 
 #define SEC_PAR_MGYR (3.15581498e13)
-/* Il s'agit du nombre de secondes correspondant à un laps de
- temps d'un million d'années -- soit 1 megayear ou encore 1 MGYR -- [sec]. */
+/* Il s'agit du nombre de secondes correspondant a un laps de
+ temps d'un million d'annees -- soit 1 megayear ou encore 1 MGYR -- [sec]. */
 
 #define SEC_PAR_KYR (3.15581498e10)
-/* Il s'agit du nombre de secondes correspondant à un laps de temps
- d'un millier d'années -- soit 1 kiloyear ou encore 1 KYR -- [sec]. */
+/* Il s'agit du nombre de secondes correspondant a un laps de temps
+ d'un millier d'annees -- soit 1 kiloyear ou encore 1 KYR -- [sec]. */
 
 #define SEC_PAR_YR (3.15581498e7)
-/* Il s'agit du nombre de secondes correspondant à un laps de temps
- d'une année [sec]. */
+/* Il s'agit du nombre de secondes correspondant a un laps de temps
+ d'une annee [sec]. */
 
 #define GEV_PER_KEV 1.0e-6
 #define KEV_PER_GEV 1.0e+6
