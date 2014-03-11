@@ -24,28 +24,28 @@
 //	DECLARATION DES CONSTANTES
 
 #define K_BOLTZMANN (8.617385e-14)
-/* La constante de BOLTZMANN est exprime en [GeV Kelvin^{-1}]. */
+/* La constante de BOLTZMANN est exprimee en [GeV Kelvin^{-1}]. */
 
 #define H_BAR (6.58211915e-25)
-/* La constante de PLANCK est exprime en [GeV s]. */
+/* La constante de PLANCK est exprimee en [GeV s]. */
 
 #define MASSE_ELECTRON 0.511e-03
-/* La masse de l'lectron est exprime en [GeV]. */
+/* La masse de l'electron est exprimee en [GeV]. */
 
 #define RADIUS_ELECTRON 2.818e-13
-/* Le rayon classique de l'lectron est exprim en [cm]. */
+/* Le rayon classique de l'electron est exprime en [cm]. */
 
 #define V_ION_H  19.e-9
 #define V_ION_HE 44.e-9
-/* Les potentiels d'ionisation de l'hydrogne et de l'hlium sont
-respectivement nots V_ION_H et V_ION_HE. Ils sont exprims en [GeV]. */
+/* Les potentiels d'ionisation de l'hydrogene et de l'helium sont
+respectivement notes V_ION_H et V_ION_HE. Ils sont exprimes en [GeV]. */
 
 #define DENSITE_FREE_ELECTRON 0.033
-/* La densit d'lectrons libres dans le milieu interstellaire -- ISM -- est
-exprime en [cm^{-3}]. */
+/* La densite d'electrons libres dans le milieu interstellaire -- ISM -- est
+exprimee en [cm^{-3}]. */
 
 #define T_ELECTRONIC 3.e5
-/* La temprature du plasma lectronique est exprime en [Kelvin] -- voir
+/* La temperature du plasma electronique est exprimee en [Kelvin] -- voir
 Manheim & al. */
 
 /**********************************************************************************************************************************************************************************************************/

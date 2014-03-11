@@ -3,8 +3,8 @@
 /********************************************************************************************/
 /********************************************************************************************/
 /*
-* Ce module cherche les NDIM premiers zéros alpha_i[i] de la fonction de Bessel J0.
-* Puis le calcul des NDIM coefficients q_i[i] est effectué. Les résultats sont stockés
+* Ce module cherche les NDIM premiers zeros alpha_i[i] de la fonction de Bessel J0.
+* Puis le calcul des NDIM coefficients q_i[i] est effectue. Les resultats sont stockes
 * dans le fichier BESSEL_ALPHA_QI
 */
 void bessel_preliminary_write_file(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium)
@@ -28,8 +28,8 @@ void bessel_preliminary_write_file(double alpha_i[NDIM+1], struct Structure_Nucl
 
 /********************************************************************************************/
 /*
-* Ce module lit les résultats du fichier BESSEL_ALPHA_QI calculés auparavent.
-* Il charge donc les NDIM premiers zéros alpha_i[i] de la fonction de Bessel J0
+* Ce module lit les resultats du fichier BESSEL_ALPHA_QI calcules auparavent.
+* Il charge donc les NDIM premiers zeros alpha_i[i] de la fonction de Bessel J0
 * ainsi que les NDIM coefficients q_i[i]. Cela permet de gagner du temps de calcul.
 */
 void bessel_preliminary_read_file(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium)
@@ -56,7 +56,7 @@ void search_for_zero(double alpha_i[NDIM+1])
   long iz;
   double z,dz,zero;
 /*
-* On remet à zero le tableau alpha_i[i].
+* On remet a zero le tableau alpha_i[i].
 */
   for (i=0;i<=NDIM;i++)
   {
@@ -71,7 +71,7 @@ void search_for_zero(double alpha_i[NDIM+1])
     z += dz;
     if ( (besselj0(z)*besselj0(z+dz)) <= 0 )
     {
-/*    Le zéro de la fonction de Bessel J0 se situe entre z et z+dz    */
+/*    Le zero de la fonction de Bessel J0 se situe entre z et z+dz    */
       search(z,z+dz,&zero);
       alpha_i[nzero] = zero;
       nzero += 1;
@@ -118,7 +118,7 @@ void production(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Nuclei)
   long i_int;
   double u,du,sum,coefficient,weight_SIMPSON;
 /*
-* On remet à zéro le tableau q_i[i].
+* On remet a zero le tableau q_i[i].
 */
   for (i=0;i<=NDIM;i++)
   {
@@ -139,7 +139,7 @@ void production(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Nuclei)
   coefficient = (1.0)/(PI*pow(CM_PAR_KPC*R_GAL,2))/sum; /* [cm^{-2}] */
   
 /*
-* On calcule maintenant les intégrales q_i de la transformée de
+* On calcule maintenant les integrales q_i de la transformee de
 * Bessel de la fonction f_PSRD.
 */
   for (i=1;i<=NDIM;i++)

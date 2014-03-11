@@ -16,8 +16,8 @@ double K_space_diffusion(double energy,double mass,double Z_em, struct Structure
   beta     = momentum / energy;                   /* NO DIMENSION */
 
 /*
-* Coefficient de diffusion spatiale à la Strong & al, ApJ 509, 212, 1998.
-* Il est exprimé en [cm^{2} s^{-1}].
+* Coefficient de diffusion spatiale a la Strong & al, ApJ 509, 212, 1998.
+* Il est exprime en [cm^{2} s^{-1}].
 */
   K        = pt_Propagation->DIFFUSION_0_GV * beta * pow(rigidity,pt_Propagation->PUISSANCE_COEFF_DIFF);
   return K;
@@ -72,7 +72,7 @@ double b_energy_losses(double energy,double mass,double Z_em, struct Structure_P
   double x_m,ln_lambda,coulomb,adiabatic;
   double dE_dt;
 /*
-* La perte d'énergie dE_dt est exprimée en [GeV sec^{-1}].
+* La perte d'energie dE_dt est exprimee en [GeV sec^{-1}].
 */
   momentum      = sqrt(pow(energy,2) - pow(mass,2)); /* [GeV]        */
   beta          = momentum / energy;                 /* NO DIMENSION */
@@ -81,7 +81,7 @@ double b_energy_losses(double energy,double mass,double Z_em, struct Structure_P
 /*
 * IONISATION CONTRIBUTION
 * ***********************
-* L'énergie maximale transférée est notée Q_max et est exprimée en [GeV].
+* L'energie maximale transferee est notee Q_max et est exprimee en [GeV].
 */
   Q_max = 2. * MASSE_ELECTRON * pow((beta*gamma_lorentz),2.) /
   (1.0  +  (2. * gamma_lorentz * MASSE_ELECTRON / mass));
@@ -93,7 +93,7 @@ double b_energy_losses(double energy,double mass,double Z_em, struct Structure_P
   B2  = log(2. * MASSE_ELECTRON * pow((beta*gamma_lorentz),2.) * Q_max / pow(V_ION_HE,2.));
   B2 -= 2. * pow(beta,2.);
 /*
-* La perte d'énergie par ionisation est exprimée en [GeV s^{-1}].
+* La perte d'energie par ionisation est exprimee en [GeV s^{-1}].
 */
   ionisation =
   (-1.) * 2.*PI*pow(RADIUS_ELECTRON,2) * MASSE_ELECTRON * CELERITY_LIGHT * pow(Z_em,2) *
@@ -120,8 +120,8 @@ double b_energy_losses(double energy,double mass,double Z_em, struct Structure_P
 * ADIABATIC CONTRIBUTION
 * **********************
 *
-* ATTENTION ! Pour pouvoir écrire ce terme sous une forme exactement similaire
-* aux pertes précédentes, il faut factoriser le terme 2h, d'où un terme
+* ATTENTION ! Pour pouvoir ecrire ce terme sous une forme exactement similaire
+* aux pertes precedentes, il faut factoriser le terme 2h, d'ou un terme
 * \beq
 * b_adiab \; = \; - \, E \, \frac{V_{c}}{3h} \;\; .
 * \eeq
@@ -162,7 +162,7 @@ double b_energy_losses_for_wei_calculations(double energy,double mass,double Z_e
   double x_m,ln_lambda;
   double dE_dt;
 /*
-* La perte d'énergie dE_dt est exprimée en [GeV sec^{-1}].
+* La perte d'energie dE_dt est exprimee en [GeV sec^{-1}].
 */
   momentum      = sqrt(pow(energy,2) - pow(mass,2)); /* [GeV]        */
   beta          = momentum / energy;                 /* NO DIMENSION */
@@ -171,7 +171,7 @@ double b_energy_losses_for_wei_calculations(double energy,double mass,double Z_e
 /*
 * IONISATION CONTRIBUTION
 * ***********************
-* L'énergie maximale transférée est notée Q_max et est exprimée en [GeV].
+* L'energie maximale transferee est notee Q_max et est exprimee en [GeV].
 */
   Q_max = 2. * MASSE_ELECTRON * pow((beta*gamma_lorentz),2.) /
   (1.0  +  (2. * gamma_lorentz * MASSE_ELECTRON / mass));
@@ -183,7 +183,7 @@ double b_energy_losses_for_wei_calculations(double energy,double mass,double Z_e
   B2  = log(2. * MASSE_ELECTRON * pow((beta*gamma_lorentz),2.) * Q_max / pow(V_ION_HE,2.));
   B2 -= 2. * pow(beta,2.);
 /*
-* La perte d'énergie par ionisation est exprimée en [GeV s^{-1}].
+* La perte d'energie par ionisation est exprimee en [GeV s^{-1}].
 */
   *ionisation =
   (-1.) * 2.*PI*pow(RADIUS_ELECTRON,2) * MASSE_ELECTRON * CELERITY_LIGHT * pow(Z_em,2) *
@@ -210,8 +210,8 @@ double b_energy_losses_for_wei_calculations(double energy,double mass,double Z_e
 * ADIABATIC CONTRIBUTION
 * **********************
 *
-* ATTENTION ! Pour pouvoir écrire ce terme sous une forme exactement similaire
-* aux pertes précédentes, il faut factoriser le terme 2h, d'où un terme
+* ATTENTION ! Pour pouvoir ecrire ce terme sous une forme exactement similaire
+* aux pertes precedentes, il faut factoriser le terme 2h, d'ou un terme
 * \beq
 * b_adiab \; = \; - \, E \, \frac{V_{c}}{3h} \;\; .
 * \eeq
@@ -270,7 +270,7 @@ double energy,double mass,double Z_em, double alpha_i[NDIM+1],double BESSEL_COEF
     
     for (i=1;i<=NDIM;i++)
     {
-/*    Si est exprimé en [kpc^{-1}].  */
+/*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K,2));
       resultat += BESSEL_COEFFICIENTi[i] * besselj0(alpha_i[i]*x) *
@@ -310,7 +310,7 @@ double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFF
     
     for (i=1;i<=NDIM;i++)
     {
-/*    Si est exprimé en [kpc^{-1}].  */
+/*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K,2));
 	
