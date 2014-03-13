@@ -41,9 +41,11 @@ void   calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double a
 double rapport_rho_chi_sur_rho_0              (double rr,double z);
 double rapport_rho_chi_sur_rho_0_Einasto      (double rr,double z);
 
-void   DNPBAR_ON_DTPBAR_gaelle_read_file      (struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
+void   DNPBAR_ON_DTPBAR_gaelle_read_file      (double mass_chi, struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
 double dNpbar_on_dEpbar_primary_calculation   (double mass_chi, int channel, struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
 void   primary_source_calculation             (double mass_chi, struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
+
+void gaelle_preliminary(struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
