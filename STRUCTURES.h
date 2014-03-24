@@ -47,10 +47,16 @@ struct Structure_Cross_Section
 
 struct Structure_Primary_Source_Term
 {
+	double GAELLE_MASSES[N_gaelle_masses+1];
+	char*  GAELLE_FILES_NAME[N_gaelle_masses+1];
+	
+	double mass_inf, mass_sup;
 
-	double X_PBAR[N_x_pbar_scan+1];
-
-	double DNPBAR_ON_DTPBAR_CHANNEL[number_channels+1][N_x_pbar_scan+1];
+	double X_PBAR_M_INF[N_x_pbar_scan+1];
+	double X_PBAR_M_SUP[N_x_pbar_scan+1];
+	
+	double DNPBAR_ON_DTPBAR_CHANNEL_M_INF[number_channels+1][N_x_pbar_scan+1];
+	double DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[number_channels+1][N_x_pbar_scan+1];
 
 	double DNPBAR_ON_DEPBAR   [DIM_TAB_PBAR+1];
 	double PRIMARY_SOURCE_TERM[DIM_TAB_PBAR+1];

@@ -157,12 +157,12 @@ d'avoir ici un nombre PAIR. */
 //	16	:	gamma
 
 #define number_channels     16
-#define channel_choice		 9
+#define channel_choice		 1
 
 
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
 
-#define mass_chi_choice		 1000.0					//	[GeV]
+#define mass_chi_choice		 10.0					//	[GeV]
 #define sigma_v_annihilation 3.0e-26				// [cm^{3} s^{-1}]
 
 /********************************************************************************************/
@@ -171,8 +171,7 @@ d'avoir ici un nombre PAIR. */
 #define x_pbar_scan_min	1.0e-9
 #define x_pbar_scan_max	1.0
 
-
-#define gaelle_file_name	"./gaelle_files/mDM=1000GeV.dat"
+#define N_gaelle_masses	62
 
 /********************************************************************************************/
 
@@ -183,7 +182,7 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-#define antiproton_spectrum_file_name	"./results/primary_antiproton_spectrum_b_1000GeV" 
+#define antiproton_spectrum_file_name	"./results/primary_antiproton_spectrum_test" 
 
 /********************************************************************************************/
 /********************************************************************************************/

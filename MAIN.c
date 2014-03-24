@@ -95,21 +95,22 @@ int main(void)
 
 	mass_chi = mass_chi_choice;
 	channel  = channel_choice;
-
+	
 	printf("\n"
 	"mass_chi = %.2e GeV\n"
 	"channel  = %d\n\n", mass_chi, channel);
-
-	DNPBAR_ON_DTPBAR_gaelle_read_file   (&Primary_Source_Term);
+	
+	gaelle_preliminary					(&Primary_Source_Term);
+	DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, &Primary_Source_Term);
 	dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, &Primary_Source_Term);
 	primary_source_calculation          (mass_chi, &Primary_Source_Term);
-
+	
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	ON PEUT Y ALLER !
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 	//for (i_data=1;i_data<=3;i_data++)
-	for (i_data=3;i_data<=3;i_data++)
+	for (i_data=2;i_data<=2;i_data++)
 	{
 //		Nous definissons a ce niveau les parametres que FIORENZA, DAVID et RICHARD
 //		-- hereafter called FDR -- ont determines.
@@ -140,14 +141,14 @@ int main(void)
 		}
 
 //		Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
-
+		
 		printf(" CAS NUMERO      = %d \n",i_data);
 		printf(" DELTA           = %.5e [NO UNIT]\n",Propagation.PUISSANCE_COEFF_DIFF);
 		printf(" DIFFUSION_0_GV  = %.5e [cm^{2} s^{-1}]\n",Propagation.DIFFUSION_0_GV);
 		printf(" E_DIFFUS        = %.5e [kpc]\n",Propagation.E_DIFFUS);
 		printf(" VENT_GALACTIQUE = %.5e [cm s^{-1}]\n",Propagation.VENT_GALACTIQUE);
 		printf(" V_ALFEN         = %.5e [cm s^{-1}]\n\n",Propagation.V_ALFEN);
-
+		
 //		On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
 
 		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
