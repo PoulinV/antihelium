@@ -114,7 +114,7 @@ double flux_helium_EXP(double E_nucleon)
 *   New parameterization proposed by Timur Delahaye and
 *   based on the PAMELA high energy CR helium data.
 
-    A       = 1.5e-5;
+    	A       = 1.5e-5;
 		Rp1     = 50.;
 		p1      = 2.7;
 		Rp2     = 250.;
@@ -129,31 +129,28 @@ double flux_helium_EXP(double E_nucleon)
 		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
 		beta = 2. * R / (Ttot + Mtot);
 
-    resultat  = A * pow((R/Rp1),-p1);
+    	resultat  = A * pow((R/Rp1),-p1);
 		resultat *= pow((1. + (R/Rp2)),p2) * pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4);
 */
 
-    if (T_nucleon <= 20.0)
-		{
-		  A  = 0.71;
-		  p1 = 0.5;
-		  p2 = 2.78;		  
-		}
-		else
-		{
-		  A    = 0.8866;
-		  p1   = 0.0;
-		  p2   = 2.85;		  
-		}
+	A       = 1.5e-5;
+	Rp1     = 50.;
+	p1      = 2.7;
+	Rp2     = 250.;
+	p2      = -1.3;
+	Rp3     = 1.e3;
+	p3      = 5.4;
+	Rp4     = 2.e3;
+	p4      = -4.15;
 
-		Ttot = 4. * T_nucleon;
-		Mtot = 4. * MASSE_PROTON;
-		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-		beta = 2. * R / (Ttot + Mtot);
+	Ttot = 4. * T_nucleon;
+	Mtot = 4. * MASSE_PROTON;
+	R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+	beta = 2. * R / (Ttot + Mtot);
 
-		resultat = A * pow(beta,p1) * pow(R,-p2);
-
-		return resultat; /* [cm^{-2} s^{-1} sr^{-1} (GeV/nucleon)^{-1}] */
+	resultat  = A * pow((R/Rp1),-p1);
+	resultat *= pow((1. + (R/Rp2)),p2) * pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4); /* [cm^{-2} s^{-1} sr^{-1} (GeV/nucleon)^{-1}] */
+  	return resultat;
   }
 }
 

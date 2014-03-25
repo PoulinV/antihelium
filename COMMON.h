@@ -163,7 +163,7 @@ d'avoir ici un nombre PAIR. */
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
 
 #define mass_chi_choice		 10.0					//	[GeV]
-#define sigma_v_annihilation 3.0e-26				// [cm^{3} s^{-1}]
+#define sigma_v_annihilation 3.0e-26				//	[cm^{3} s^{-1}]
 
 /********************************************************************************************/
 

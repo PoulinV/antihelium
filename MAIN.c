@@ -142,7 +142,7 @@ int main(void)
 
 //		Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
 		
-		printf(" CAS NUMERO      = %d \n",i_data);
+		printf(" CAS NUMERO      = %ld \n",i_data);
 		printf(" DELTA           = %.5e [NO UNIT]\n",Propagation.PUISSANCE_COEFF_DIFF);
 		printf(" DIFFUSION_0_GV  = %.5e [cm^{2} s^{-1}]\n",Propagation.DIFFUSION_0_GV);
 		printf(" E_DIFFUS        = %.5e [kpc]\n",Propagation.E_DIFFUS);
@@ -169,9 +169,9 @@ int main(void)
 //		CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE
 //		PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 
-  //calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
-  //calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
-  //calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+		calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
+		calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
+		calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 		calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 
 //		CALCUL DU SPECTRE FINAL DES ANTIPROTONS.

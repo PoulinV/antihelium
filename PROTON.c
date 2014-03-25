@@ -169,7 +169,7 @@ double flux_proton_EXP(double E_proton)
 *   New parameterization proposed by Timur Delahaye and
 *   based on the PAMELA high energy CR proton data.
 
-    phi_0   =  3.53e-3;
+    	phi_0   =  3.53e-3;
 		alpha_p =  2.5;
 		Ep1     =  2.5;
 		p1      =  0.9;
@@ -180,29 +180,24 @@ double flux_proton_EXP(double E_proton)
 		Ep4     = 5.e3;
 		p4      = -0.21;
 
-    resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
+    	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
 		resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4);
 */
 
-    if (T <= 20.0)
-		{
-		  A    = 1.94;
-		  p1   = 0.7;
-		  p2   = 2.76;		  
-		}
-		else
-		{
-		  A    = 2.4132;
-		  p1   = 0.0;
-		  p2   = 2.839;		  
-		}
+	phi_0   =  3.53e-3;
+	alpha_p =  2.5;
+	Ep1     =  2.5;
+	p1      =  0.9;
+	Ep2     =  16.;
+	p2      =  -0.5;
+	Ep3     = 300.;
+	p3      = 0.46;
+	Ep4     = 5.e3;
+	p4      = -0.21;
 
-		R    = sqrt(T*T + 2.*MASSE_PROTON*T);
-		beta = R / (T+MASSE_PROTON);
-
-		resultat = A * pow(beta,p1) * pow(R,-p2);
-
-		return resultat; /* [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] */
+	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
+	resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4); /* [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] */
+  	return resultat;
   }
 }
 

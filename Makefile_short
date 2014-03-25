@@ -3,8 +3,8 @@
 #Authors Mathieu Boudaud and Pierre Salati
 
 FC      = gcc
-#CFLAGS =
-CFLAGS  = -Wall
+CFLAGS =
+#CFLAGS  = -W -Wall
 OBJECTS = nrutil.o GAUSSJ.o TRIDAG.o\
 		besselj0_next.o besselj1_next.o BESSEL_PRELIM.o\
 		CROSS_SECTIONS.o DIFFUSION_PROPAGATION.o SOLAR_MOD.o\
