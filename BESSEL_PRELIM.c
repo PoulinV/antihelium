@@ -211,10 +211,14 @@ double f_PSRD(double u)
 	resultat = pow(fr1,a) * exp((-1.0)*b*fr2);
 */
 
-	r0       = 1.25;	//[kpc]
-	a        = 4.0;
-	z0       = E_DISC;	//[kpc]
-	resultat = pow(r,a) * exp(-r/r0);
+	r0       = 0.55;//[kpc]
+	rs       = 8.50;//[kpc]
+	a        = 1.64;
+	b        = 4.01;
+	z0       = E_DISC;//[kpc]
+	fr1      = (r+r0)/(rs+r0);
+	fr2      = (r-rs)/(rs+r0);
+	resultat = pow(fr1,a) * exp((-1.0)*b*fr2);
 	return resultat;
 }
 
