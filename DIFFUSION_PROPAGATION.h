@@ -29,7 +29,7 @@
 #define H_BAR (6.58211915e-25)
 /* La constante de PLANCK est exprimee en [GeV s]. */
 
-#define MASSE_ELECTRON 0.511e-03
+#define MASSE_ELECTRON 0.510998928e-03
 /* La masse de l'electron est exprimee en [GeV]. */
 
 #define RADIUS_ELECTRON 2.818e-13

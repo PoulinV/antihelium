@@ -1159,7 +1159,7 @@ double c[DIM_TAB_PBAR+1],double r[DIM_TAB_PBAR+1],double u[DIM_TAB_PBAR+1])
     {
       fprintf(probleme,
       " PROBLEME DANS L'INVERSION DE LA MATRICE TRIDIAGONALE \n"
-      " j = %.d , beta_j_j = %.5e \n",j,bet);
+      " j = %.ld , beta_j_j = %.5e \n",j,bet);
       return;
     }
     u[j] = (r[j] - a[j]*u[j-1]) / bet;

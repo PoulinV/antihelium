@@ -157,13 +157,13 @@ d'avoir ici un nombre PAIR. */
 //	16	:	gamma
 
 #define number_channels     16
-#define channel_choice		 1
+#define channel_choice		12
 
 
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
 
 #define mass_chi_choice		 10.0					//	[GeV]
-#define sigma_v_annihilation 3.0e-26				// [cm^{3} s^{-1}]
+#define sigma_v_annihilation 3.0e-26				//	[cm^{3} s^{-1}]
 
 /********************************************************************************************/
 
@@ -182,7 +182,14 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-#define antiproton_spectrum_file_name	"./results/primary_antiproton_spectrum_test" 
+#define mass_chi_inf  5.0
+#define mass_chi_sup  5000.0
+
+#define N_mass_chi 2
+
+/********************************************************************************************/
+
+#define antiproton_spectrum_file_name	"./results/test.txt" 
 
 /********************************************************************************************/
 /********************************************************************************************/

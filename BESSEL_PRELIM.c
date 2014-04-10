@@ -20,7 +20,7 @@ void bessel_preliminary_write_file(double alpha_i[NDIM+1], struct Structure_Nucl
   for(i=1;i<=NDIM;i++)
   {
 	//printf(" i = %4d , alpha_i = %.12e , q_i_proton = %.12e , q_i_helium = %.12e \n",i,alpha_i[i],pt_Proton->q_i[i],pt_Helium->q_i[i]);
-    fprintf(bessel_file," %4d\t %.12e\t %.12e\t %.12e\t \n",i,alpha_i[i],pt_Proton->q_i[i],pt_Helium->q_i[i]);
+    fprintf(bessel_file," %4ld\t %.12e\t %.12e\t %.12e\t \n",i,alpha_i[i],pt_Proton->q_i[i],pt_Helium->q_i[i]);
   }
   fclose(bessel_file);
   return;
@@ -211,7 +211,14 @@ double f_PSRD(double u)
 	resultat = pow(fr1,a) * exp((-1.0)*b*fr2);
 */
 
-  resultat = pow(r,0.6) * exp(- 3.0*r/20.0);
+	r0       = 0.55;//[kpc]
+	rs       = 8.50;//[kpc]
+	a        = 1.64;
+	b        = 4.01;
+	z0       = E_DISC;//[kpc]
+	fr1      = (r+r0)/(rs+r0);
+	fr2      = (r-rs)/(rs+r0);
+	resultat = pow(fr1,a) * exp((-1.0)*b*fr2);
 	return resultat;
 }
 

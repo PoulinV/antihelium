@@ -285,6 +285,8 @@ double sigma_total_dbarH(double E_dbar)
 {
   double p;
   double resultat;
+  
+  resultat = 0.0;
 
   p = sqrt(pow(E_dbar,2.) - pow(MASSE_DEUT,2.)) / 2.; /* Impulsion du proton */
   

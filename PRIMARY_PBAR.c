@@ -286,6 +286,9 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 	char* name_gaelle_file_m_sup;
 	double mass_min, mass_max;
 	
+	name_gaelle_file_m_inf = NULL;
+	name_gaelle_file_m_sup = NULL;
+	
     FILE *gaelle_file_m_inf;
 	FILE *gaelle_file_m_inf_test;
     FILE *gaelle_file_m_sup;
