@@ -157,7 +157,7 @@ d'avoir ici un nombre PAIR. */
 //	16	:	gamma
 
 #define number_channels     16
-#define channel_choice		12
+#define channel_choice		9
 
 
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation

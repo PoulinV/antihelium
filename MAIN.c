@@ -108,9 +108,11 @@ int main(void)
 	fprintf(results, " \n\n channel = %d \n\n", channel);
 	
 	for(i_mass_chi=1;i_mass_chi<=51;i_mass_chi++)
+	//for(i_mass_chi=51;i_mass_chi<=51;i_mass_chi++)
 	{
 		mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
 		
+		//sprintf(file_name, "./results/mass_scan_wc/mDM=%gGeV.txt", mass_chi);
 		sprintf(file_name, "./results/mass_scan_wc/mDM=%gGeV.txt", mass_chi);
 		results = fopen(file_name,"w");
 		
@@ -234,7 +236,7 @@ TEST:
 				else if (i_data == 3){PBAR_SPECTRUM_MIN[i_pbar] = flux_antiproton_IS;}
 			}
 		}
-
+		
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		On imprime le resultat
 
