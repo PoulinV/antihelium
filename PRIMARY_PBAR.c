@@ -344,7 +344,7 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 	for (i_pbar=0;i_pbar<N_x_pbar_scan;i_pbar++)
 	{
 		fscanf(gaelle_file_m_inf,
-		" %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+		" %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
 		&pt_Primary_Source_Term->X_PBAR_M_INF                      [i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[ 1][i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[ 2][i_pbar],
@@ -361,10 +361,17 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[13][i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[14][i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[15][i_pbar],
-		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[16][i_pbar]);
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[16][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[17][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[18][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[19][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[20][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[21][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[22][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[23][i_pbar]);
 	
 		fscanf(gaelle_file_m_sup,
-		" %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+		" %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
 		&pt_Primary_Source_Term->X_PBAR_M_SUP                     [i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[ 1][i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[ 2][i_pbar],
@@ -381,7 +388,14 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[13][i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[14][i_pbar],
 		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[15][i_pbar],
-		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[16][i_pbar]);
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[16][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[17][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[18][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[19][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[20][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[21][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[22][i_pbar],
+		&pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[23][i_pbar]);
 						
 		}	
 		
@@ -390,7 +404,7 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 		for (i_pbar=0;i_pbar<N_x_pbar_scan;i_pbar++)
 	    {
 			fprintf(gaelle_file_m_inf_test,
-			" %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e \n",
+			" %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e \n",
 			pt_Primary_Source_Term->X_PBAR_M_INF                      [i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[ 1][i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[ 2][i_pbar],
@@ -407,10 +421,17 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[13][i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[14][i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[15][i_pbar],
-			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[16][i_pbar]);
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[16][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[17][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[18][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[19][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[20][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[21][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[22][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_INF[23][i_pbar]);
 			
 			fprintf(gaelle_file_m_sup_test,
-			" %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e \n",
+			" %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e\t %.15e \n",
 			pt_Primary_Source_Term->X_PBAR_M_SUP                      [i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[ 1][i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[ 2][i_pbar],
@@ -427,7 +448,14 @@ void DNPBAR_ON_DTPBAR_gaelle_read_file(double mass_chi, struct Structure_Primary
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[13][i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[14][i_pbar],
 			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[15][i_pbar],
-			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[16][i_pbar]);
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[16][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[17][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[18][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[19][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[20][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[21][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[22][i_pbar],
+			pt_Primary_Source_Term->DNPBAR_ON_DTPBAR_CHANNEL_M_SUP[23][i_pbar]);
 		}
 	
 

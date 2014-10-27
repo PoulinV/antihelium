@@ -107,7 +107,7 @@ int main(void)
 	
 	fprintf(results, " \n\n channel = %d \n\n", channel);
 	
-	for(i_mass_chi=1;i_mass_chi<=51;i_mass_chi++)
+	for(i_mass_chi=1;i_mass_chi<=62;i_mass_chi++)
 	//for(i_mass_chi=51;i_mass_chi<=51;i_mass_chi++)
 	{
 		mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
@@ -195,7 +195,7 @@ int main(void)
 
 //			CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
 
-			goto TEST;
+			//goto TEST;
 			for (i_iteration=1;i_iteration<=5;i_iteration++)
 			{
 				calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);

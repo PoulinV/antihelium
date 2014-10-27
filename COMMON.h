@@ -34,11 +34,12 @@ d'avoir ici un nombre PAIR. */
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
-#define T_PBAR_MAX (10000.)
+#define T_PBAR_MAX (100000.)
 /* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
-#define DIM_TAB_PBAR 250
+//#define DIM_TAB_PBAR 250
+#define DIM_TAB_PBAR 300
 /* DIM_TAB_PBAR est le nombre d'intervalles en energie CINETIQUE des antiprotons.
 ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
 d'avoir ici un nombre PAIR. */
@@ -155,8 +156,15 @@ d'avoir ici un nombre PAIR. */
 //	14	:	ZT
 //	15	:	g
 //	16	:	gamma
+//	17	:	h
+//	18	:	nue
+//	19	:	numu
+//	20	:	nutau
+//	21	:	V->e
+//	22	:	V->mu
+//	23	:	V->tau
 
-#define number_channels     16
+#define number_channels     23
 #define channel_choice		9
 
 
