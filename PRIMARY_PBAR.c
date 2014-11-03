@@ -77,7 +77,9 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
         if (i_rad==0 || i_rad==(2*n_rad)) {weight_SIMPSON_rad = 1./3.;}
         else {weight_SIMPSON_rad = (1. + (double)(i_rad % 2)) * 2. / 3.;}
 	
-		q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0_Einasto(r_rad,z_vert),2.0); //[NO UNIT].
+		//q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0_Einasto(r_rad,z_vert),2.0); //[NO UNIT].
+		//q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0_old (r_rad,z_vert),2.0); //[NO UNIT].
+		q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0 (r_rad,z_vert),2.0); //[NO UNIT].
 			
         x_rad += dx_rad;
       }
@@ -162,7 +164,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
  * - La distance verticale z est egalement exprimee en [kpc].
  *
  */
-double rapport_rho_chi_sur_rho_0(double rr,double z)
+double rapport_rho_chi_sur_rho_0_old(double rr,double z)
 {
 	double alpha,beta,gamma,core;
 	double r,x,rho_chi;
@@ -172,7 +174,7 @@ double rapport_rho_chi_sur_rho_0(double rr,double z)
 	double RC_SMBH      = 0.001;
 	double RC_SMBH      = 0.1; VALEUR UTILISEE PAR PIERRE BRUN DANS SON MONTE_CARLO
 */
-	double RC_SMBH      = 0.5;
+	//double RC_SMBH      = 0.5;
 	double ETA_CANONIC  = 1.0;
 	double ETA_KRAVTSOV = (3.0 / (3.0 - (2.0*0.4)));
 	double ETA_NFW      = 3.0;
@@ -217,11 +219,12 @@ double rapport_rho_chi_sur_rho_0(double rr,double z)
 	gamma = 1.3;
 	core  = 30.0;
 */
-	alpha = 1.0;
-	beta  = 3.0;
-	gamma = 1.0;
+	alpha = 2.0;
+	beta  = 2.0;
+	gamma = 0.0;
   //core  = 25.0; /* [kpc] */
-	core  = 20.0; /* [kpc] */
+  //core  = 20.0; /* [kpc] */
+	core  = 4.38; /* [kpc] */
 
 	double ETA_TIMUR_prime = 8.0 * gamma * (pow(PI,(2.0)) - 9.0 + 6.0*gamma) / 9.0 / (3.0 - 2.0*gamma);
 	double ETA_TIMUR       = ETA_TIMUR_prime + (2.0*gamma);
@@ -250,28 +253,174 @@ double rapport_rho_chi_sur_rho_0(double rr,double z)
 
 	return (rho_chi*enhancement);
 }
-
 /********************************************************************************************/
 /********************************************************************************************/
-
-
-// Nous calculons ici le rapport $\left\{ \frac{\rho_{\chi}}{\rho_0} \right\}$
-// ou $\rho_{\chi}$ designe la masse volumique des neutralinos exprimee
-// en [GeV cm^{-3}] et dependante des coordonnees cylindriques rr et z.
-// La masse volumique de reference est $\rho_0$ = 1 [GeV cm^{-3}].
-// Le resultat final est sans dimension et depend de DEUX variables :
-// - Le rayon galactocentrique rr est exprime en [kpc].
-// - La distance verticale z est egalement exprimee en [kpc].
-
-double rapport_rho_chi_sur_rho_0_Einasto(double rr,double z)
+/*
+ * Nous calculons ici le rapport $\left\{ \frac{\rho_{\chi}}{\rho_0} \right\}$
+ * ou $\rho_{\chi}$ designe la masse volumique des neutralinos exprimee
+ * en [GeV cm^{-3}] et dependante des coordonnees cylindriques rr et z.
+ * La masse volumique de reference est $\rho_0$ = 1 [GeV cm^{-3}].
+ * Le resultat final est sans dimension et depend de DEUX variables :
+ * - Le rayon galactocentrique rr est exprime en [kpc].
+ * - La distance verticale z est egalement exprimee en [kpc].
+ *
+ */
+double rapport_rho_chi_sur_rho_0(double rr,double z)
 {
-	double r,rho_khi;
 
-	r        = sqrt(rr*rr + z*z);
-	rho_khi  = rhos_Ein * exp(-2.0/alpha_Ein * (pow(r/rs_Ein, alpha_Ein) - 1.0));
-	rho_khi /= RHO_CHI_0;
+  	double alpha,beta,gamma,core;
+  	double r,x,rho_chi;
+  	double enhancement, a1, a2;
 	
-	return rho_khi; //[NO UNIT]
+	r = sqrt(rr*rr + z*z);
+
+	// NFW
+	#if defined (NFW)  
+
+  		alpha = 1.0;						// [NO UNIT]
+  		beta  = 3.0;						// [NO UNIT]
+  		gamma = 1.0;						// [NO UNIT]
+  		core  = 24.42;						// [kpc] 
+	
+		enhancement = 1.0;
+
+		a2 = 8.0 * gamma * (pow(PI,(2.0)) - 9.0 + 6.0 * gamma) / (9.0 * (3.0 - 2.0*gamma));
+		a1 = a2 + (2.0*gamma);
+
+  		if (r <= RC_SMBH)
+  		{
+    		x = r / RC_SMBH;
+
+			if (x <= 1.0e-3)
+			{
+				enhancement = a1 + a2;
+			}
+    		else
+    		{
+				enhancement = (a1 * sin(PI*x) / (PI*x)) + (a2 * sin(2.0*PI*x) / (2.0*PI*x));
+    		}
+		
+    		enhancement += 1.0;
+    		enhancement  = sqrt(enhancement);
+
+    		r = RC_SMBH;
+  		}
+	
+
+		// Generic Profile 
+
+	  	rho_chi = (1. + pow((R_EARTH/core),alpha)) / (1. + pow((r/core),alpha));
+	  	rho_chi = RHO_CHI_SOLAR * pow((R_EARTH/r),gamma) * pow(rho_chi,((beta - gamma)/alpha));		// [GeV cm^{-3}]
+		rho_chi *= enhancement;
+		rho_chi /= RHO_CHI_0;
+		
+	  	return rho_chi;
+	
+	// MOORE
+	#elif defined(moore)
+
+	  	alpha = 1.0;						// [NO UNIT]
+	  	beta  = 3.0;						// [NO UNIT]
+	  	gamma = 1.16;						// [NO UNIT]
+	  	core  = 30.28;						// [kpc] 
+	
+		enhancement = 1.0;
+
+		a2 = 8.0 * gamma * (pow(PI,(2.0)) - 9.0 + 6.0 * gamma) / (9.0 * (3.0 - 2.0*gamma));
+		a1 = a2 + (2.0*gamma);
+
+	  	if (r <= RC_SMBH)
+	  	{
+	    	x = r / RC_SMBH;
+
+			if (x <= 1.0e-3)
+			{
+				enhancement = a1 + a2;
+			}
+	    	else
+	    	{
+				enhancement = (a1 * sin(PI*x) / (PI*x)) + (a2 * sin(2.0*PI*x) / (2.0*PI*x));
+	    	}
+		
+	    	enhancement += 1.0;
+	    	enhancement  = sqrt(enhancement);
+
+	    	r = RC_SMBH;
+	  	}
+
+
+		// Generic Profile
+
+	  	rho_chi = (1. + pow((R_EARTH/core),alpha)) / (1. + pow((r/core),alpha));
+	  	rho_chi = RHO_CHI_SOLAR * pow((R_EARTH/r),gamma) * pow(rho_chi,((beta - gamma)/alpha));			// [GeV cm^{-3}]
+		rho_chi *= enhancement;
+		rho_chi /= RHO_CHI_0;
+	  	
+		return rho_chi;
+	
+
+	// EINASTO
+	#elif defined(einasto)
+	
+		alpha = 0.17;							// [NO UNIT]
+		core = 28.44;							// [kpc]
+	
+		rho_chi = pow(R_EARTH/core, alpha) - pow(r/core, alpha);
+		rho_chi = RHO_CHI_SOLAR * exp((2.0/alpha) * rho_chi);
+		rho_chi /= RHO_CHI_0;
+	
+		return rho_chi;
+
+	
+	
+	// EINASTO B
+	#elif defined(einastoB)
+
+		alpha = 0.11;							// [NO UNIT]
+		core = 35.24;							// [kpc]
+	
+		rho_chi = pow(R_EARTH/core, alpha) - pow(r/core, alpha);
+		rho_chi = RHO_CHI_SOLAR * exp((2.0/alpha) * rho_chi);
+		rho_chi /= RHO_CHI_0;
+	
+		return rho_chi;
+	
+
+	//	ISOTHERMAL
+	#elif defined(isothermal)
+	
+	  	alpha = 2.0;							// [NO UNIT]
+	  	beta  = 2.0;							// [NO UNIT]
+		gamma = 0.0;
+	  	core  = 4.38;							// [kpc] 
+
+
+		// Generic Profile 
+
+	  	rho_chi = (1. + pow((R_EARTH/core),alpha)) / (1. + pow((r/core),alpha));
+	  	rho_chi = RHO_CHI_SOLAR * pow((R_EARTH/r),gamma) * pow(rho_chi,((beta - gamma)/alpha));
+		rho_chi /= RHO_CHI_0;
+	
+		return rho_chi;
+	
+	
+	//	BURKERT
+	#elif defined(burkert)
+	
+		core = 12.67;
+	
+		rho_chi = (1.0 + r/core) * (1.0 + pow(r/core, 2.0));
+		rho_chi = RHO_CHI_SOLAR * (1.0 + R_EARTH/core) * (1.0 + pow(R_EARTH/core, 2.0)) / rho_chi;
+		rho_chi /= RHO_CHI_0;
+	
+		return rho_chi;
+
+	#else
+		
+		printf("\n ERROR function 'rapport_rho_chi_sur_rho_0' \n No DM profile defined \n\n ");
+		exit(0);
+
+	#endif 	
 }
 
 /********************************************************************************************/

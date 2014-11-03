@@ -34,7 +34,7 @@ d'avoir ici un nombre PAIR. */
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
-#define T_PBAR_MAX (100000.)
+#define T_PBAR_MAX (1.e5)
 /* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
@@ -86,7 +86,8 @@ d'avoir ici un nombre PAIR. */
 #define R_GAL       20.0
 /* Le rayon du disque galactique est exprime en [kpc]. */
 
-#define R_EARTH      8.5
+//#define R_EARTH      8.5
+#define R_EARTH      8.33
 /* Le rayon galactocentrique du systeme solaire est exprime en [kpc]. */
 
 #define DENSITE_H_DISC 0.9
@@ -128,15 +129,27 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-//	EINASTO PROFILE PARAMETERS
+//	DARK MATTER GALACTIC PROFILE
 
-#define rhos_Ein	0.033			// [Gev cm{-3}]
-#define rs_Ein		28.44			// [kpc]
-#define alpha_Ein	0.17			// [NO UNIT]
+#define RHO_CHI_SOLAR 0.3
+// La densite de masse des neutralinos dans le voisinage solaire est exprimee en [GeV cm^{-3}]. 
+#define RHO_CHI_0 1.0
+// La valeur de reference pour la densite de masse des neutralinos est exprimee en [GeV cm^{-3}]. 
+#define RC_SMBH 0.1
+// Renormalization radius expressed in [kpc]
+
+//#define NFW
+//#define moore
+#define einasto
+//#define einastoB
+//#define isothermal
+//#define burkert
 
 /********************************************************************************************/
 
 //	PARAMETRES DES ANTIPROTONS PRIMAIRES
+
+#define number_channels     23
 
 //	Choix du cannal d'annihilation :
 
@@ -164,7 +177,6 @@ d'avoir ici un nombre PAIR. */
 //	22	:	V->mu
 //	23	:	V->tau
 
-#define number_channels     23
 #define channel_choice		9
 
 
