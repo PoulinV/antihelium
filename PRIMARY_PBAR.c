@@ -76,9 +76,7 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
 */
         if (i_rad==0 || i_rad==(2*n_rad)) {weight_SIMPSON_rad = 1./3.;}
         else {weight_SIMPSON_rad = (1. + (double)(i_rad % 2)) * 2. / 3.;}
-	
-		//q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0_Einasto(r_rad,z_vert),2.0); //[NO UNIT].
-		//q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0_old (r_rad,z_vert),2.0); //[NO UNIT].
+		
 		q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0 (r_rad,z_vert),2.0); //[NO UNIT].
 			
         x_rad += dx_rad;
