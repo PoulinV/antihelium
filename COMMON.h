@@ -34,6 +34,7 @@ d'avoir ici un nombre PAIR. */
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
+//#define T_PBAR_MAX (1.e4)
 #define T_PBAR_MAX (1.e5)
 /* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
@@ -74,10 +75,11 @@ d'avoir ici un nombre PAIR. */
 *
 */
 
-#define FILE_NAME_H_ON_H   "DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included"
-#define FILE_NAME_H_ON_HE  "DSPBAR_SUR_DEPBAR_H_on_HE_high_energy"
-#define FILE_NAME_HE_ON_H  "DSPBAR_SUR_DEPBAR_HE_on_H_high_energy"
-#define FILE_NAME_HE_ON_HE "DSPBAR_SUR_DEPBAR_HE_on_HE_high_energy"
+//#define FILE_NAME_H_ON_H	"DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included"
+#define FILE_NAME_H_ON_H	"DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12"
+#define FILE_NAME_H_ON_HE	"DSPBAR_SUR_DEPBAR_H_on_HE_high_energy"
+#define FILE_NAME_HE_ON_H	"DSPBAR_SUR_DEPBAR_HE_on_H_high_energy"
+#define FILE_NAME_HE_ON_HE	"DSPBAR_SUR_DEPBAR_HE_on_HE_high_energy"
 
 /********************************************************************************************/
 #define E_DISC      0.1
@@ -138,9 +140,9 @@ d'avoir ici un nombre PAIR. */
 #define RC_SMBH 0.1
 // Renormalization radius expressed in [kpc]
 
-//#define NFW
+#define NFW
 //#define moore
-#define einasto
+//#define einasto
 //#define einastoB
 //#define isothermal
 //#define burkert
@@ -177,7 +179,7 @@ d'avoir ici un nombre PAIR. */
 //	22	:	V->mu
 //	23	:	V->tau
 
-#define channel_choice		9
+#define channel_choice	17
 
 
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
