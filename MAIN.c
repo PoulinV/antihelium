@@ -118,18 +118,19 @@ int main(void)
 		channel = i_channel;
 		
 		printf(" \n\n channel = %d \n\n", channel);
+		
+		sprintf(directory_name, "./results/mass_scan_wc/channel_%d", channel);
+		mkdir(directory_name,  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 // Boucle sur la masse des WIMPs	
-		for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
+		//for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
 		//for(i_mass_chi=15;i_mass_chi<=15;i_mass_chi++)
 		//for(i_mass_chi=4;i_mass_chi<=4;i_mass_chi++)
+		for(i_mass_chi=1;i_mass_chi<=2;i_mass_chi++)
 		{
 			mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
 		
 			printf("\n mass_chi = %.2e GeV \n", mass_chi);
-		
-			sprintf(directory_name, "./results/mass_scan_wc/channel_%d", channel);
-			mkdir(directory_name,  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 		
 			sprintf(file_name, "./results/mass_scan_wc/channel_%d/mDM=%gGeV.txt", channel, mass_chi);
 			results = fopen(file_name,"w");
@@ -250,26 +251,26 @@ TEST:
 					else if (i_data == 3){PBAR_SPECTRUM_MIN[i_pbar] = flux_antiproton_IS;}
 				}
 			}
-		}
+		
 		
 ////////////////////////////////////////////////////////////////////////////////////////////
-//		On imprime le resultat
+//			On imprime le resultat
 
 		
-		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-		{
-			T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-			E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+			for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+			{
+				T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+				E_pbar_IS = T_pbar_IS + MASSE_PROTON;
 
-			FLUX_PBAR_MIN = PBAR_SPECTRUM_MIN[i_pbar];
-			FLUX_PBAR_MED = PBAR_SPECTRUM_MED[i_pbar];
-			FLUX_PBAR_MAX = PBAR_SPECTRUM_MAX[i_pbar];
+				FLUX_PBAR_MIN = PBAR_SPECTRUM_MIN[i_pbar];
+				FLUX_PBAR_MED = PBAR_SPECTRUM_MED[i_pbar];
+				FLUX_PBAR_MAX = PBAR_SPECTRUM_MAX[i_pbar];
 
-			fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*FLUX_PBAR_MIN), (1.0e04*FLUX_PBAR_MED), (1.0e04*FLUX_PBAR_MAX));	
+				fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*FLUX_PBAR_MIN), (1.0e04*FLUX_PBAR_MED), (1.0e04*FLUX_PBAR_MAX));	
+			}
+			fclose(results);
 		}
-	fclose(results);
 	}
-	
 	goto LA_FIN;
 
 ////////////////////////////////////////////////////////////////////////////////////////////	
