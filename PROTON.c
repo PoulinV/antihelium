@@ -183,7 +183,37 @@ double flux_proton_EXP(double E_proton)
     	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
 		resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4);
 */
+/*
+*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
+*	Parameterized by Fiorenza Donato in arXiv:1402.0321
 
+		A    = 2.2450;
+		p1   = 2.32;
+		p2   = 2.8232;
+
+		R    = sqrt(T*T + 2.*MASSE_PROTON*T);
+		beta = R / (T+MASSE_PROTON);
+
+		resultat = A * pow(beta,p1) * pow(R,-p2);
+*/
+/*
+*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
+*	Parameterized by Kappl and Winkler in arXiv:1408.0299
+
+	A          = 1.7407;
+	gamma = 2.775;
+
+	resultat = A * pow(T,-gamma);
+*/
+/*
+*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
+*	Parameterized by Vittino in a forthcoming paper
+
+	A          = 1.183042;
+	gamma = 2.712;
+
+	resultat = A * pow(T,-gamma);
+*/
 	phi_0   =  3.53e-3;
 	alpha_p =  2.5;
 	Ep1     =  2.5;

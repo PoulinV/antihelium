@@ -132,7 +132,39 @@ double flux_helium_EXP(double E_nucleon)
     	resultat  = A * pow((R/Rp1),-p1);
 		resultat *= pow((1. + (R/Rp2)),p2) * pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4);
 */
+/*
+*   New AMS02 data presented at ICRC 2013 in Rio de Janeiro
+*	Parameterized by Fiorenza Donato in arXiv:1402.0321
 
+		A  = 0.5220;
+		p1 = 1.34;
+		p2 = 2.6905;
+
+		Ttot = 4. * T_nucleon;
+		Mtot = 4. * MASSE_PROTON;
+		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+		beta = 2. * R / (Ttot + Mtot);
+
+		resultat = A * pow(beta,p1) * pow(R,-p2);
+*/
+/*
+*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
+*	Parameterized by Kappl and Winkler in arXiv:1408.0299
+
+		A          = 0.05972;
+		gamma = 2.630;
+
+		resultat = A * pow(T_nucleon,-gamma);
+*/
+/*
+*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
+*	Parameterized by Vittino in a forthcoming paper
+
+		A          = 0.06576578;
+		gamma = 2.667;
+
+		resultat = A * pow(T_nucleon,-gamma);
+*/
 	A       = 1.5e-5;
 	Rp1     = 50.;
 	p1      = 2.7;
