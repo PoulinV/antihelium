@@ -202,6 +202,14 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(double E_proton,double E_pbar,l
 
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(double E_proton,double E_pbar,long n_step);
 
+double sigma_total_pH_MDGS(double E_proton);
+double sigma_elastic_pH_MDGS(double E_proton);
+double sigma_inelastic_pH_MDGS(double E_proton);
+double invariant_multiplicity_pH_apX_MDGS_F12(double p1,double y,double mt);
+double E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(double E_proton,double pL,double pT);
+double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(double E_proton,double E_pbar,long n_step);
+
+
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
 #endif
