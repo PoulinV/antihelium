@@ -31,11 +31,13 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 #define T_PBAR_MIN (0.1)
+//#define T_PBAR_MIN (0.2)
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
 //#define T_PBAR_MAX (1.e4)
 #define T_PBAR_MAX (1.e5)
+//#define T_PBAR_MAX (2.e5)
 /* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
@@ -151,6 +153,9 @@ d'avoir ici un nombre PAIR. */
 
 //	PARAMETRES DES ANTIPROTONS PRIMAIRES
 
+#define WIMP_annihilation
+//#define WIMP_decay
+
 #define number_channels     23
 
 //	Choix du cannal d'annihilation :
@@ -185,7 +190,11 @@ d'avoir ici un nombre PAIR. */
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
 
 #define mass_chi_choice		 10.0					//	[GeV]
+
+//	Choix de sa section efficace d'annihilation et de son taux de desintegration
+
 #define sigma_v_annihilation 3.0e-26				//	[cm^{3} s^{-1}]
+#define decay_rate 1.0e-26							//	[s^{-1}]
 
 /********************************************************************************************/
 

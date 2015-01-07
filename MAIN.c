@@ -116,6 +116,7 @@ int main(void)
 	for(i_channel=1;i_channel<=number_channels;i_channel++)
 	{
 		channel = i_channel;
+		//channel = 9;
 		
 		printf(" \n\n channel = %d \n\n", channel);
 		
@@ -123,22 +124,40 @@ int main(void)
 		mkdir(directory_name,  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 // Boucle sur la masse des WIMPs	
-		//for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
+		for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
+		//for(i_mass_chi=4;i_mass_chi<=N_gaelle_masses;i_mass_chi++)	
 		//for(i_mass_chi=15;i_mass_chi<=15;i_mass_chi++)
-		//for(i_mass_chi=4;i_mass_chi<=4;i_mass_chi++)
-		for(i_mass_chi=1;i_mass_chi<=2;i_mass_chi++)
+		//for(i_mass_chi=41;i_mass_chi<=41;i_mass_chi++)
+		//for(i_mass_chi=N_gaelle_masses;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
 		{
-			mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
+			#if defined (WIMP_annihilation)
+				mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
+			#elif defined (WIMP_decay)
+				mass_chi = 2.0 * Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
+			#else
+				printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
+				exit (0);
+			#endif	
 		
 			printf("\n mass_chi = %.2e GeV \n", mass_chi);
 		
 			sprintf(file_name, "./results/mass_scan_wc/channel_%d/mDM=%gGeV.txt", channel, mass_chi);
 			results = fopen(file_name,"w");
 		
-			DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, &Primary_Source_Term);
-			dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, &Primary_Source_Term);
-			primary_source_calculation          (mass_chi, &Primary_Source_Term);
-	
+			#if defined (WIMP_annihilation)
+				DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, &Primary_Source_Term);
+				dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, &Primary_Source_Term);
+				primary_source_calculation          (mass_chi, &Primary_Source_Term);
+			#elif defined (WIMP_decay)
+				DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi/2.0, &Primary_Source_Term);
+				dNpbar_on_dEpbar_primary_calculation(mass_chi/2.0, channel, &Primary_Source_Term);
+				primary_source_calculation          (mass_chi, &Primary_Source_Term);
+			#else
+				printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
+				exit (0);
+			#endif	
+				
+				
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	ON PEUT Y ALLER !
 ///////////////////////////////////////////////////////////////////////////////////////////

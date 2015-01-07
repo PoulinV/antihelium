@@ -77,9 +77,16 @@ void calculation_BESSEL_PBAR_PRIMARY_Epbar_i(long n_vert, long n_rad, double alp
         if (i_rad==0 || i_rad==(2*n_rad)) {weight_SIMPSON_rad = 1./3.;}
         else {weight_SIMPSON_rad = (1. + (double)(i_rad % 2)) * 2. / 3.;}
 		
-		q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0 (r_rad,z_vert),2.0); //[NO UNIT].
+		#if defined (WIMP_annihilation)
+			q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * pow(rapport_rho_chi_sur_rho_0 (r_rad,z_vert),2.0); //[NO UNIT].
+		#elif defined (WIMP_decay)	
+        	q_pbar_primary_i_z[i_vert] += (x_rad * dx_rad * weight_SIMPSON_rad) * besselj0(alpha_i[i]*x_rad) * rapport_rho_chi_sur_rho_0 (r_rad,z_vert); //[NO UNIT].
+		#else
+			printf("Error! \n Function : 'calculation_BESSEL_PBAR_PRIMARY_Epbar_i' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
+			exit (0);
+		#endif	
 			
-        x_rad += dx_rad;
+		x_rad += dx_rad;
       }
       q_pbar_primary_i_z[i_vert] *= 2. / pow(besselj1(alpha_i[i]),2.0);
 /*    [NO UNIT].
@@ -694,13 +701,24 @@ void primary_source_calculation (double mass_chi, struct Structure_Primary_Sourc
     {
 		pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar] = 0.0;
 	}
-	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-	{			
-		pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar]  = 0.5 * sigma_v_annihilation * pow((RHO_CHI_0/mass_chi),2.0);
-		pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar] *= pt_Primary_Source_Term->DNPBAR_ON_DEPBAR[i_pbar]; //[#pbar cm{-3} s{-1} GeV{-1}]
-	}
+	#if defined (WIMP_annihilation)
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{			
+			pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar]  = 0.5 * sigma_v_annihilation * pow((RHO_CHI_0/mass_chi),2.0);
+			pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar] *= pt_Primary_Source_Term->DNPBAR_ON_DEPBAR[i_pbar]; //[#pbar cm{-3} s{-1} GeV{-1}]
+		}
+	#elif defined (WIMP_decay)
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{			
+			pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar]  =  decay_rate *(RHO_CHI_0/mass_chi);
+			pt_Primary_Source_Term->PRIMARY_SOURCE_TERM[i_pbar] *= pt_Primary_Source_Term->DNPBAR_ON_DEPBAR[i_pbar]; //[#pbar cm{-3} s{-1} GeV{-1}]
+		}
+	#else
+		printf("Error! \n Function : 'primary_source_calculation'\n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
+		exit (0);
+	#endif
 }
-
+	
 /********************************************************************************************/
 /********************************************************************************************/
 
