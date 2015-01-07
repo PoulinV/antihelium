@@ -577,10 +577,12 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cros
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       E_pbar = T_pbar + MASSE_PROTON;
       pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] =
-		//dSpbar_sur_dEpbar_SIMPSON(E_proton,E_pbar,1000);
-		//dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(E_proton,E_pbar,1000);
-			dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(E_proton,E_pbar,1000);
-      fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);
+    //dSpbar_sur_dEpbar_SIMPSON                     (E_proton,E_pbar,1000);
+	//dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray     (E_proton,E_pbar,1000);
+	//dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(E_proton,E_pbar,1000);
+	  dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12     (E_proton,E_pbar,1000);
+
+	  fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);
 	  //printf(" E_proton = %.5e -- T_pbar = %.5e -- pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H  = %.6e \n",
 			//E_proton,T_pbar,pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);
     }
@@ -1781,6 +1783,306 @@ TRANSVERSE_MASS :
 * des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
 * facteur 2 pour les prendre en compte.
+*/
+  resultat *= 2.; /* [cm^{2} GeV^{-1}] */
+	return resultat;
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*
+* sigma_total_pH_MDGS est la section efficace totale de collision d'un proton cosmique
+* avec un atome d'hydrogene au repos. Cette section efficace est exprimee en [cm^{2}].
+* Le fit est extrait de l'article arXiv:1408.0288 dont le titre est
+* A new evaluation of the antiproton production cross section for cosmic ray studies.
+*
+*/
+double sigma_total_pH_MDGS(double E_proton)
+{
+	double Zpp  = 33.44;
+	double M    = 2.06;
+	double Bpp  = PI * pow((2.99792458e10*6.58211915e-25/M),2.) / mb_cm2;
+	double Y1pp = 13.53;
+	double Y2pp = 6.38;
+	double eta1 = 0.324;
+	double eta2 = 0.324;
+
+	double s    = 2.*MASSE_PROTON*(E_proton+MASSE_PROTON);
+	double sM   = pow((2.*MASSE_PROTON + M),2.);
+
+	double sig_tot_pp;
+	sig_tot_pp = Zpp + Bpp*pow(log(s/sM),2.) + Y1pp*pow((sM/s),eta1) - Y2pp*pow((sM/s),eta2);
+	return (sig_tot_pp*mb_cm2);
+}
+
+/********************************************************************************************/
+/*
+* sigma_elastic_pH_MDGS est la section efficace elastique de collision d'un proton cosmique
+* avec un atome d'hydrogene au repos. Cette section efficace est exprimee en [cm^{2}].
+* Le fit est extrait de l'article arXiv:1408.0288 dont le titre est
+* A new evaluation of the antiproton production cross section for cosmic ray studies.
+*
+*/
+double sigma_elastic_pH_MDGS(double E_proton)
+{
+	double Zpp  = 144.98;
+	double M    = 3.06;
+	double Bpp  = PI * pow((2.99792458e10*6.58211915e-25/M),2.) / mb_cm2;
+	double Y1pp = 2.64;
+	double Y2pp = 137.27;
+	double eta1 = 1.57;
+	double eta2 = -(4.65e-3);
+
+	double s    = 2.*MASSE_PROTON*(E_proton+MASSE_PROTON);
+	double sM   = pow((2.*MASSE_PROTON + M),2.);
+
+	double sig_el_pp;
+	sig_el_pp = Zpp + Bpp*pow(log(s/sM),2.) + Y1pp*pow((sM/s),eta1) - Y2pp*pow((sM/s),eta2);
+	return (sig_el_pp*mb_cm2);
+}
+
+/********************************************************************************************/
+/*
+* sigma_inelastic_pH_MDGS est la section efficace inelastique de collision d'un proton
+* cosmique avec un atome d'hydrogene au repos. Cette section efficace est exprimee en [cm^{2}].
+* Le fit est extrait de l'article arXiv:1408.0288 dont le titre est
+* A new evaluation of the antiproton production cross section for cosmic ray studies.
+*
+*/
+double sigma_inelastic_pH_MDGS(double E_proton)
+{
+	return (sigma_total_pH_MDGS(E_proton) - sigma_elastic_pH_MDGS(E_proton));
+}
+
+/********************************************************************************************/
+/*
+* Ces résultats sont extraits de l'article arXiv:1408.0288 dont le titre est
+* A new evaluation of the antiproton production cross section for cosmic ray studies.
+*
+*  Ce code retourne la multiplicite invariante 1/sig_reac * Edsig/d3p : p + H ---> ap + X
+*  en unites de [GeV^{-2}] avec
+*
+*  p1 : projectile momentum (GeV/c) (target reference system)
+*  y  : produced particle rapidity  (target reference system) y = atanh(pl/E) = atanh(beta_CM) + atanh(pl_star/E_star)
+*  mt : produced particle transverse mass (GeV/c2) = sqrt(m^2+pt^2)
+*
+*  #define PMASS 0.93827231 en unites de [GeV]
+*
+*/
+double invariant_multiplicity_pH_apX_MDGS_F12(double p1,double y,double mt)
+{
+	double Ecm,pt,xp,xt,sig,phi;
+	double E,E1,p,ptmax;
+	double s,Betacm;
+	double m     = PMASS;
+	double omega =  3.*m;
+	double EcmMax;
+
+	double C1 = 4.499;
+	double C2 = 3.41;
+	double C3 = 0.00942;
+	double C4 = 0.445;
+	double C5 = 3.502;
+	double C6 = 0.0622;
+	double C7 = -0.247;
+	double C8 = 2.576;
+
+	sig    = 0;
+
+	E1     = sqrt(p1*p1+PMASS*PMASS); /*E1 = energie totale par nucleon */
+	s      = 2*PMASS*PMASS+2*PMASS*E1;
+	Betacm = p1/(E1+PMASS);
+
+	EcmMax =  (s + m*m - omega*omega)/(2.0*sqrt(s));
+	Ecm    = mt*cosh(y-atanh(Betacm));
+	xp     = Ecm/EcmMax;
+
+	if(mt<m) return 0;
+	pt  = sqrt(mt*mt-m*m);
+	E   = mt*cosh(y);
+	p   = sqrt(E*E - m*m);
+
+	ptmax = pow(EcmMax/cosh(y-atanh(Betacm)),2.) - m*m;
+	if(ptmax<0) return 0;
+	ptmax = sqrt(ptmax);
+	xt = pt/ptmax;
+
+	if(xp<1.0 && xt>=0 && xt<1 && xp > 0)
+	{
+		phi = C3 * pow(sqrt(s),C4) * exp(-C5*pt)  +  C6 * pow(sqrt(s),C7) * exp(-C8*pow(pt,2.));
+		sig = phi * pow((1.0-xp),C1) * exp(-C2*xp);
+	}
+	else sig=0;
+	return sig;
+}
+
+/********************************************************************************************/
+/*
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
+* proton (E_proton) + hydrogene (repos) -----> antiproton (E_pbar) + X.
+* consideree dans le referentiel du laboratoire dans lequel l'hydrogene est au repos.
+* Cette LI section efficace est exprimee en unites de [cm^{2} GeV^{-2}].
+*
+*/
+double E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(double E_proton,double pL,double pT)
+{
+	double P_proton,E_pbar,mt_pbar,y_pbar,resultat;
+
+	P_proton = sqrt(pow(E_proton,2) - pow(MASSE_PROTON,2));
+	E_pbar   = sqrt(pow(MASSE_PROTON,2) + pT*pT + pL*pL);
+	mt_pbar  = sqrt(pow(MASSE_PROTON,2) + pT*pT);
+	y_pbar   = atanh(pL/E_pbar);
+
+	resultat = invariant_multiplicity_pH_apX_MDGS_F12(P_proton,y_pbar,mt_pbar) * sigma_inelastic_pH_MDGS(E_proton);
+	return resultat; /* [cm^{2} GeV^{-2}] */
+}
+
+/********************************************************************************************/
+/*
+* Ce module evalue la section efficace differentielle du processus
+* proton (E_proton) + hydrogene (repos) -----> antiproton (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
+*
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee par la methode de SIMPSON.
+*
+* Lorsque cet angle est petit, une integrale sur la masse transverse mt de l'antiproton final
+* est alors menee par la methode de SIMPSON.
+*
+*/
+double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(double E_proton,double E_pbar,long n_step)
+{
+  extern FILE *probleme;
+	double P_pbar,E_CMF,E_MAX_star,gamma,beta,pL,pT,pLstar,pTstar;
+  long   i_theta,i_mt;
+  double cos_theta,sin_theta,dcos_theta,cos_theta_min,cos_theta_max;
+	double mt,dmt,mt_min,mt_max;
+  double h,x1,x2,x3,f1,f2,f3;
+
+  double resultat = 0.0;
+
+  if (E_pbar>=(E_proton-2.*MASSE_PROTON)){return resultat;}
+
+  E_CMF = sqrt(2.*MASSE_PROTON*(E_proton+MASSE_PROTON));
+  if (E_CMF<=4.0*MASSE_PROTON){return resultat;}
+
+  if (E_pbar<=MASSE_PROTON){return resultat;}
+  P_pbar = sqrt(pow(E_pbar,2) - pow(MASSE_PROTON,2));
+
+  gamma = sqrt((E_proton+MASSE_PROTON)/(2.*MASSE_PROTON));
+  beta  = sqrt((E_proton-MASSE_PROTON)/(E_proton+MASSE_PROTON));
+  E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
+
+
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
+  cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
+	if (cos_theta_min>=cos_theta_max){return resultat;}
+	if (cos_theta_min<=0.0)
+	{
+	  printf(" cos_theta_min = %.5e and NEGATIVE !\n",cos_theta_min);
+		fprintf(probleme," cos_theta_min = %.5e and NEGATIVE !\n",cos_theta_min);
+		printf(" more information ! E_proton = %.5e -- E_pbar = %.5e\n",E_proton,E_pbar);
+		fprintf(probleme," more information ! E_proton = %.5e -- E_pbar = %.5e\n",E_proton,E_pbar);
+		return resultat;
+	}
+//if (cos_theta_min<=-1.0) {cos_theta_min = -1.0;}
+	if (cos_theta_min<cos_theta_max && cos_theta_min>=(0.99)){goto TRANSVERSE_MASS;}
+
+/*
+* INTEGRATION SUR LE COSINUS DE L'ANGLE THETA.
+*/
+  dcos_theta = (cos_theta_max - cos_theta_min) / (double) n_step;
+  h = dcos_theta/2.;
+  x1 = cos_theta_min - dcos_theta;
+  x2 = x1 + h;
+  x3 = x2 + h;
+
+  cos_theta = x3;
+  sin_theta = sqrt(1. - pow(cos_theta,2));
+  pL = cos_theta * P_pbar;
+  pT = sin_theta * P_pbar;
+  f3 = E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(E_proton,pL,pT);
+
+  for (i_theta=1;i_theta<=n_step;i_theta++)
+  {
+    x1 = x3;
+    x2 = x1 + h;
+    x3 = x2 + h;
+
+    f1 = f3;
+
+    cos_theta = x2;
+    sin_theta = sqrt(1. - pow(cos_theta,2));
+    pL = cos_theta * P_pbar;
+    pT = sin_theta * P_pbar;
+    f2 = E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(E_proton,pL,pT);
+
+    cos_theta = x3;
+    sin_theta = sqrt(1. - pow(cos_theta,2));
+    pL = cos_theta * P_pbar;
+    pT = sin_theta * P_pbar;
+    f3 = E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(E_proton,pL,pT);
+
+    resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
+  }
+  resultat *= 2. * PI * P_pbar; /* [cm^{2} GeV^{-1}] */
+/*
+* La section efficace de MDGS ne concerne que la production d'antiprotons lors d'une collision proton sur hydrogene (H).
+* Dans notre contexte astrophysique, il y a autant, voire plus, d'antineutrons produits que d'antiprotons lors de la
+* spallation de protons de haute energie sur du gaz interstellaire. Les antineutrons ne sont pas a priori detectes dans
+* les experiences de haute energie au niveau des accelerateurs de particules alors qu'ils se desintegrent au bout de
+* \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un facteur >= 2 pour les prendre en compte.
+*/
+  resultat *= 2.; /* [cm^{2} GeV^{-1}] */
+	return resultat;
+
+
+TRANSVERSE_MASS :
+/*
+* INTEGRATION SUR LA MASSE TRANSVERSE M_T DE L'ANTIPROTON FINAL.
+*/
+  mt_min = MASSE_PROTON + 1.0e-6;
+	mt_max = pow(MASSE_PROTON,2.0) + pow(P_pbar,2.0)*(1.0 - cos_theta_min*cos_theta_min);
+	mt_max = sqrt(mt_max);
+	dmt    = (mt_max - mt_min) / (double) n_step;
+  h      = dmt/2.;
+  x1     = mt_min - dmt;
+  x2     = x1 + h;
+  x3     = x2 + h;
+
+  mt     = x3;
+  pL     = sqrt(E_pbar*E_pbar - mt*mt);
+  pT     = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
+  f3     = E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(E_proton,pL,pT) * mt / pL;
+
+  for (i_mt=1;i_mt<=n_step;i_mt++)
+  {
+    x1 = x3;
+    x2 = x1 + h;
+    x3 = x2 + h;
+
+    f1 = f3;
+
+		mt = x2;
+    pL = sqrt(E_pbar*E_pbar - mt*mt);
+    pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
+    f2 = E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(E_proton,pL,pT) * mt / pL;
+
+    mt = x3;
+		pL = sqrt(E_pbar*E_pbar - mt*mt);
+    pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
+    f3 = E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(E_proton,pL,pT) * mt / pL;
+
+    resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
+  }
+  resultat *= 2. * PI; /* [cm^{2} GeV^{-1}] */
+/*
+* La section efficace de MDGS ne concerne que la production d'antiprotons lors d'une collision proton sur hydrogene (H).
+* Dans notre contexte astrophysique, il y a autant, voire plus, d'antineutrons produits que d'antiprotons lors de la
+* spallation de protons de haute energie sur du gaz interstellaire. Les antineutrons ne sont pas a priori detectes dans
+* les experiences de haute energie au niveau des accelerateurs de particules alors qu'ils se desintegrent au bout de
+* \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un facteur >= 2 pour les prendre en compte.
 */
   resultat *= 2.; /* [cm^{2} GeV^{-1}] */
 	return resultat;
