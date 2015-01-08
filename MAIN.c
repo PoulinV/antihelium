@@ -91,7 +91,7 @@ int main(void)
 	    PBAR_SPECTRUM_MED[i_pbar] = 0.0;
 	    PBAR_SPECTRUM_MAX[i_pbar] = 0.0;
 	}
-
+	
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	On charge les valeurs des multiplicites
 //	$g \left( T_{\pbar} \right) = \frac{d N_{\pbar}}{d T_{\pbar}}$ et l'on calcule
@@ -116,7 +116,6 @@ int main(void)
 	for(i_channel=1;i_channel<=number_channels;i_channel++)
 	{
 		channel = i_channel;
-		//channel = 9;
 		
 		printf(" \n\n channel = %d \n\n", channel);
 		
@@ -124,11 +123,7 @@ int main(void)
 		mkdir(directory_name,  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 // Boucle sur la masse des WIMPs	
-		for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
-		//for(i_mass_chi=4;i_mass_chi<=N_gaelle_masses;i_mass_chi++)	
-		//for(i_mass_chi=15;i_mass_chi<=15;i_mass_chi++)
-		//for(i_mass_chi=41;i_mass_chi<=41;i_mass_chi++)
-		//for(i_mass_chi=N_gaelle_masses;i_mass_chi<=N_gaelle_masses;i_mass_chi++)
+		for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)	
 		{
 			#if defined (WIMP_annihilation)
 				mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
