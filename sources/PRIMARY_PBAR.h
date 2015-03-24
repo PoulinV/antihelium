@@ -10,6 +10,9 @@
 #include <time.h>
 #include <locale.h>
 
+#include <sys/types.h> 
+#include <sys/stat.h> 
+
 #include "../COMMON.h"
 #include "STRUCTURES.h"
 
@@ -17,6 +20,7 @@
 #include "besselj1_next.h"
 #include "CROSS_SECTIONS.h"
 #include "DIFFUSION_PROPAGATION.h"
+#include "ANTI_PROTON.h"
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
@@ -49,6 +53,9 @@ double dNpbar_on_dEpbar_primary_calculation   (double mass_chi, int channel, str
 void   primary_source_calculation             (double mass_chi, struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
 
 void gaelle_preliminary(struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
+
+void primary_spectra_BCGS_2014(struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, struct Structure_Primary_Source_Term* pt_Primary_Source_Term, double alpha_i[NDIM+1]);
+
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/

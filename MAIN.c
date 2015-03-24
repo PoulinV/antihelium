@@ -4,6 +4,9 @@
 #include <time.h>
 #include <locale.h>
 
+#include <sys/types.h> 
+#include <sys/stat.h> 
+
 #include "COMMON.h"
 #include "./sources/STRUCTURES.h"
 
@@ -16,10 +19,12 @@
 #include "./sources/PRIMARY_PBAR.h"
 #include "./sources/ANTI_PROTON.h"
 
-#include <sys/types.h> 
-#include <sys/stat.h> 
+/**************************************************************************************************************************************************************************************************/
+/**************************************************************************************************************************************************************************************************/
 
-//#include <dir.h>
+// DECLARATIONS DES FONCTIONS TEMPORAIRES
+
+
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -32,6 +37,7 @@ FILE *probleme;
 int main(void)
 {
 	time_t t1,t2;
+	
 	double duree;
 
 	long   i_data,i_iteration,i_pbar,i;
@@ -39,7 +45,7 @@ int main(void)
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
 	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA,flux_proton_TOA;
 
-	double FLUX_PBAR_MIN,    FLUX_PBAR_MED,    FLUX_PBAR_MAX;
+	double FLUX_PBAR_MIN, FLUX_PBAR_MED, FLUX_PBAR_MAX;
 	double FLUX_PBAR_TOA_MIN,FLUX_PBAR_TOA_MED,FLUX_PBAR_TOA_MAX;
 
 	static double PBAR_SPECTRUM_MIN       [DIM_TAB_PBAR+1];
@@ -58,7 +64,7 @@ int main(void)
 	struct Structure_Cross_Section       Cross_Section;
 	struct Structure_Propagation         Propagation;
 	struct Structure_Primary_Source_Term Primary_Source_Term;
-
+	
 	int    channel, i_channel;
 	double mass_chi;
 	int i_mass_chi;
@@ -85,6 +91,13 @@ int main(void)
 	DSPBAR_SUR_DEPBAR_HE_ON_H_read_file  (&Cross_Section);
 	DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+
+
+
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 	    PBAR_SPECTRUM_MIN[i_pbar] = 0.0;
@@ -105,141 +118,119 @@ int main(void)
 
 	gaelle_preliminary(&Primary_Source_Term);
 
-	//mass_chi = mass_chi_choice;
+	mass_chi = mass_chi_choice;
 	channel  = channel_choice;
 	
 	results = fopen(antiproton_spectrum_file_name,"w");
-	
-	//fprintf(results, " \n\n channel = %d \n\n", channel);
 
-// Boucle sur les canaux d'annihilation	
-	for(i_channel=1;i_channel<=number_channels;i_channel++)
-	{
-		channel = i_channel;
 		
-		printf(" \n\n channel = %d \n\n", channel);
+	printf("\n mass_chi = %.2e GeV \n", mass_chi);
 		
-		sprintf(directory_name, "./results/mass_scan_wc/channel_%d", channel);
-		mkdir(directory_name,  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-
-// Boucle sur la masse des WIMPs	
-		for(i_mass_chi=1;i_mass_chi<=N_gaelle_masses;i_mass_chi++)	
-		{
-			#if defined (WIMP_annihilation)
-				mass_chi = Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
-			#elif defined (WIMP_decay)
-				mass_chi = 2.0 * Primary_Source_Term.GAELLE_MASSES[i_mass_chi];
-			#else
-				printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
-				exit (0);
-			#endif	
+	sprintf(file_name, "./results/mass_scan_wc/channel_%d/mDM=%gGeV.txt", channel, mass_chi);
+	results = fopen(file_name,"w");
 		
-			printf("\n mass_chi = %.2e GeV \n", mass_chi);
+	#if defined (WIMP_annihilation)
+		DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, &Primary_Source_Term);
+		dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, &Primary_Source_Term);
+		primary_source_calculation          (mass_chi, &Primary_Source_Term);
+	#elif defined (WIMP_decay)
+		DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi/2.0, &Primary_Source_Term);
+		dNpbar_on_dEpbar_primary_calculation(mass_chi/2.0, channel, &Primary_Source_Term);
+		primary_source_calculation          (mass_chi, &Primary_Source_Term);
+	#else
+		printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
+		exit (0);
+	#endif	
 		
-			sprintf(file_name, "./results/mass_scan_wc/channel_%d/mDM=%gGeV.txt", channel, mass_chi);
-			results = fopen(file_name,"w");
 		
-			#if defined (WIMP_annihilation)
-				DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, &Primary_Source_Term);
-				dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, &Primary_Source_Term);
-				primary_source_calculation          (mass_chi, &Primary_Source_Term);
-			#elif defined (WIMP_decay)
-				DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi/2.0, &Primary_Source_Term);
-				dNpbar_on_dEpbar_primary_calculation(mass_chi/2.0, channel, &Primary_Source_Term);
-				primary_source_calculation          (mass_chi, &Primary_Source_Term);
-			#else
-				printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
-				exit (0);
-			#endif	
-				
-				
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	ON PEUT Y ALLER !
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-			for (i_data=1;i_data<=3;i_data++)
-			//for (i_data=2;i_data<=2;i_data++)
-			{
+	for (i_data=1;i_data<=3;i_data++)
+	//for (i_data=2;i_data<=2;i_data++)
+	{
 //			Nous definissons a ce niveau les parametres que FIORENZA, DAVID et RICHARD
 //			-- hereafter called FDR -- ont determines.
 
-				if (i_data == 1)       // CAS MAX 
-				{
-					Propagation.PUISSANCE_COEFF_DIFF = 0.46;
-					Propagation.DIFFUSION_0_GV  = 0.0765 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
-					Propagation.E_DIFFUS        = 15.0;                                       		// [kpc]
-					Propagation.VENT_GALACTIQUE = (5.0   * 1.0e5);                            		// [cm s^{-1}]
-					Propagation.V_ALFEN         = (117.6 * 1.0e5);                            		// [cm s^{-1}]
-				}
-				else if (i_data == 2) // CAS MED 
-				{
-					Propagation.PUISSANCE_COEFF_DIFF = 0.70;
-					Propagation.DIFFUSION_0_GV  = 0.0112 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
-					Propagation.E_DIFFUS        = 4.0;                                        		// [kpc]
-					Propagation.VENT_GALACTIQUE = (12.0  * 1.0e5);                            		// [cm s^{-1}]
-					Propagation.V_ALFEN         = (52.9  * 1.0e5);                            		// [cm s^{-1}]
-				}
-				else if (i_data == 3) // CAS MIN 
-				{
-					Propagation.PUISSANCE_COEFF_DIFF = 0.85;
-					Propagation.DIFFUSION_0_GV  = 0.0016 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
-					Propagation.E_DIFFUS        = 1.0;                                        		// [kpc]
-					Propagation.VENT_GALACTIQUE = (13.5  * 1.0e5);                            		// [cm s^{-1}]
-					Propagation.V_ALFEN         = (22.4  * 1.0e5);                            		// [cm s^{-1}]
-				}
+		if (i_data == 1)       // CAS MAX 
+		{
+			Propagation.PUISSANCE_COEFF_DIFF = 0.46;
+			Propagation.DIFFUSION_0_GV  = 0.0765 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
+			Propagation.E_DIFFUS        = 15.0;                                       		// [kpc]
+			Propagation.VENT_GALACTIQUE = (5.0   * 1.0e5);                            		// [cm s^{-1}]
+			Propagation.V_ALFEN         = (117.6 * 1.0e5);                            		// [cm s^{-1}]
+		}
+		else if (i_data == 2) // CAS MED 
+		{
+			Propagation.PUISSANCE_COEFF_DIFF = 0.70;
+			Propagation.DIFFUSION_0_GV  = 0.0112 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
+			Propagation.E_DIFFUS        = 4.0;                                        		// [kpc]
+			Propagation.VENT_GALACTIQUE = (12.0  * 1.0e5);                            		// [cm s^{-1}]
+			Propagation.V_ALFEN         = (52.9  * 1.0e5);                            		// [cm s^{-1}]
+		}
+		else if (i_data == 3) // CAS MIN 
+		{
+			Propagation.PUISSANCE_COEFF_DIFF = 0.85;
+			Propagation.DIFFUSION_0_GV  = 0.0016 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
+			Propagation.E_DIFFUS        = 1.0;                                        		// [kpc]
+			Propagation.VENT_GALACTIQUE = (13.5  * 1.0e5);                            		// [cm s^{-1}]
+			Propagation.V_ALFEN         = (22.4  * 1.0e5);                            		// [cm s^{-1}]
+		}
+
 
 //				Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
 /*		
-				printf(" CAS NUMERO      = %ld \n",i_data);
-				printf(" DELTA           = %.5e [NO UNIT]\n",Propagation.PUISSANCE_COEFF_DIFF);
-				printf(" DIFFUSION_0_GV  = %.5e [cm^{2} s^{-1}]\n",Propagation.DIFFUSION_0_GV);
-				printf(" E_DIFFUS        = %.5e [kpc]\n",Propagation.E_DIFFUS);
-				printf(" VENT_GALACTIQUE = %.5e [cm s^{-1}]\n",Propagation.VENT_GALACTIQUE);
-				printf(" V_ALFEN         = %.5e [cm s^{-1}]\n\n",Propagation.V_ALFEN);
+		printf(" CAS NUMERO      = %ld \n",i_data);
+		printf(" DELTA           = %.5e [NO UNIT]\n",Propagation.PUISSANCE_COEFF_DIFF);
+		printf(" DIFFUSION_0_GV  = %.5e [cm^{2} s^{-1}]\n",Propagation.DIFFUSION_0_GV);
+		printf(" E_DIFFUS        = %.5e [kpc]\n",Propagation.E_DIFFUS);
+		printf(" VENT_GALACTIQUE = %.5e [cm s^{-1}]\n",Propagation.VENT_GALACTIQUE);
+		printf(" V_ALFEN         = %.5e [cm s^{-1}]\n\n",Propagation.V_ALFEN);
 */		
 //				On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
 
-				for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-				{
-					for (i=0;i<=NDIM;i++)
-					{
-						Pbar.BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] = 0.0;
-						Pbar.BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] = 0.0;
-						Pbar.BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = 0.0;
-					}
-				}
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{
+			for (i=0;i<=NDIM;i++)
+			{
+				Pbar.BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] = 0.0;
+				Pbar.BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] = 0.0;
+				Pbar.BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = 0.0;
+			}
+		}
 
 //				CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
 
-				calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
-				//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+		calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+		//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
 //				CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE
 //				PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 
-				//calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
-				//calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
-				//calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
-				calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
+		calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
+		calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
+		calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+		calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 
 //				CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
 
-				//goto TEST;
-				for (i_iteration=1;i_iteration<=5;i_iteration++)
-				{
-					calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
-					calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
-				}
+		//goto TEST;
+		for (i_iteration=1;i_iteration<=5;i_iteration++)
+		{
+			calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
+			calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
+		}
 
-				//goto TEST;
-				for (i_iteration=1;i_iteration<=5;i_iteration++)
-				{
-					calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
-					calculation_BESSEL_PBAR_TOT_direct_inversion_A(&Pbar, &Propagation);
-					//calculation_BESSEL_PBAR_TOT_direct_inversion_B(&Pbar, &Propagation);
-					//calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(&Pbar, &Propagation);
-					//calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(15., 1200., &Pbar, &Propagation);
-				}
+		//goto TEST;
+		for (i_iteration=1;i_iteration<=5;i_iteration++)
+		{
+			calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
+			calculation_BESSEL_PBAR_TOT_direct_inversion_A(&Pbar, &Propagation);
+			//calculation_BESSEL_PBAR_TOT_direct_inversion_B(&Pbar, &Propagation);
+			//calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(&Pbar, &Propagation);
+			//calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(15., 1200., &Pbar, &Propagation);
+		}
 
 //			We compute now the antiproton spectrum and store for each KINETIC
 //			ENERGY the lowest -- PBAR_SPECTRUM_MIN -- the medium
@@ -248,43 +239,43 @@ int main(void)
 
 TEST:
 
-				for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-				{
-					T_pbar_IS = T_PBAR_MIN *
-					pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-					E_pbar_IS = T_pbar_IS + MASSE_PROTON;
-					for (i=1;i<=NDIM;i++)
-					{
-						Pbar.BESSEL_PBARi[i] = Pbar.BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
-					}
-					flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,Pbar.BESSEL_PBARi, &Propagation);
-					//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,Pbar.BESSEL_PBARi, &Propagation);
-
-					if      (i_data == 1){PBAR_SPECTRUM_MAX[i_pbar] = flux_antiproton_IS;}
-					else if (i_data == 2){PBAR_SPECTRUM_MED[i_pbar] = flux_antiproton_IS;}
-					else if (i_data == 3){PBAR_SPECTRUM_MIN[i_pbar] = flux_antiproton_IS;}
-				}
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{
+			T_pbar_IS = T_PBAR_MIN *
+			pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+			E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+			for (i=1;i<=NDIM;i++)
+			{
+				Pbar.BESSEL_PBARi[i] = Pbar.BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
 			}
-		
-		
+			flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,Pbar.BESSEL_PBARi, &Propagation);
+			//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,Pbar.BESSEL_PBARi, &Propagation);
+
+			if      (i_data == 1){PBAR_SPECTRUM_MAX[i_pbar] = flux_antiproton_IS;}
+			else if (i_data == 2){PBAR_SPECTRUM_MED[i_pbar] = flux_antiproton_IS;}
+			else if (i_data == 3){PBAR_SPECTRUM_MIN[i_pbar] = flux_antiproton_IS;}
+		}
+	}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //			On imprime le resultat
 
-		
-			for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-			{
-				T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-				E_pbar_IS = T_pbar_IS + MASSE_PROTON;
 
-				FLUX_PBAR_MIN = PBAR_SPECTRUM_MIN[i_pbar];
-				FLUX_PBAR_MED = PBAR_SPECTRUM_MED[i_pbar];
-				FLUX_PBAR_MAX = PBAR_SPECTRUM_MAX[i_pbar];
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
 
-				fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*FLUX_PBAR_MIN), (1.0e04*FLUX_PBAR_MED), (1.0e04*FLUX_PBAR_MAX));	
-			}
-			fclose(results);
-		}
+		FLUX_PBAR_MIN = PBAR_SPECTRUM_MIN[i_pbar];
+		FLUX_PBAR_MED = PBAR_SPECTRUM_MED[i_pbar];
+		FLUX_PBAR_MAX = PBAR_SPECTRUM_MAX[i_pbar];
+
+		fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*FLUX_PBAR_MIN), (1.0e04*FLUX_PBAR_MED), (1.0e04*FLUX_PBAR_MAX));	
 	}
+	
+	fclose(results);
+
 	goto LA_FIN;
 
 ////////////////////////////////////////////////////////////////////////////////////////////	
@@ -330,6 +321,10 @@ TEST:
 	}
 	fclose(results);
 
+
+	
+	
+
 LA_FIN :
 
 	t2 = time(NULL);
@@ -342,5 +337,49 @@ LA_FIN :
 	return EXIT_SUCCESS;
 }
 
-/**************************************************************************************************************************************************************************************************/
-/**************************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+// FONCTIONS TEMPORAIRES
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
