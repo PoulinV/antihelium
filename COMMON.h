@@ -142,19 +142,19 @@ d'avoir ici un nombre PAIR. */
 #define RC_SMBH 0.1
 // Renormalization radius expressed in [kpc]
 
-#define NFW
+//#define NFW
 //#define moore
 //#define einasto
 //#define einastoB
 //#define isothermal
-//#define burkert
+#define burkert
 
 /********************************************************************************************/
 
 //	PARAMETRES DES ANTIPROTONS PRIMAIRES
 
-#define WIMP_annihilation
-//#define WIMP_decay
+//#define WIMP_annihilation
+#define WIMP_decay
 
 #define number_channels     23
 

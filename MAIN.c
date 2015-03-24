@@ -5,16 +5,16 @@
 #include <locale.h>
 
 #include "COMMON.h"
-#include "STRUCTURES.h"
+#include "./sources/STRUCTURES.h"
 
-#include "BESSEL_PRELIM.h"
-#include "CROSS_SECTIONS.h"
-#include "DIFFUSION_PROPAGATION.h"
-#include "SOLAR_MOD.h"
-#include "PROTON.h"
-#include "HELIUM.h"
-#include "PRIMARY_PBAR.h"
-#include "ANTI_PROTON.h"
+#include "./sources/BESSEL_PRELIM.h"
+#include "./sources/CROSS_SECTIONS.h"
+#include "./sources/DIFFUSION_PROPAGATION.h"
+#include "./sources/SOLAR_MOD.h"
+#include "./sources/PROTON.h"
+#include "./sources/HELIUM.h"
+#include "./sources/PRIMARY_PBAR.h"
+#include "./sources/ANTI_PROTON.h"
 
 #include <sys/types.h> 
 #include <sys/stat.h> 
