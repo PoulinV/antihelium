@@ -7,7 +7,7 @@ project(antiprotons)
 
 #Declaration des fichiers sources
 
-set(SOURCES_FILES sources/nrutil.c sources/GAUSSJ.c sources/TRIDAG.c sources/besselj0_next.c sources/besselj1_next.c sources/BESSEL_PRELIM.c sources/CROSS_SECTIONS.c sources/DIFFUSION_PROPAGATION.c sources/SOLAR_MOD.c sources/PROTON.c sources/HELIUM.c sources/PRIMARY_PBAR.c sources/ANTI_PROTON.c MAIN.c)
+set(SOURCES_FILES sources/nrutil.c sources/GAUSSJ.c sources/TRIDAG.c sources/besselj0_next.c sources/besselj1_next.c sources/BESSEL_PRELIM.c sources/CROSS_SECTIONS.c sources/DIFFUSION_PROPAGATION.c sources/SOLAR_MOD.c sources/PROTON.c sources/HELIUM.c sources/PRIMARY_PBAR.c sources/ANTI_PROTON.c sources/spectra.c MAIN.c)
 
 #Recherche des librairies sur le systeme
 

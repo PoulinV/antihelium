@@ -724,7 +724,7 @@ void primary_source_calculation (double mass_chi, struct Structure_Primary_Sourc
 
 //	Nous remplissons les tableaux GAELLE_MASSES[N_gaelle_masses+1] et GAELLE_FILES_NAME[N_gaelle_masses+1].
 
-void gaelle_preliminary(struct Structure_Primary_Source_Term* pt_Primary_Source_Term)
+void DM_preliminary(struct Structure_Primary_Source_Term* pt_Primary_Source_Term)
 {
 	int i;
 	
@@ -890,12 +890,12 @@ void primary_spectra_BCGS_2014(struct Structure_Pbar* pt_Pbar, struct Structure_
 	
 	results = NULL;
 	
-	gaelle_preliminary(pt_Primary_Source_Term);
+	DM_preliminary(pt_Primary_Source_Term);
 
 	//mass_chi = mass_chi_choice;
 	channel  = channel_choice;
 	
-	results = fopen(antiproton_spectrum_file_name,"w");
+	results = fopen(pbar_IS_spectrum_file_name,"w");
 	
 	//fprintf(results, " \n\n channel = %d \n\n", channel);
 

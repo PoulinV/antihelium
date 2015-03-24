@@ -209,7 +209,9 @@ d'avoir ici un nombre PAIR. */
 //	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
 //	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
 
-#define fisk_potential 0.0
+#define fisk_potential 0.0								//	[GV]
+//#define fisk_potential 0.8							//	[GV]
+
 
 /********************************************************************************************/
 
@@ -220,7 +222,14 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-#define antiproton_spectrum_file_name	"./results/test.txt" 
+#define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum.txt"
+#define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum.txt" 
+
+
+#define pbar_IS_spectra_MIN_MED_MAX_file_name	"./results/pbar_IS_spectra_MIN_MED_MAX.txt"
+#define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt" 
+
+
 
 /********************************************************************************************/
 /********************************************************************************************/

@@ -18,12 +18,13 @@
 #include "./sources/HELIUM.h"
 #include "./sources/PRIMARY_PBAR.h"
 #include "./sources/ANTI_PROTON.h"
+#include "./sources/spectra.h"
+
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
 
 // DECLARATIONS DES FONCTIONS TEMPORAIRES
-
 
 
 /**************************************************************************************************************************************************************************************************/
@@ -77,6 +78,8 @@ int main(void)
 
 	t1 = time(NULL);
 	probleme = fopen("PB_SUMMARY","w");
+	results = fopen(pbar_IS_spectrum_file_name,"w");
+	
 
 	bessel_preliminary_write_file(alpha_i, &Proton, &Helium);
 	bessel_preliminary_read_file (alpha_i, &Proton, &Helium);
@@ -94,8 +97,10 @@ int main(void)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 
+	/*
 
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -116,18 +121,14 @@ int main(void)
 
 // 	que l'on stocke dans le tableau PRIMARY_SOURCE_TERM[DIM_TAB_PBAR+1].
 
-	gaelle_preliminary(&Primary_Source_Term);
+	DM_preliminary(&Primary_Source_Term);
 
 	mass_chi = mass_chi_choice;
 	channel  = channel_choice;
 	
-	results = fopen(antiproton_spectrum_file_name,"w");
 
 		
 	printf("\n mass_chi = %.2e GeV \n", mass_chi);
-		
-	sprintf(file_name, "./results/mass_scan_wc/channel_%d/mDM=%gGeV.txt", channel, mass_chi);
-	results = fopen(file_name,"w");
 		
 	#if defined (WIMP_annihilation)
 		DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, &Primary_Source_Term);
@@ -147,8 +148,8 @@ int main(void)
 //	ON PEUT Y ALLER !
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-	for (i_data=1;i_data<=3;i_data++)
-	//for (i_data=2;i_data<=2;i_data++)
+	//for (i_data=1;i_data<=3;i_data++)
+	for (i_data=2;i_data<=2;i_data++)
 	{
 //			Nous definissons a ce niveau les parametres que FIORENZA, DAVID et RICHARD
 //			-- hereafter called FDR -- ont determines.
@@ -178,7 +179,7 @@ int main(void)
 			Propagation.V_ALFEN         = (22.4  * 1.0e5);                            		// [cm s^{-1}]
 		}
 
-
+*/
 //				Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
 /*		
 		printf(" CAS NUMERO      = %ld \n",i_data);
@@ -190,7 +191,7 @@ int main(void)
 */		
 //				On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
 
-		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+/*		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 		{
 			for (i=0;i<=NDIM;i++)
 			{
@@ -283,7 +284,7 @@ TEST:
 
 	Propagation.PHI_FISK = fisk_potential;
 	
-	results = fopen(antiproton_spectrum_file_name,"w");
+	results = fopen(pbar_IS_spectrum_file_name,"w");
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
@@ -321,7 +322,7 @@ TEST:
 	}
 	fclose(results);
 
-
+*/
 	
 	
 
@@ -344,6 +345,7 @@ LA_FIN :
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
+
 
 
 
