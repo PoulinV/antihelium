@@ -1077,6 +1077,46 @@ TEST:
 /********************************************************************************************/
 /********************************************************************************************/
 
+void DM_source_term_calculation(struct Structure_Primary_Source_Term* pt_Primary_Source_Term)
+{
+	int    channel;
+	double mass_chi;
 
+///////////////////////////////////////////////////////////////////////////////////////////
+//	On charge les valeurs des multiplicites
+//	$g \left( T_{\pbar} \right) = \frac{d N_{\pbar}}{d T_{\pbar}}$ et l'on calcule
+
+//	\beq
+// 	result \; = \; \frac{1}{2} \, < \sigma v >_{channel f} \,
+// 	\left\{ \frac{\rho_{0}}{m_{\chi}} \right\}^{2} \, \frac{d N_{\pbar}}{d T_{\pbar}}_{channel f} \;\; .
+// 	\eeq
+
+// 	que l'on stocke dans le tableau PRIMARY_SOURCE_TERM[DIM_TAB_PBAR+1].
+
+	DM_preliminary(pt_Primary_Source_Term);
+
+	mass_chi = mass_chi_choice;
+	channel  = channel_choice;
+	
+
+		
+	printf("\n mass_chi = %.2e GeV \n", mass_chi);
+		
+	#if defined (WIMP_annihilation)
+		DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, pt_Primary_Source_Term);
+		dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, pt_Primary_Source_Term);
+		primary_source_calculation          (mass_chi, pt_Primary_Source_Term);
+	#elif defined (WIMP_decay)
+		DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi/2.0, pt_Primary_Source_Term);
+		dNpbar_on_dEpbar_primary_calculation(mass_chi/2.0, channel, pt_Primary_Source_Term);
+		primary_source_calculation          (mass_chi, pt_Primary_Source_Term);
+	#else
+		printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
+		exit (0);
+	#endif	
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
 
 

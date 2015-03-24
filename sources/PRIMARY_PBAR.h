@@ -56,6 +56,8 @@ void DM_preliminary(struct Structure_Primary_Source_Term* pt_Primary_Source_Term
 
 void primary_spectra_BCGS_2014(struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, struct Structure_Primary_Source_Term* pt_Primary_Source_Term, double alpha_i[NDIM+1]);
 
+void DM_source_term_calculation(struct Structure_Primary_Source_Term* pt_Primary_Source_Term);
+
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/

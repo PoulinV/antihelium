@@ -95,12 +95,13 @@ int main(void)
 	DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	DM_source_term_calculation(&Primary_Source_Term);
 
 
 	//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 
-	/*
+	
 
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -109,7 +110,8 @@ int main(void)
 	    PBAR_SPECTRUM_MED[i_pbar] = 0.0;
 	    PBAR_SPECTRUM_MAX[i_pbar] = 0.0;
 	}
-	
+
+/*	
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	On charge les valeurs des multiplicites
 //	$g \left( T_{\pbar} \right) = \frac{d N_{\pbar}}{d T_{\pbar}}$ et l'on calcule
@@ -142,7 +144,7 @@ int main(void)
 		printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
 		exit (0);
 	#endif	
-		
+*/		
 		
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	ON PEUT Y ALLER !
@@ -179,7 +181,7 @@ int main(void)
 			Propagation.V_ALFEN         = (22.4  * 1.0e5);                            		// [cm s^{-1}]
 		}
 
-*/
+		
 //				Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
 /*		
 		printf(" CAS NUMERO      = %ld \n",i_data);
@@ -191,7 +193,7 @@ int main(void)
 */		
 //				On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
 
-/*		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 		{
 			for (i=0;i<=NDIM;i++)
 			{
@@ -322,7 +324,7 @@ TEST:
 	}
 	fclose(results);
 
-*/
+	
 	
 	
 
