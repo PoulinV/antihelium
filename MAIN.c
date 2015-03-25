@@ -28,6 +28,7 @@
 
 void PBAR_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PBAR+1]);
 void print_propagation_parameters(struct Structure_Propagation* pt_Propagation);
+void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar);
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -99,6 +100,9 @@ int main(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	DM_source_term_calculation(&Primary_Source_Term);
+	
+	PBAR_BESSEL_TABLES_123_initialization(&Pbar);
+	
 
 	PBAR_SPECTRUM_initialization(PBAR_SPECTRUM);
 	PBAR_SPECTRUM_initialization(PBAR_SPECTRUM_TOA);
@@ -272,7 +276,7 @@ LA_FIN :
 
 void PBAR_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PBAR+1])
 {
-	long i_pbar,i;
+	long i_pbar;
 	
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
@@ -283,6 +287,7 @@ void PBAR_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PBAR+1])
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
+
 //	Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
 
 void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
@@ -294,9 +299,26 @@ void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
 	printf(" V_ALFEN         = %.5e [cm s^{-1}]\n\n",pt_Propagation->V_ALFEN);
 }
 
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
+void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar)
+{
+	long i_pbar,i;
+	
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		for (i=0;i<=NDIM;i++)
+		{
+			pt_Pbar->BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] = 0.0;
+			pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] = 0.0;
+			pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = 0.0;
+		}
+	}
+}
 
-
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
 
 
