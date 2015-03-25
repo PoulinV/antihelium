@@ -29,6 +29,7 @@
 void PBAR_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PBAR+1]);
 void print_propagation_parameters(struct Structure_Propagation* pt_Propagation);
 void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar);
+void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -62,6 +63,8 @@ int main(void)
 	double PBAR_SPECTRUM[DIM_TAB_PBAR+1];
 	double T_TOA[DIM_TAB_PBAR+1];
 	double PBAR_SPECTRUM_TOA[DIM_TAB_PBAR+1];
+	
+	
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
 	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA,flux_proton_TOA;
 	double flux_pbar, flux_pbar_TOA;
@@ -83,7 +86,6 @@ int main(void)
 	
 	MIN_MED_MAX_loading(&Propagation);
 	print_propagation_parameters(&Propagation);
-	
 		
 	bessel_preliminary_write_file(alpha_i, &Proton, &Helium);
 	bessel_preliminary_read_file (alpha_i, &Proton, &Helium);
@@ -97,11 +99,16 @@ int main(void)
 	DSPBAR_SUR_DEPBAR_H_ON_HE_read_file  (&Cross_Section);
 	DSPBAR_SUR_DEPBAR_HE_ON_H_read_file  (&Cross_Section);
 	DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	DM_source_term_calculation(&Primary_Source_Term);
 	
 	PBAR_BESSEL_TABLES_123_initialization(&Pbar);
+	
+	
+	
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 
 	PBAR_SPECTRUM_initialization(PBAR_SPECTRUM);
@@ -118,32 +125,20 @@ int main(void)
 	
 
 			
-//				On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
 
-	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-	{
-		for (i=0;i<=NDIM;i++)
-		{
-			Pbar.BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] = 0.0;
-			Pbar.BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] = 0.0;
-			Pbar.BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = 0.0;
-		}
-	}
+	
 
-//				CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
-
+//	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
 	calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
-//				CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE
-//				PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
-
+//	CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
 	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
 	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 
-//				CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
+//	CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
 
 	//goto TEST;
 	for (i_iteration=1;i_iteration<=5;i_iteration++)
@@ -167,8 +162,11 @@ int main(void)
 //			-- PBAR_SPECTRUM_MED -- and the largest -- PBAR_SPECTRUM_MAX --
 //			values which we meet.
 
-TEST:
 
+
+
+TEST:
+/*
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 		T_pbar_IS = T_PBAR_MIN *
@@ -185,6 +183,8 @@ TEST:
 		PBAR_SPECTRUM[i_pbar] = flux_antiproton_IS;
 		
 	}
+*/
+	PBAR_IS_SPECTRUM_calculation(PBAR_SPECTRUM, &Pbar, &Propagation, alpha_i);
 
 
 
@@ -302,6 +302,8 @@ void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+//	On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
+
 void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar)
 {
 	long i_pbar,i;
@@ -320,7 +322,30 @@ void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar)
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
+{
+	long i_pbar,i;
+	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
 
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_pbar_IS = T_PBAR_MIN *
+		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+		for (i=1;i<=NDIM;i++)
+		{
+			pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
+		}
+		flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);
+		//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
+
+		
+		PBAR_SPECTRUM[i_pbar] = flux_antiproton_IS;	
+	}
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
 
 
