@@ -29,8 +29,11 @@
 void PBAR_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PBAR+1]);
 void print_propagation_parameters(struct Structure_Propagation* pt_Propagation);
 void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar);
-void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
-void print_PBAR_IS_SPECTRUM(double PBAR_SPECTRUM[DIM_TAB_PBAR+1]);
+void PBAR_IS_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
+void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1]);
+
+void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_TOA[DIM_TAB_PBAR+1], struct Structure_Propagation* pt_Propagation);
+
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -61,9 +64,9 @@ int main(void)
 	long   i_data,i_iteration,i_pbar,i;
 	
 	double alpha_i[NDIM+1];
-	double PBAR_SPECTRUM[DIM_TAB_PBAR+1];
+	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1];
 	double T_TOA[DIM_TAB_PBAR+1];
-	double PBAR_SPECTRUM_TOA[DIM_TAB_PBAR+1];
+	double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1];
 	
 	
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
@@ -112,8 +115,8 @@ int main(void)
 	
 	
 
-	PBAR_SPECTRUM_initialization(PBAR_SPECTRUM);
-	PBAR_SPECTRUM_initialization(PBAR_SPECTRUM_TOA);
+	PBAR_SPECTRUM_initialization(PBAR_IS_SPECTRUM);
+	PBAR_SPECTRUM_initialization(PBAR_TOA_SPECTRUM);
 	
 	
 	
@@ -168,15 +171,16 @@ int main(void)
 
 TEST:
 
-	PBAR_IS_SPECTRUM_calculation(PBAR_SPECTRUM, &Pbar, &Propagation, alpha_i);
-	print_PBAR_IS_SPECTRUM(PBAR_SPECTRUM);
+	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);
+	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
 	
+	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_TOA, &Propagation);
 
 
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	Modulation des spectres IS ===> TOA et impression.
+//	Modulation des spectres IS ===> TOA.
 
 	Propagation.PHI_FISK = fisk_potential;
 	
@@ -193,11 +197,11 @@ TEST:
 		if (E_pbar_TOA <= MASSE_PROTON)
 		{
 			T_TOA[i_pbar]             = 0.0;
-			PBAR_SPECTRUM_TOA[i_pbar] = 0.0;
+			PBAR_TOA_SPECTRUM[i_pbar] = 0.0;
 			//continue;
 		}
 
-		FFA_IS_to_TOA(1.,1.,Propagation.PHI_FISK,E_pbar_IS,PBAR_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);
+		FFA_IS_to_TOA(1.,1.,Propagation.PHI_FISK,E_pbar_IS,PBAR_IS_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);
 
 //		Nous les imprimons !
 
@@ -207,7 +211,7 @@ TEST:
 //		Nous les stockons en memoire dans les tableaux RESULTS_T_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
 	
 		T_TOA[i_pbar] = T_pbar_TOA;
-		PBAR_SPECTRUM_TOA[i_pbar] = (1.0e04*flux_pbar_TOA);
+		PBAR_TOA_SPECTRUM[i_pbar] = (1.0e04*flux_pbar_TOA);
 		
 	}
 	fclose(results);
@@ -291,7 +295,7 @@ void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar)
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
-void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
+void PBAR_IS_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
 {
 	long i_pbar,i;
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
@@ -309,7 +313,7 @@ void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct S
 		//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
 
 		
-		PBAR_SPECTRUM[i_pbar] = flux_antiproton_IS;	
+		PBAR_IS_SPECTRUM[i_pbar] = flux_antiproton_IS;	
 	}
 }
 
@@ -318,7 +322,7 @@ void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct S
 
 //	On imprime le resultat
 
-void print_PBAR_IS_SPECTRUM(double PBAR_SPECTRUM[DIM_TAB_PBAR+1])
+void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1])
 {
 	long i_pbar;
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
@@ -332,7 +336,7 @@ void print_PBAR_IS_SPECTRUM(double PBAR_SPECTRUM[DIM_TAB_PBAR+1])
 		T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
 		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
 
-		flux_pbar = PBAR_SPECTRUM[i_pbar];
+		flux_pbar = PBAR_IS_SPECTRUM[i_pbar];
 
 		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*flux_pbar));									// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
@@ -343,9 +347,55 @@ void print_PBAR_IS_SPECTRUM(double PBAR_SPECTRUM[DIM_TAB_PBAR+1])
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+//	Modulation des spectres IS ===> TOA.
+//	Cette fonction doit etre precedee de la fonction 'PBAR_IS_SPECTRUM_calculation' qui remplit le tableau PBAR_IS_SPECTRUM necessaire au calcule du flux d'antiprotons TOA.
+
+
+void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_TOA[DIM_TAB_PBAR+1], struct Structure_Propagation* pt_Propagation)
+{
+	long i_pbar;
+	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA,flux_proton_TOA;
+	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
+	double flux_pbar, flux_pbar_TOA;
+	
+	
+
+	FILE* results;
+	results = fopen(pbar_TOA_spectrum_file_name,"w");
 
 
 
+	pt_Propagation->PHI_FISK = fisk_potential;
+	
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_pbar_IS = T_PBAR_MIN *
+		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+
+//		Nous modulons maintenant les spectres PBAR obtenus.
+
+		if (E_pbar_TOA <= MASSE_PROTON)
+		{
+			T_TOA[i_pbar]             = 0.0;
+			PBAR_TOA_SPECTRUM[i_pbar] = 0.0;
+			//continue;
+		}
+
+		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_pbar_IS,PBAR_IS_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);
+
+
+//		Nous les stockons en memoire dans les tableaux RESULTS_T_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
+	
+		T_TOA[i_pbar] = T_pbar_TOA;
+		PBAR_TOA_SPECTRUM[i_pbar] = (1.0e04*flux_pbar_TOA);
+		
+	}
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
 
 
