@@ -65,6 +65,7 @@ double GENERIC_FLUX_04(double r,double z,
 double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFFICIENTi[NDIM+1], struct Structure_Propagation* pt_Propagation);
 
 void MIN_MED_MAX_loading(struct Structure_Propagation* pt_Propagation);
+void print_propagation_parameters(struct Structure_Propagation* pt_Propagation);
 
 
 /**********************************************************************************************************************************************************************************************************/

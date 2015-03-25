@@ -386,6 +386,19 @@ void MIN_MED_MAX_loading(struct Structure_Propagation* pt_Propagation)
 	
 }
 
-/***************************************************************************************************************************************************************/
-/***************************************************************************************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
 
+//	Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
+
+void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
+{
+	printf(" DELTA           = %.5e [NO UNIT]\n",pt_Propagation->PUISSANCE_COEFF_DIFF);
+	printf(" DIFFUSION_0_GV  = %.5e [cm^{2} s^{-1}]\n",pt_Propagation->DIFFUSION_0_GV);
+	printf(" E_DIFFUS        = %.5e [kpc]\n",pt_Propagation->E_DIFFUS);
+	printf(" VENT_GALACTIQUE = %.5e [cm s^{-1}]\n",pt_Propagation->VENT_GALACTIQUE);
+	printf(" V_ALFEN         = %.5e [cm s^{-1}]\n\n",pt_Propagation->V_ALFEN);
+}
+
+/********************************************************************************************/
+/********************************************************************************************/

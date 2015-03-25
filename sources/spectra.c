@@ -253,7 +253,57 @@ TEST:
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
 
+//	On imprime le resultat
 
+void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1])
+{
+	long i_pbar;
+	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
+	double flux_pbar;
+	
+	FILE* results;
+	results = fopen(pbar_IS_spectrum_file_name,"w");
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+
+		flux_pbar = PBAR_IS_SPECTRUM[i_pbar];
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*flux_pbar));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+//	On imprime le resultat
+
+void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_TOA[DIM_TAB_PBAR+1])
+{
+	long i_pbar;
+	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA;
+	double flux_pbar_TOA;
+	
+	FILE* results;
+	results = fopen(pbar_TOA_spectrum_file_name,"w");
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{	
+		T_pbar_TOA = T_TOA[i_pbar];
+		flux_pbar_TOA = PBAR_TOA_SPECTRUM[i_pbar];
+			
+		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*flux_pbar_TOA));									// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
 
 

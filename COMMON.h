@@ -230,7 +230,6 @@ d'avoir ici un nombre PAIR. */
 #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum.txt"
 #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum.txt" 
 
-
 #define pbar_IS_spectra_MIN_MED_MAX_file_name	"./results/pbar_IS_spectra_MIN_MED_MAX.txt"
 #define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt" 
 
