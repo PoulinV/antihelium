@@ -30,6 +30,7 @@ void PBAR_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PBAR+1]);
 void print_propagation_parameters(struct Structure_Propagation* pt_Propagation);
 void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar);
 void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
+void print_PBAR_IS_SPECTRUM(double PBAR_SPECTRUM[DIM_TAB_PBAR+1]);
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -73,12 +74,12 @@ int main(void)
 //	INITALISATION DES VARIABLES
 	///////////////////////////
 	
+	
 	FILE* results;
 	
 	results = NULL;
 
 	probleme = fopen("PB_SUMMARY","w");
-	results = fopen(pbar_IS_spectrum_file_name,"w");
 	
 	
 // 	CALCULS PRELIMINAIRES 
@@ -166,45 +167,13 @@ int main(void)
 
 
 TEST:
-/*
-	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-	{
-		T_pbar_IS = T_PBAR_MIN *
-		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
-		for (i=1;i<=NDIM;i++)
-		{
-			Pbar.BESSEL_PBARi[i] = Pbar.BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
-		}
-		flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,Pbar.BESSEL_PBARi, &Propagation);
-		//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,Pbar.BESSEL_PBARi, &Propagation);
 
-		
-		PBAR_SPECTRUM[i_pbar] = flux_antiproton_IS;
-		
-	}
-*/
 	PBAR_IS_SPECTRUM_calculation(PBAR_SPECTRUM, &Pbar, &Propagation, alpha_i);
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//			On imprime le resultat
-
-
-	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-	{
-		T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
-
-		flux_pbar = PBAR_SPECTRUM[i_pbar];
-
-		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*flux_pbar));	
-	}
+	print_PBAR_IS_SPECTRUM(PBAR_SPECTRUM);
 	
-	fclose(results);
 
-	//goto LA_FIN;
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	Modulation des spectres IS ===> TOA et impression.
@@ -347,8 +316,32 @@ void PBAR_IS_SPECTRUM_calculation(double PBAR_SPECTRUM[DIM_TAB_PBAR+1], struct S
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+//	On imprime le resultat
 
+void print_PBAR_IS_SPECTRUM(double PBAR_SPECTRUM[DIM_TAB_PBAR+1])
+{
+	long i_pbar;
+	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
+	double flux_pbar;
+	
+	FILE* results;
+	results = fopen(pbar_IS_spectrum_file_name,"w");
 
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+
+		flux_pbar = PBAR_SPECTRUM[i_pbar];
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*flux_pbar));									// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
 
 
