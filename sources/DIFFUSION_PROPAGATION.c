@@ -284,6 +284,7 @@ double energy,double mass,double Z_em, double alpha_i[NDIM+1],double BESSEL_COEF
 
 /********************************************************************************************/
 /********************************************************************************************/
+
 double GENERIC_FLUX_04(double r,double z,
 double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFFICIENTi[NDIM+1], struct Structure_Propagation* pt_Propagation)
 {
@@ -344,3 +345,47 @@ double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFF
 
 /********************************************************************************************/
 /********************************************************************************************/
+
+void MIN_MED_MAX_loading(struct Structure_Propagation* pt_Propagation)
+{
+			// COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MAXIMUM 
+	
+	#ifdef MAX
+
+		pt_Propagation->DIFFUSION_0_GV		 = 0.0765 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;   												// [cm^{2} s^{-1}]
+		pt_Propagation->PUISSANCE_COEFF_DIFF = 0.46;                                                										// [NO UNIT]
+		pt_Propagation->E_DIFFUS         	 = 15.0;                                           												// [kpc]
+		pt_Propagation->VENT_GALACTIQUE  	 = 5.0  * 1.0e5;                               													// [cm s^{-1}]
+		pt_Propagation->V_ALFEN          	 = 117.6  * 1.0e5;                             													// [cm s^{-1}]
+
+	#endif
+
+			//COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MEDIUM.
+
+	#ifdef MED
+
+		pt_Propagation->DIFFUSION_0_GV		 = 0.0112 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;     												// [cm^{2} s^{-1}]
+		pt_Propagation->PUISSANCE_COEFF_DIFF = 0.7;                                                 										// [NO UNIT]
+		pt_Propagation->E_DIFFUS         	 = 4.0;                                           												// [kpc]
+		pt_Propagation->VENT_GALACTIQUE  	 = 12.0  * 1.0e5;                                												// [cm s^{-1}]              
+		pt_Propagation->V_ALFEN          	 = 52.9  * 1.0e5;                                												// [cm s^{-1}]
+
+	#endif
+
+			// COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MINIMUM 
+
+	#ifdef MIN
+
+		pt_Propagation->DIFFUSION_0_GV       = 0.0016 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;     												// [cm^{2} s^{-1}]
+		pt_Propagation->PUISSANCE_COEFF_DIFF = 0.85;                                                 										// [NO UNIT]
+		pt_Propagation->E_DIFFUS         	 = 1.0;                                           												// [kpc]
+		pt_Propagation->VENT_GALACTIQUE  	 = 13.5  * 1.0e5;                                												// [cm s^{-1}]
+		pt_Propagation->V_ALFEN          	 = 22.4  * 1.0e5;                                												// [cm s^{-1}]
+
+	#endif
+	
+}
+
+/***************************************************************************************************************************************************************/
+/***************************************************************************************************************************************************************/
+

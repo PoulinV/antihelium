@@ -133,6 +133,20 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
+//	Propagation parameters
+
+//#define MIN
+#define MED
+//#define MAX
+
+//	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
+//	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
+
+//#define fisk_potential 0.0								//	[GV]
+#define fisk_potential 0.8							//	[GV]
+
+/********************************************************************************************/
+
 //	DARK MATTER GALACTIC PROFILE
 
 #define RHO_CHI_SOLAR 0.3
@@ -203,15 +217,6 @@ d'avoir ici un nombre PAIR. */
 #define x_pbar_scan_max	1.0
 
 #define N_gaelle_masses	62
-
-/********************************************************************************************/
-
-//	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
-//	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
-
-#define fisk_potential 0.0								//	[GV]
-//#define fisk_potential 0.8							//	[GV]
-
 
 /********************************************************************************************/
 
