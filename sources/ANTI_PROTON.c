@@ -1282,4 +1282,35 @@ void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], doub
 /********************************************************************************************/
 /********************************************************************************************/
 
+void tertiary_component_effect_calculation(struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1])
+{
+	long i_iteration;
+
+	for (i_iteration=1;i_iteration<=10;i_iteration++)
+	{
+		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, pt_Pbar);
+		calculation_BESSEL_PBAR_SUM_123_Epbar_i(pt_Pbar);
+	}
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+void ELDR_effect_calculation(struct Structure_Propagation* pt_Propagation, struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1])
+{
+	long i_iteration;
+
+	for (i_iteration=1;i_iteration<=15;i_iteration++)
+	{
+		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, pt_Pbar);
+		calculation_BESSEL_PBAR_TOT_direct_inversion_A(pt_Pbar, pt_Propagation);
+		//calculation_BESSEL_PBAR_TOT_direct_inversion_B(&Pbar, &Propagation);
+		//calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(&Pbar, &Propagation);
+		//calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(15., 1200., &Pbar, &Propagation);
+	}
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+	
 #undef NRANSI

@@ -26,7 +26,8 @@
 
 // DECLARATIONS DES FONCTIONS TEMPORAIRES
 
-void tertiary_component_effect_calculation(struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1]);
+
+
 
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
@@ -98,16 +99,20 @@ int main(void)
 	PBAR_SPECTRUM_initialization(PBAR_IS_SPECTRUM);
 	PBAR_SPECTRUM_initialization(PBAR_TOA_SPECTRUM);
 
-//	CALCUL DU FLUX DE PROTONS ET D'HELIUM
+//	CALCUL DES Pi DES PROTONS ET D'HELIUM
 /////////////////////////////////////////
 	
 	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
 	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
 	
 
+//	CALCUL DES FLUX DE PROTONS ET D'HELIUM
+//////////////////////////////////////////
 	
-//	CALCUL DU FLUX D'ANTIPROTONS
-////////////////////////////////
+
+	
+//	CALCUL DES Pi DES ANTIPROTONS
+/////////////////////////////////
 
 //	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
 	calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
@@ -116,50 +121,30 @@ int main(void)
 //	CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 	
-//	CALCUL DE LA FLUX TOTAL D'ANTIPROTONS
-	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
+//	CALCUL DES Pi EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
+	//tertiary_component_effect_calculation(&Pbar, alpha_i);
+	ELDR_effect_calculation(&Propagation, &Pbar, alpha_i);
 
-//	CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
-	tertiary_component_effect_calculation(&Pbar, alpha_i);
-	
 
-	
-/*	
-	//goto TEST;
-	for (i_iteration=1;i_iteration<=10;i_iteration++)
-	{
-		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
-		calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
-	}
-*/	
-	/*
-	
-	//goto TEST;
-	for (i_iteration=1;i_iteration<=10;i_iteration++)
-	{
-		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
-		calculation_BESSEL_PBAR_TOT_direct_inversion_A(&Pbar, &Propagation);
-		//calculation_BESSEL_PBAR_TOT_direct_inversion_B(&Pbar, &Propagation);
-		//calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(&Pbar, &Propagation);
-		//calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(15., 1200., &Pbar, &Propagation);
-	}
-	*/
-	
-TEST:
+//	CALCUL DU FLUX D'ANTIPROTONS
+////////////////////////////////
 
-	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);
-	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
-	
+	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);	
 	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_TOA, &Propagation);
+
+
+//	AFFICHAGE DU FLUX D'ANTIPROTONS
+///////////////////////////////////
+	
+	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
 	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_TOA);
+	//print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	
 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//	CALCUL DES SPECTRES D'ANTIPROTONS PRIMAIRES POUR LE PPPC DE M.Cirelli
+	/////////////////////////////////////////////////////////////////////
 	
 	//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
-	//print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,34 +170,8 @@ LA_FIN :
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
-void tertiary_component_effect_calculation(struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1])
-{
-	long i_iteration;
 
-	for (i_iteration=1;i_iteration<=10;i_iteration++)
-	{
-		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, pt_Pbar);
-		calculation_BESSEL_PBAR_SUM_123_Epbar_i(pt_Pbar);
-	}
-}
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

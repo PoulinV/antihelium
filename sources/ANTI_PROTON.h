@@ -49,6 +49,9 @@ void PBAR_BESSEL_TABLES_123_initialization(struct Structure_Pbar* pt_Pbar);
 void PBAR_IS_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
 void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_TOA[DIM_TAB_PBAR+1], struct Structure_Propagation* pt_Propagation);
 
+void tertiary_component_effect_calculation(struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1]);
+void ELDR_effect_calculation(struct Structure_Propagation* pt_Propagation, struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1]);
+
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
 
