@@ -26,6 +26,8 @@
 
 // DECLARATIONS DES FONCTIONS TEMPORAIRES
 
+void tertiary_component_effect_calculation(struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1]);
+
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
 
@@ -93,52 +95,47 @@ int main(void)
 	DM_source_term_calculation(&Primary_Source_Term);
 	
 	PBAR_BESSEL_TABLES_123_initialization(&Pbar);
-	
-	
-	
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-
 	PBAR_SPECTRUM_initialization(PBAR_IS_SPECTRUM);
 	PBAR_SPECTRUM_initialization(PBAR_TOA_SPECTRUM);
-	
-	
-	
-		
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	ON PEUT Y ALLER !
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+//	CALCUL DU FLUX DE PROTONS ET D'HELIUM
+/////////////////////////////////////////
+	
+	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
+	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
 	
 
-			
-
 	
+//	CALCUL DU FLUX D'ANTIPROTONS
+////////////////////////////////
 
 //	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
 	calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
 //	CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
-	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
-	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
 	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+	
+//	CALCUL DE LA FLUX TOTAL D'ANTIPROTONS
 	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 
 //	CALCUL DU SPECTRE FINAL DES ANTIPROTONS.
+	tertiary_component_effect_calculation(&Pbar, alpha_i);
+	
 
+	
+/*	
 	//goto TEST;
-	for (i_iteration=1;i_iteration<=5;i_iteration++)
+	for (i_iteration=1;i_iteration<=10;i_iteration++)
 	{
 		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
 		calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 	}
-
+*/	
+	/*
+	
 	//goto TEST;
-	for (i_iteration=1;i_iteration<=5;i_iteration++)
+	for (i_iteration=1;i_iteration<=10;i_iteration++)
 	{
 		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, &Pbar);
 		calculation_BESSEL_PBAR_TOT_direct_inversion_A(&Pbar, &Propagation);
@@ -146,7 +143,8 @@ int main(void)
 		//calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(&Pbar, &Propagation);
 		//calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(15., 1200., &Pbar, &Propagation);
 	}
-
+	*/
+	
 TEST:
 
 	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);
@@ -187,7 +185,17 @@ LA_FIN :
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+void tertiary_component_effect_calculation(struct Structure_Pbar* pt_Pbar, double alpha_i[NDIM+1])
+{
+	long i_iteration;
 
+	for (i_iteration=1;i_iteration<=10;i_iteration++)
+	{
+		calculation_BESSEL_PBAR_TERTIARY_Epbar_i(alpha_i, pt_Pbar);
+		calculation_BESSEL_PBAR_SUM_123_Epbar_i(pt_Pbar);
+	}
+}
+	
 
 
 
