@@ -4,6 +4,8 @@
 /********************************************************************************************/
 /********************************************************************************************/
 #define NDIM 100
+//#define NDIM 170
+
 /* Nombre de fonctions J0(alpha_i*rho) utilisees dans le developpement en serie de Bessel. */
 
 /********************************************************************************************/
@@ -21,6 +23,7 @@ L'energie est exprimee en [GeV]. */
 #define E_PROTON_MAX (1.e6)
 /* E_PROTON_MAX designe l'energie TOTALE MAXIMALE des protons. Elle est exprimee en [GeV]. */
 
+
 #define DIM_TAB_PROTON 500
 /* DIM_TAB_PROTON est le nombre d'intervalles en energie TOTALE de proton.
 ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
@@ -28,6 +31,14 @@ d'avoir ici un nombre PAIR. */
 #if ((DIM_TAB_PROTON % 2) == 1)
   #error DIM_TAB_PROTON DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
 #endif
+
+// On definit l'intervalle d'energie cinetique des protons pour afficher leur spectre.
+#define DIM_TAB_PROTON_SPECTRUM	300
+#define T_PROTON_SPECTRUM_MIN	0.1						// [GeV] 
+#define T_PROTON_SPECTRUM_MAX	1.0e3					// [GeV]
+
+
+
 
 /********************************************************************************************/
 #define T_PBAR_MIN (0.1)
@@ -143,7 +154,7 @@ d'avoir ici un nombre PAIR. */
 //	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
 
 //#define fisk_potential 0.0								//	[GV]
-#define fisk_potential 0.8							//	[GV]
+#define fisk_potential 0.5									//	[GV]
 
 /********************************************************************************************/
 
@@ -203,7 +214,7 @@ d'avoir ici un nombre PAIR. */
 
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
 
-#define mass_chi_choice		 10.0					//	[GeV]
+#define mass_chi_choice		 1000.0					//	[GeV]
 
 //	Choix de sa section efficace d'annihilation et de son taux de desintegration
 
@@ -226,6 +237,11 @@ d'avoir ici un nombre PAIR. */
 #define N_mass_chi 2
 
 /********************************************************************************************/
+
+#define proton_IS_spectrum_file_name	"./results/proton_IS_spectrum.txt"
+#define proton_TOA_spectrum_file_name	"./results/proton_TOA_spectrum.txt"
+#define proton_exp_spectrum_file_name	"./results/proton_exp_spectrum.txt"
+
 
 #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum.txt"
 #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum.txt" 

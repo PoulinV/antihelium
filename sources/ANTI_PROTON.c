@@ -1236,18 +1236,13 @@ void PBAR_IS_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], struc
 //	Cette fonction doit etre precedee de la fonction 'PBAR_IS_SPECTRUM_calculation' qui remplit le tableau PBAR_IS_SPECTRUM necessaire au calcule du flux d'antiprotons TOA.
 
 
-void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_TOA[DIM_TAB_PBAR+1], struct Structure_Propagation* pt_Propagation)
+void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_TOA[DIM_TAB_PBAR+1], struct Structure_Propagation* pt_Propagation)
 {
 	long i_pbar;
 	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA,flux_proton_TOA;
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
 	double flux_pbar, flux_pbar_TOA;
 	
-	
-
-	FILE* results;
-	results = fopen(pbar_TOA_spectrum_file_name,"w");
-
 
 
 	pt_Propagation->PHI_FISK = fisk_potential;
@@ -1261,20 +1256,21 @@ void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], doub
 
 //		Nous modulons maintenant les spectres PBAR obtenus.
 
+		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_pbar_IS,PBAR_IS_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);
+		
 		if (E_pbar_TOA <= MASSE_PROTON)
 		{
-			T_TOA[i_pbar]             = 0.0;
+			T_PBAR_TOA[i_pbar]        = 0.0;
 			PBAR_TOA_SPECTRUM[i_pbar] = 0.0;
-			//continue;
+			continue;
 		}
+		
+		T_pbar_TOA = E_pbar_TOA - MASSE_PROTON;
 
-		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_pbar_IS,PBAR_IS_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);
-
-
-//		Nous les stockons en memoire dans les tableaux RESULTS_T_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
+//		Nous les stockons en memoire dans les tableaux RESULTS_T_PBAR_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
 	
-		T_TOA[i_pbar] = T_pbar_TOA;
-		PBAR_TOA_SPECTRUM[i_pbar] = (1.0e04*flux_pbar_TOA);
+		T_PBAR_TOA[i_pbar] = T_pbar_TOA;
+		PBAR_TOA_SPECTRUM[i_pbar] = flux_pbar_TOA;										// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 		
 	}
 }

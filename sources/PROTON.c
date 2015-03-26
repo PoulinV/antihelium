@@ -214,6 +214,8 @@ double flux_proton_EXP(double E_proton)
 
 	resultat = A * pow(T,-gamma);
 */
+
+	
 	phi_0   =  3.53e-3;
 	alpha_p =  2.5;
 	Ep1     =  2.5;
@@ -226,8 +228,9 @@ double flux_proton_EXP(double E_proton)
 	p4      = -0.21;
 
 	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
-	resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4); /* [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] */
-  	return resultat;
+	resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4); // [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] 
+	  	
+	return resultat;
   }
 }
 
@@ -464,3 +467,68 @@ double pbar_emissivity_per_H_solar(double E_pbar)
 
 /********************************************************************************************/
 /********************************************************************************************/
+
+void PROTON_IS_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
+{
+	long i_proton,i;
+	double T_proton ,E_proton ,flux_proton_IS;
+
+	for (i_proton=0;i_proton<=DIM_TAB_PROTON_SPECTRUM;i_proton++)
+	{
+		T_proton = T_PROTON_SPECTRUM_MIN * pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),((double)i_proton/(double)DIM_TAB_PROTON_SPECTRUM));
+		E_proton = T_proton + MASSE_PROTON;
+	
+  	  	calcul_method_B_BESSEL_Pi(E_proton, alpha_i, pt_Proton,pt_Propagation);
+		
+		flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_proton,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);
+		
+		PROTON_IS_SPECTRUM[i_proton] = flux_proton_IS;																		// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+}
+	
+/********************************************************************************************/
+/********************************************************************************************/
+
+void PROTON_TOA_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], double PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], double T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1], struct Structure_Propagation* pt_Propagation)
+{
+	long i_proton;
+	double T_proton_TOA,E_proton_TOA,flux_proton_TOA;
+	double T_proton_IS ,E_proton_IS,flux_proton_IS;
+	
+
+	pt_Propagation->PHI_FISK = fisk_potential;
+	
+
+	for (i_proton=0;i_proton<=DIM_TAB_PBAR;i_proton++)
+	{
+		T_proton_IS = T_PROTON_SPECTRUM_MIN *
+		pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),((double)i_proton/(double)DIM_TAB_PROTON_SPECTRUM));
+		E_proton_IS = T_proton_IS + MASSE_PROTON;
+
+//		Nous modulons maintenant les spectres PBAR obtenus.
+
+		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_proton_IS,PROTON_IS_SPECTRUM[i_proton],&E_proton_TOA,&flux_proton_TOA);
+
+		if (E_proton_TOA <= MASSE_PROTON)
+		{
+			T_PROTON_TOA[i_proton]        = 0.0;
+			PROTON_TOA_SPECTRUM[i_proton] = 0.0;
+			continue;
+		}
+		
+		T_proton_TOA = E_proton_TOA - MASSE_PROTON;
+
+//		Nous les stockons en memoire dans les tableaux RESULTS_T_PROTON_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
+	
+		T_PROTON_TOA[i_proton] = T_proton_TOA;
+		PROTON_TOA_SPECTRUM[i_proton] = flux_proton_TOA;																		// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		
+	}
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+
+
+

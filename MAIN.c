@@ -29,6 +29,9 @@
 
 
 
+
+
+
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
 
@@ -59,13 +62,9 @@ int main(void)
 	
 	double alpha_i[NDIM+1];
 	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1];
-	double T_TOA[DIM_TAB_PBAR+1];
+	double T_PBAR_TOA[DIM_TAB_PBAR+1], T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1];
 	double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1];
-	
-	
-	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
-	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA,flux_proton_TOA;
-	double flux_pbar, flux_pbar_TOA;
+	double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1];
 
 
 //	INITALISATION DES VARIABLES
@@ -99,15 +98,12 @@ int main(void)
 	PBAR_SPECTRUM_initialization(PBAR_IS_SPECTRUM);
 	PBAR_SPECTRUM_initialization(PBAR_TOA_SPECTRUM);
 
-//	CALCUL DES Pi DES PROTONS ET D'HELIUM
-/////////////////////////////////////////
-	
-	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
-	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
-	
 
 //	CALCUL DES FLUX DE PROTONS ET D'HELIUM
 //////////////////////////////////////////
+	
+	PROTON_IS_SPECTRUM_calculation(PROTON_IS_SPECTRUM, &Proton, &Propagation, alpha_i);
+	PROTON_TOA_SPECTRUM_calculation(PROTON_IS_SPECTRUM, PROTON_TOA_SPECTRUM, T_PROTON_TOA, &Propagation);
 	
 
 	
@@ -115,10 +111,12 @@ int main(void)
 /////////////////////////////////
 
 //	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
-	calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
 //	CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
+	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
+	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
 	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 	
 //	CALCUL DES Pi EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
@@ -130,14 +128,19 @@ int main(void)
 ////////////////////////////////
 
 	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);	
-	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_TOA, &Propagation);
+	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Propagation);
 
 
-//	AFFICHAGE DU FLUX D'ANTIPROTONS
-///////////////////////////////////
+//	AFFICHAGE DES SPECTRES
+//////////////////////////
+	
+	print_PROTON_IS_SPECTRUM(PROTON_IS_SPECTRUM);
+	print_PROTON_TOA_SPECTRUM(PROTON_TOA_SPECTRUM, T_PROTON_TOA);
+	print_PROTON_SPECTRUM_exp();
+	
 	
 	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
-	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_TOA);
+	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA);
 	//print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	
 
@@ -169,9 +172,6 @@ LA_FIN :
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
-
-
-	
 
 
 

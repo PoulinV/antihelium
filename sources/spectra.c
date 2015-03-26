@@ -20,7 +20,7 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 	static double PBAR_SPECTRUM_MIN       [DIM_TAB_PBAR+1];
 	static double PBAR_SPECTRUM_MED       [DIM_TAB_PBAR+1];
 	static double PBAR_SPECTRUM_MAX       [DIM_TAB_PBAR+1];
-	static double RESULTS_T_TOA           [DIM_TAB_PBAR+1];
+	static double RESULTS_T_PBAR_TOA           [DIM_TAB_PBAR+1];
 	static double RESULTS_SPECTRUM_TOA_MIN[DIM_TAB_PBAR+1];
 	static double RESULTS_SPECTRUM_TOA_MED[DIM_TAB_PBAR+1];
 	static double RESULTS_SPECTRUM_TOA_MAX[DIM_TAB_PBAR+1];
@@ -225,7 +225,7 @@ TEST:
 
 		if (E_pbar_TOA <= MASSE_PROTON)
 		{
-			RESULTS_T_TOA[i_pbar]            = 0.0;
+			RESULTS_T_PBAR_TOA[i_pbar]       = 0.0;
 			RESULTS_SPECTRUM_TOA_MAX[i_pbar] = 0.0;
 			RESULTS_SPECTRUM_TOA_MED[i_pbar] = 0.0;
 			RESULTS_SPECTRUM_TOA_MIN[i_pbar] = 0.0;
@@ -240,9 +240,9 @@ TEST:
 		T_pbar_TOA = E_pbar_TOA - MASSE_PROTON;
 		fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*FLUX_PBAR_TOA_MIN), (1.0e04*FLUX_PBAR_TOA_MED), (1.0e04*FLUX_PBAR_TOA_MAX));
 
-//		Nous les stockons en memoire dans les tableaux RESULTS_T_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
+//		Nous les stockons en memoire dans les tableaux RESULTS_T_PBAR_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
 	
-		RESULTS_T_TOA[i_pbar] = T_pbar_TOA;
+		RESULTS_T_PBAR_TOA[i_pbar] = T_pbar_TOA;
 		RESULTS_SPECTRUM_TOA_MAX[i_pbar] = (1.0e04*FLUX_PBAR_TOA_MAX);
 		RESULTS_SPECTRUM_TOA_MED[i_pbar] = (1.0e04*FLUX_PBAR_TOA_MED);
 		RESULTS_SPECTRUM_TOA_MIN[i_pbar] = (1.0e04*FLUX_PBAR_TOA_MIN);
@@ -282,7 +282,7 @@ void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1])
 
 //	On imprime le resultat
 
-void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_TOA[DIM_TAB_PBAR+1])
+void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_TOA[DIM_TAB_PBAR+1])
 {
 	long i_pbar;
 	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA;
@@ -293,7 +293,7 @@ void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{	
-		T_pbar_TOA = T_TOA[i_pbar];
+		T_pbar_TOA = T_PBAR_TOA[i_pbar];
 		flux_pbar_TOA = PBAR_TOA_SPECTRUM[i_pbar];
 			
 		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*flux_pbar_TOA));									// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
@@ -305,5 +305,77 @@ void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+void print_PROTON_IS_SPECTRUM(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1])
+{
+	long i_proton;
+	double T_proton ,E_proton ,flux_proton_IS;
+	double flux_proton;
+	
+	FILE* results;
+	results = fopen(proton_IS_spectrum_file_name,"w");
+
+	for (i_proton=0;i_proton<=DIM_TAB_PROTON_SPECTRUM;i_proton++)
+	{
+		T_proton = T_PROTON_SPECTRUM_MIN * pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),((double)i_proton/(double)DIM_TAB_PROTON_SPECTRUM));
+		E_proton = T_proton + MASSE_PROTON;
+
+		flux_proton_IS = PROTON_IS_SPECTRUM[i_proton];
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_IS));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+void print_PROTON_TOA_SPECTRUM(double PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], double T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1])
+{
+	long i_proton;
+	double T_proton_TOA ,E_proton_TOA ,flux_proton_TOA;
+	
+	FILE* results;
+	results = fopen(proton_TOA_spectrum_file_name,"w");
+
+	for (i_proton=0;i_proton<=DIM_TAB_PROTON_SPECTRUM;i_proton++)
+	{
+		T_proton_TOA = T_PROTON_TOA[i_proton];
+
+		flux_proton_TOA = PROTON_TOA_SPECTRUM[i_proton];
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_proton_TOA, (1.0e04*flux_proton_TOA));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+void print_PROTON_SPECTRUM_exp(void)
+{
+	long i_proton;
+	double T_proton ,E_proton ,flux_proton_exp;
+	double flux_proton;
+	
+	FILE* results;
+	results = fopen(proton_exp_spectrum_file_name,"w");
+
+	for (i_proton=0;i_proton<=DIM_TAB_PROTON_SPECTRUM;i_proton++)
+	{
+		T_proton = T_PROTON_SPECTRUM_MIN * pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),((double)i_proton/(double)DIM_TAB_PROTON_SPECTRUM));
+		E_proton = T_proton + MASSE_PROTON;
+
+		flux_proton_exp = flux_proton_EXP(E_proton);
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_exp));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
 
 
