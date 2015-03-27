@@ -26,7 +26,7 @@
 
 // DECLARATIONS DES FONCTIONS TEMPORAIRES
 
-
+void propagation_parameters_loading(struct Structure_Propagation* pt_Propagation, long i_jeux);
 
 
 /**************************************************************************************************************************************************************************************************/
@@ -61,6 +61,7 @@ int main(void)
 	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_TOA[DIM_TAB_PBAR+1];
 	double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1];
 	double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1];
+	double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1], PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1];
 
 	
 
@@ -76,6 +77,9 @@ int main(void)
 	TABLE_PROPAGATION_loading(&Propagation);
 	MIN_MED_MAX_loading(&Propagation);
 	print_propagation_parameters(&Propagation);
+	propagation_parameters_loading(&Propagation, 1);
+	print_propagation_parameters(&Propagation);
+	
 		
 	bessel_preliminary_write_file(alpha_i, &Proton, &Helium);
 	bessel_preliminary_read_file (alpha_i, &Proton, &Helium);
@@ -185,7 +189,14 @@ LA_FIN :
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
-
+void propagation_parameters_loading(struct Structure_Propagation* pt_Propagation, long i_jeux)
+{	
+	pt_Propagation->DIFFUSION_0_GV       = pt_Propagation->TABLE_PROPAGATION[i_jeux][1];     																			// [cm^{2} s^{-1}]
+	pt_Propagation->PUISSANCE_COEFF_DIFF = pt_Propagation->TABLE_PROPAGATION[i_jeux][0];                                                 								// [NO UNIT]
+	pt_Propagation->E_DIFFUS         	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][2];                                           										// [kpc]
+	pt_Propagation->VENT_GALACTIQUE  	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][3];                                												// [cm s^{-1}]
+	pt_Propagation->V_ALFEN          	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][4];                                												// [cm s^{-1}]	
+}
 
 
 

@@ -426,14 +426,14 @@ void TABLE_PROPAGATION_loading(struct Structure_Propagation* pt_Propagation)
 		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][3] = (pt_Propagation->DATA_FDR[4] * 1.0e5);                               											// [cm s^{-1}]
 		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][4] = (pt_Propagation->DATA_FDR[5] * sqrt(pt_Propagation->DATA_FDR[2] * pt_Propagation->DATA_FDR[3]) * 1.0e5);  		// [cm s^{-1}]
 		
-		
+/*		
 		printf("\n CAS NUMERO    = %6d \n",i_jeu_prop);
 	    printf(" DIFFUSION_0_GV	 = %.5e \t %.5e [cm^{2} s^{-1}]\n",pt_Propagation->DIFFUSION_0_GV, pt_Propagation->TABLE_PROPAGATION[i][1]);
 	    printf(" DELTA		 = %.5e \t %.5e \n",pt_Propagation->PUISSANCE_COEFF_DIFF, pt_Propagation->TABLE_PROPAGATION[i][0]);
 		printf(" E_DIFFUS        = %.2e \t %.5e [kpc]\n",pt_Propagation->E_DIFFUS, pt_Propagation->TABLE_PROPAGATION[i][2]);
 	    printf(" VENT_GALACTIQUE = %.5e \t %.5e [cm s^{-1}]\n",pt_Propagation->VENT_GALACTIQUE, pt_Propagation->TABLE_PROPAGATION[i][3]);
 		printf(" V_ALFEN         = %.5e \t %.5e [cm s^{-1}]\n",pt_Propagation->V_ALFEN, pt_Propagation->TABLE_PROPAGATION[i][4]);
-				
+*/				
 		
 	}
 	
