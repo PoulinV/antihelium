@@ -24,6 +24,10 @@ struct Structure_Propagation
 	double E_DIFFUS;
 	double VENT_GALACTIQUE;
 	double V_ALFEN;
+
+	double DATA_FDR[7];
+	double TABLE_PROPAGATION[nJeuxParam][nParamProp];
+
 	double PHI_FISK;
 };
 

@@ -148,6 +148,14 @@ d'avoir ici un nombre PAIR. */
 #define MED
 //#define MAX
 
+//	Nombre de parametres de propagation
+#define nParamProp  5
+
+//	Nombre de jeux de parametres de propagation
+#define nJeuxParam  1623 
+//#define nJeuxParam  3 
+
+
 //	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
 //	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
 

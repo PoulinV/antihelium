@@ -402,3 +402,42 @@ void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
 
 /********************************************************************************************/
 /********************************************************************************************/
+
+// On remplit le tableau TABLE_PROPAGATION[nJeuxParam][nParamProp] qui va contenir les 1623 jeux de paramètres de propagation
+
+
+void TABLE_PROPAGATION_loading(struct Structure_Propagation* pt_Propagation)
+{
+	int i;
+	
+	FILE *input_data;
+	input_data = fopen("../sources/propagation_parameters_FDR/recherche_all_v1.dat","r");
+
+    for ( int i_jeu_prop=0 ; i_jeu_prop < nJeuxParam ; i_jeu_prop++)
+	{	
+	
+		//  Nous définissons à ce niveau les parametres que FIORENZA, DAVID et RICHARD   -- hereafter called FDR -- ont déterminés.
+		
+		fscanf(input_data,"%lf %lf %lf %lf %lf %lf",&pt_Propagation->DATA_FDR[1],&pt_Propagation->DATA_FDR[2],&pt_Propagation->DATA_FDR[3],&pt_Propagation->DATA_FDR[4],&pt_Propagation->DATA_FDR[5],&pt_Propagation->DATA_FDR[6]);
+	
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][0] = pt_Propagation->DATA_FDR[1] ;																					// [NO UNIT]	
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][1] = pt_Propagation->DATA_FDR[2] * pt_Propagation->DATA_FDR[3] * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;        			// [cm^{2} s^{-1}] 
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][2] = pt_Propagation->DATA_FDR[3];  																					// [kpc]
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][3] = (pt_Propagation->DATA_FDR[4] * 1.0e5);                               											// [cm s^{-1}]
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][4] = (pt_Propagation->DATA_FDR[5] * sqrt(pt_Propagation->DATA_FDR[2] * pt_Propagation->DATA_FDR[3]) * 1.0e5);  		// [cm s^{-1}]
+		
+		
+		printf("\n CAS NUMERO    = %6d \n",i_jeu_prop);
+	    printf(" DIFFUSION_0_GV	 = %.5e \t %.5e [cm^{2} s^{-1}]\n",pt_Propagation->DIFFUSION_0_GV, pt_Propagation->TABLE_PROPAGATION[i][1]);
+	    printf(" DELTA		 = %.5e \t %.5e \n",pt_Propagation->PUISSANCE_COEFF_DIFF, pt_Propagation->TABLE_PROPAGATION[i][0]);
+		printf(" E_DIFFUS        = %.2e \t %.5e [kpc]\n",pt_Propagation->E_DIFFUS, pt_Propagation->TABLE_PROPAGATION[i][2]);
+	    printf(" VENT_GALACTIQUE = %.5e \t %.5e [cm s^{-1}]\n",pt_Propagation->VENT_GALACTIQUE, pt_Propagation->TABLE_PROPAGATION[i][3]);
+		printf(" V_ALFEN         = %.5e \t %.5e [cm s^{-1}]\n",pt_Propagation->V_ALFEN, pt_Propagation->TABLE_PROPAGATION[i][4]);
+				
+		
+	}
+	
+	fclose(input_data);
+}
+/********************************************************************************************/
+/********************************************************************************************/

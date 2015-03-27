@@ -73,6 +73,7 @@ int main(void)
 // 	CALCULS PRELIMINAIRES 
 	/////////////////////
 	
+	TABLE_PROPAGATION_loading(&Propagation);
 	MIN_MED_MAX_loading(&Propagation);
 	print_propagation_parameters(&Propagation);
 		
