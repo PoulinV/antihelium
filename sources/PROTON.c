@@ -482,7 +482,7 @@ void PROTON_IS_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPE
 		
 		flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_proton,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);
 		
-		PROTON_IS_SPECTRUM[i_proton] = flux_proton_IS;																		// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		PROTON_IS_SPECTRUM[i_proton] = flux_proton_IS;																		// [#proton cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
 }
 	
@@ -521,7 +521,7 @@ void PROTON_TOA_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SP
 //		Nous les stockons en memoire dans les tableaux RESULTS_T_PROTON_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
 	
 		T_PROTON_TOA[i_proton] = T_proton_TOA;
-		PROTON_TOA_SPECTRUM[i_proton] = flux_proton_TOA;																		// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		PROTON_TOA_SPECTRUM[i_proton] = flux_proton_TOA;																		// [#proton cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 		
 	}
 }
@@ -529,6 +529,19 @@ void PROTON_TOA_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SP
 /********************************************************************************************/
 /********************************************************************************************/
 
+void PROTON_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1])
+{
+	long i_proton;
+	
+	for (i_proton=0;i_proton<=DIM_TAB_PROTON_SPECTRUM;i_proton++)
+	{
+	    SPECTRUM[i_proton] = 0.0;
+	}
+	
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
 
 
 

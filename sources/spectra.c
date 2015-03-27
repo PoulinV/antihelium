@@ -378,4 +378,52 @@ void print_PROTON_SPECTRUM_exp(void)
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
 
+//	On imprime le resultat
 
+void print_PBAR_OVER_P_IS_SPECTRUM(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1])
+{
+	long i_pbar;
+	double T_IS ,E_IS , pbar_over_p_IS;
+	
+	FILE* results;
+	results = fopen(pbar_over_p_IS_spectrum_file_name,"w");
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_IS = T_IS + MASSE_PROTON;
+
+		pbar_over_p_IS = PBAR_OVER_P_IS_SPECTRUM[i_pbar];																					// [NO UNIT]
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_IS, pbar_over_p_IS);	
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+//	On imprime le resultat
+
+void print_PBAR_OVER_P_TOA_SPECTRUM(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1])
+{
+	long i_pbar;
+	double T_pbar_over_p_TOA,pbar_over_p_TOA;
+	
+	FILE* results;
+	results = fopen(pbar_over_p_TOA_spectrum_file_name,"w");
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{	
+		T_pbar_over_p_TOA = T_PBAR_OVER_P_TOA[i_pbar];
+		pbar_over_p_TOA = PBAR_OVER_P_TOA_SPECTRUM[i_pbar];
+			
+		fprintf(results, " %.10e\t %.10e\t \n",T_pbar_over_p_TOA,pbar_over_p_TOA);																					// [NO UNIT]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/

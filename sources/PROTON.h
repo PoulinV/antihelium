@@ -34,6 +34,8 @@ void calculation_BESSEL_PROTON_Ep_i(double alpha_i[NDIM+1], struct Structure_Nuc
 double flux_proton_TH(double r,double z,double E_proton, double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation);
 double pbar_emissivity_per_H_solar(double E_pbar);
 
+void PROTON_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1]);
+
 void PROTON_IS_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], struct Structure_Nuclei* pt_Proton, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
 void PROTON_TOA_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], double PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], double T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1], struct Structure_Propagation* pt_Propagation);
 

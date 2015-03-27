@@ -29,9 +29,6 @@
 
 
 
-
-
-
 /**************************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************************/
 
@@ -61,11 +58,11 @@ int main(void)
 	long   i_data,i_iteration,i_pbar,i;
 	
 	double alpha_i[NDIM+1];
-	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1];
-	double T_PBAR_TOA[DIM_TAB_PBAR+1], T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1];
-	double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1];
-	double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1];
+	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_TOA[DIM_TAB_PBAR+1];
+	double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1];
+	double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1];
 
+	
 
 //	INITALISATION DES VARIABLES
 	///////////////////////////
@@ -94,18 +91,21 @@ int main(void)
 	
 	DM_source_term_calculation(&Primary_Source_Term);
 	
+	PROTON_SPECTRUM_initialization(PROTON_IS_SPECTRUM);
+	PROTON_SPECTRUM_initialization(PROTON_TOA_SPECTRUM);
 	PBAR_BESSEL_TABLES_123_initialization(&Pbar);
 	PBAR_SPECTRUM_initialization(PBAR_IS_SPECTRUM);
 	PBAR_SPECTRUM_initialization(PBAR_TOA_SPECTRUM);
+	PBAR_SPECTRUM_initialization(PBAR_OVER_P_IS_SPECTRUM);
+	PBAR_SPECTRUM_initialization(PBAR_OVER_P_TOA_SPECTRUM);
 
 
-//	CALCUL DES FLUX DE PROTONS ET D'HELIUM
+//	CALCUL DU FLUX DE PROTONS
 //////////////////////////////////////////
 	
 	PROTON_IS_SPECTRUM_calculation(PROTON_IS_SPECTRUM, &Proton, &Propagation, alpha_i);
 	PROTON_TOA_SPECTRUM_calculation(PROTON_IS_SPECTRUM, PROTON_TOA_SPECTRUM, T_PROTON_TOA, &Propagation);
 	
-
 	
 //	CALCUL DES Pi DES ANTIPROTONS
 /////////////////////////////////
@@ -130,6 +130,13 @@ int main(void)
 	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);	
 	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Propagation);
 
+//	CALCUL DU RAPPORT Pbar/P
+////////////////////////////
+	
+	PBAR_OVER_P_IS_SPECTRUM_calculation(PBAR_OVER_P_IS_SPECTRUM, &Proton, &Pbar, &Propagation, alpha_i);
+	PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
+	
+
 
 //	AFFICHAGE DES SPECTRES
 //////////////////////////
@@ -142,6 +149,10 @@ int main(void)
 	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
 	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA);
 	//print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	
+	print_PBAR_OVER_P_IS_SPECTRUM(PBAR_OVER_P_IS_SPECTRUM);
+	print_PBAR_OVER_P_TOA_SPECTRUM(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA);
+	
 	
 
 //	CALCUL DES SPECTRES D'ANTIPROTONS PRIMAIRES POUR LE PPPC DE M.Cirelli
@@ -172,6 +183,10 @@ LA_FIN :
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
+
+
+
+
 
 
 

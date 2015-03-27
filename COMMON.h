@@ -32,13 +32,6 @@ d'avoir ici un nombre PAIR. */
   #error DIM_TAB_PROTON DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
 #endif
 
-// On definit l'intervalle d'energie cinetique des protons pour afficher leur spectre.
-#define DIM_TAB_PROTON_SPECTRUM	300
-#define T_PROTON_SPECTRUM_MIN	0.1						// [GeV] 
-#define T_PROTON_SPECTRUM_MAX	1.0e3					// [GeV]
-
-
-
 
 /********************************************************************************************/
 #define T_PBAR_MIN (0.1)
@@ -60,6 +53,11 @@ d'avoir ici un nombre PAIR. */
 #if ((DIM_TAB_PBAR % 2) == 1)
   #error DIM_TAB_PBAR DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
 #endif
+
+// On definit l'intervalle d'energie cinetique des protons pour afficher leur spectre.
+#define DIM_TAB_PROTON_SPECTRUM	DIM_TAB_PBAR
+#define T_PROTON_SPECTRUM_MIN	T_PBAR_MIN						// [GeV] 
+#define T_PROTON_SPECTRUM_MAX	T_PBAR_MAX						// [GeV]
 
 /********************************************************************************************/
 /*
@@ -242,9 +240,11 @@ d'avoir ici un nombre PAIR. */
 #define proton_TOA_spectrum_file_name	"./results/proton_TOA_spectrum.txt"
 #define proton_exp_spectrum_file_name	"./results/proton_exp_spectrum.txt"
 
-
 #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum.txt"
 #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum.txt" 
+
+#define pbar_over_p_IS_spectrum_file_name	"./results/pbar_over_p_IS_spectrum.txt"
+#define pbar_over_p_TOA_spectrum_file_name	"./results/pbar_over_p_TOA_spectrum.txt" 
 
 #define pbar_IS_spectra_MIN_MED_MAX_file_name	"./results/pbar_IS_spectra_MIN_MED_MAX.txt"
 #define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt" 
