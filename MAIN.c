@@ -26,7 +26,9 @@
 
 // DECLARATIONS DES FONCTIONS TEMPORAIRES
 
-void propagation_parameters_loading(struct Structure_Propagation* pt_Propagation, long i_jeux);
+
+
+
 
 
 /**************************************************************************************************************************************************************************************************/
@@ -61,7 +63,7 @@ int main(void)
 	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_TOA[DIM_TAB_PBAR+1];
 	double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1];
 	double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1];
-	double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1], PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1];
+	double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2];
 
 	
 
@@ -77,8 +79,8 @@ int main(void)
 	TABLE_PROPAGATION_loading(&Propagation);
 	MIN_MED_MAX_loading(&Propagation);
 	print_propagation_parameters(&Propagation);
-	propagation_parameters_loading(&Propagation, 1);
-	print_propagation_parameters(&Propagation);
+	//propagation_parameters_loading(&Propagation, 1);
+	//print_propagation_parameters(&Propagation);
 	
 		
 	bessel_preliminary_write_file(alpha_i, &Proton, &Helium);
@@ -123,6 +125,8 @@ int main(void)
 	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
 	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
 	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
+	
 	
 //	CALCUL DES Pi EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
 	//tertiary_component_effect_calculation(&Pbar, alpha_i);
@@ -141,7 +145,9 @@ int main(void)
 	PBAR_OVER_P_IS_SPECTRUM_calculation(PBAR_OVER_P_IS_SPECTRUM, &Proton, &Pbar, &Propagation, alpha_i);
 	PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
 	
-
+	//PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY_calculation(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
+	PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation_1(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY, T_PBAR_OVER_P_TOA, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
+		
 
 //	AFFICHAGE DES SPECTRES
 //////////////////////////
@@ -157,6 +163,9 @@ int main(void)
 	
 	print_PBAR_OVER_P_IS_SPECTRUM(PBAR_OVER_P_IS_SPECTRUM);
 	print_PBAR_OVER_P_TOA_SPECTRUM(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA);
+	
+	print_PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY);
+	print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY, T_PBAR_OVER_P_TOA);
 	
 	
 
@@ -188,22 +197,6 @@ LA_FIN :
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
-
-void propagation_parameters_loading(struct Structure_Propagation* pt_Propagation, long i_jeux)
-{	
-	pt_Propagation->DIFFUSION_0_GV       = pt_Propagation->TABLE_PROPAGATION[i_jeux][1];     																			// [cm^{2} s^{-1}]
-	pt_Propagation->PUISSANCE_COEFF_DIFF = pt_Propagation->TABLE_PROPAGATION[i_jeux][0];                                                 								// [NO UNIT]
-	pt_Propagation->E_DIFFUS         	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][2];                                           										// [kpc]
-	pt_Propagation->VENT_GALACTIQUE  	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][3];                                												// [cm s^{-1}]
-	pt_Propagation->V_ALFEN          	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][4];                                												// [cm s^{-1}]	
-}
-
-
-
-
-
-
-
 
 
 

@@ -18,6 +18,7 @@
 #include "CROSS_SECTIONS.h"
 #include "DIFFUSION_PROPAGATION.h"
 #include "PROTON.h"
+#include "HELIUM.h"
 #include "SOLAR_MOD.h"
 
 #include "TRIDAG.h"
@@ -55,6 +56,10 @@ void ELDR_effect_calculation(struct Structure_Propagation* pt_Propagation, struc
 
 void PBAR_OVER_P_IS_SPECTRUM_calculation(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
 void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
+
+void PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY_calculation(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);;
+void PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
+void PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation_1(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1]);
 
 
 /**********************************************************************************************************************************************************************************************************/

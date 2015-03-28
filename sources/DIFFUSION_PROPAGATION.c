@@ -439,5 +439,18 @@ void TABLE_PROPAGATION_loading(struct Structure_Propagation* pt_Propagation)
 	
 	fclose(input_data);
 }
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+void propagation_parameters_loading(struct Structure_Propagation* pt_Propagation, long i_jeux)
+{	
+	pt_Propagation->DIFFUSION_0_GV       = pt_Propagation->TABLE_PROPAGATION[i_jeux][1];     																			// [cm^{2} s^{-1}]
+	pt_Propagation->PUISSANCE_COEFF_DIFF = pt_Propagation->TABLE_PROPAGATION[i_jeux][0];                                                 								// [NO UNIT]
+	pt_Propagation->E_DIFFUS         	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][2];                                           										// [kpc]
+	pt_Propagation->VENT_GALACTIQUE  	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][3];                                												// [cm s^{-1}]
+	pt_Propagation->V_ALFEN          	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][4];                                												// [cm s^{-1}]	
+}
+
 /********************************************************************************************/
 /********************************************************************************************/

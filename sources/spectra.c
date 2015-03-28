@@ -427,3 +427,58 @@ void print_PBAR_OVER_P_TOA_SPECTRUM(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
+
+//	On imprime le resultat
+
+void print_PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2])
+{
+	long i_pbar;
+	double T_IS ,E_IS , pbar_over_p_IS_INF, pbar_over_p_IS_SUP;
+	
+	FILE* results;
+	results = fopen(pbar_over_p_IS_uncertainty_spectrum_file_name,"w");
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_IS = T_IS + MASSE_PROTON;
+
+		pbar_over_p_IS_INF = PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0];																					// [NO UNIT]
+		pbar_over_p_IS_SUP = PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1];																					// [NO UNIT]
+		
+		fprintf(results, " %.10e\t %.10e\t %.10e\t \n", T_IS, pbar_over_p_IS_INF, pbar_over_p_IS_SUP);	
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+
+//	On imprime le resultat
+
+void print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1])
+{
+	long i_pbar;
+	double T_TOA ,E_TOA , pbar_over_p_TOA_INF, pbar_over_p_TOA_SUP;
+	
+	FILE* results;
+	results = fopen(pbar_over_p_TOA_uncertainty_spectrum_file_name,"w");
+
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_TOA = T_PBAR_OVER_P_TOA[i_pbar];
+		
+		pbar_over_p_TOA_INF = PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0];																					// [NO UNIT]
+		pbar_over_p_TOA_SUP = PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1];																					// [NO UNIT]
+		
+		fprintf(results, " %.10e\t %.10e\t %.10e\t \n", T_TOA, pbar_over_p_TOA_INF, pbar_over_p_TOA_SUP);	
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+

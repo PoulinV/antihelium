@@ -41,6 +41,9 @@ void print_PROTON_SPECTRUM_exp(void);
 void print_PBAR_OVER_P_IS_SPECTRUM(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1]);
 void print_PBAR_OVER_P_TOA_SPECTRUM(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1]);
 
+void print_PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2]);
+void print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1]);
+
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/

@@ -1313,19 +1313,19 @@ void ELDR_effect_calculation(struct Structure_Propagation* pt_Propagation, struc
 
 void PBAR_OVER_P_IS_SPECTRUM_calculation(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Pbar* pt_Pbar, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
 {
-	long j,i;
+	long i_pbar,i;
 	double T_IS ,E_IS ,flux_antiproton_IS ,flux_proton_IS, pbar_over_p_IS;
 
-	for (j=0;j<=DIM_TAB_PBAR;j++)
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 		T_IS = T_PBAR_MIN *
-		pow((T_PBAR_MAX/T_PBAR_MIN),((double)j/(double)DIM_TAB_PBAR));
+		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
 		E_IS = T_IS + MASSE_PROTON;
 		
 		//	Calcul du flux d'antiprotons
 		for (i=1;i<=NDIM;i++)
 		{
-			pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[j][i];
+			pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
 		}
 		flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);				// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 		//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
@@ -1333,13 +1333,13 @@ void PBAR_OVER_P_IS_SPECTRUM_calculation(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_
 
 		//	Calcul du flux de protons
   	  	calcul_method_B_BESSEL_Pi(E_IS, alpha_i, pt_Proton,pt_Propagation);
-		flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 		
 		
 		//	Calcul du rapport pbar/p
 		pbar_over_p_IS = flux_antiproton_IS/flux_proton_IS;
 		
-		PBAR_OVER_P_IS_SPECTRUM[j] = pbar_over_p_IS;																						// [NO UNIT]		
+		PBAR_OVER_P_IS_SPECTRUM[i_pbar] = pbar_over_p_IS;																						// [NO UNIT]		
 	}
 }
 
@@ -1366,13 +1366,13 @@ void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TA
 		{
 			pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
 		}
-		flux_pbar_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);				// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		flux_pbar_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);						// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 		//flux_pbar_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
 		PBAR_IS_SPECTRUM[i_pbar] = flux_pbar_IS;																							// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 
 		//	Calcul du flux de protons
   	  	calcul_method_B_BESSEL_Pi(E_IS, alpha_i, pt_Proton,pt_Propagation);
-		flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#proton m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#proton cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 		PROTON_IS_SPECTRUM[i_pbar] = flux_proton_IS;																						// [#proton cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
 	
@@ -1394,7 +1394,7 @@ void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TA
 		
 		if (E_TOA <= MASSE_PROTON)
 		{
-			T_PBAR_TOA[i_pbar]        = 0.0;
+			T_PBAR_OVER_P_TOA[i_pbar]        = 0.0;
 			PBAR_TOA_SPECTRUM[i_pbar] = 0.0;
 			PROTON_TOA_SPECTRUM[i_pbar] = 0.0;
 			continue;
@@ -1411,5 +1411,260 @@ void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TA
 /********************************************************************************************/
 /********************************************************************************************/
 
+void PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY_calculation(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
+{
+	long i_pbar,i,i_jeux;
+	double T_IS ,E_IS ,flux_antiproton_IS ,flux_proton_IS, pbar_over_p_IS;
+
+	for (i_jeux=0;i_jeux<nJeuxParam;i_jeux++)
+	{
+		propagation_parameters_loading(pt_Propagation, i_jeux);
 	
+		calculation_BESSEL_PROTON_Ep_i(alpha_i, pt_Proton, pt_Propagation);
+		calculation_BESSEL_HELIUM_Ep_i(alpha_i, pt_Helium, pt_Propagation);
+		calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, pt_Proton, pt_Helium, pt_Pbar, pt_Cross_Section, pt_Propagation);
+		calculation_BESSEL_PBAR_SUM_123_Epbar_i(pt_Pbar);
+		
+		ELDR_effect_calculation(pt_Propagation, pt_Pbar, alpha_i);
+		
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{	
+			T_IS = T_PBAR_MIN *
+			pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+			E_IS = T_IS + MASSE_PROTON;
+		
+			//	Calcul du flux d'antiprotons			
+			for (i=1;i<=NDIM;i++)
+			{
+				pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
+			}
+			flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);				// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+			//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
+
+
+			//	Calcul du flux de protons
+	  	  	calcul_method_B_BESSEL_Pi(E_IS, alpha_i, pt_Proton,pt_Propagation);
+			flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		
+		
+			//	Calcul du rapport pbar/p
+			pbar_over_p_IS = flux_antiproton_IS/flux_proton_IS;
+			
+			// On stocke les valeurs extremales du ration pbar/p dans le tableau PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY
+			if(i_jeux == 0)
+			{
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_IS;
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_IS;
+			}
+			else if(pbar_over_p_IS <= PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0])
+			{
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_IS;
+			}
+			else if (pbar_over_p_IS >= PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1])
+			{
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_IS;																	// [NO UNIT]		
+			}
+		
+			//printf(" i_pbar = %ld \t PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[%ld][0] = %.5e \t PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[%ld][0] = %.5e \n ", i_pbar, i_pbar, PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0], i_pbar, PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1]);
+		
+		}
+		//printf("\n");
+	}
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+void PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
+{
+	long i_pbar,i,i_jeux;
+	double T_IS ,E_IS ,flux_antiproton_IS ,flux_proton_IS, pbar_over_p_IS;
+	double T_TOA ,E_TOA ,flux_antiproton_TOA , pbar_over_p_TOA_INF, pbar_over_p_TOA_SUP;
+	
+
+	for (i_jeux=0;i_jeux<nJeuxParam;i_jeux++)
+	{
+		propagation_parameters_loading(pt_Propagation, i_jeux);
+	
+		calculation_BESSEL_PROTON_Ep_i(alpha_i, pt_Proton, pt_Propagation);
+		calculation_BESSEL_HELIUM_Ep_i(alpha_i, pt_Helium, pt_Propagation);
+		calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, pt_Proton, pt_Helium, pt_Pbar, pt_Cross_Section, pt_Propagation);
+		calculation_BESSEL_PBAR_SUM_123_Epbar_i(pt_Pbar);
+		
+		ELDR_effect_calculation(pt_Propagation, pt_Pbar, alpha_i);
+		
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{	
+			T_IS = T_PBAR_MIN *
+			pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+			E_IS = T_IS + MASSE_PROTON;
+		
+			//	Calcul du flux d'antiprotons			
+			for (i=1;i<=NDIM;i++)
+			{
+				pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
+			}
+			flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);				// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+			//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
+
+
+			//	Calcul du flux de protons
+	  	  	calcul_method_B_BESSEL_Pi(E_IS, alpha_i, pt_Proton,pt_Propagation);
+			flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		
+		
+			//	Calcul du rapport pbar/p
+			pbar_over_p_IS = flux_antiproton_IS/flux_proton_IS;
+			
+			// On stocke les valeurs extremales du ration pbar/p dans le tableau PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY
+			if(i_jeux == 0)
+			{
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_IS;
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_IS;
+			}
+			else if(pbar_over_p_IS <= PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0])
+			{
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_IS;
+			}
+			else if (pbar_over_p_IS >= PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1])
+			{
+				PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_IS;																	// [NO UNIT]		
+			}
+		
+			//printf(" i_pbar = %ld \t PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[%ld][0] = %.5e \t PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[%ld][0] = %.5e \n ", i_pbar, i_pbar, PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0], i_pbar, PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1]);
+		
+		}
+		//printf("\n");
+	}
+	
+	//	Nous modulons maintenant les spectres obtenus.
+	
+	pt_Propagation->PHI_FISK = fisk_potential;
+	
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		T_IS = T_PBAR_MIN *
+		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+		E_IS = T_IS + MASSE_PROTON;
+		
+		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_IS,PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0],&E_TOA,&pbar_over_p_TOA_INF);
+		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_IS,PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1],&E_TOA,&pbar_over_p_TOA_SUP);
+		
+		if (E_TOA <= MASSE_PROTON)
+		{
+			T_PBAR_OVER_P_TOA[i_pbar] = 0.0;
+			PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0] 	= 0.0;
+			PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1] 	= 0.0;			
+			continue;
+		}
+		
+		T_TOA = E_TOA - MASSE_PROTON;
+	
+		T_PBAR_OVER_P_TOA[i_pbar] = T_TOA;
+		PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_TOA_INF * (pow(E_IS, 2.0)-pow(MASSE_PROTON, 2.0)) / (pow(E_TOA, 2.0)-pow(MASSE_PROTON, 2.0));																		// [NO UNIT]
+		PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_TOA_SUP* (pow(E_IS, 2.0)-pow(MASSE_PROTON, 2.0)) / (pow(E_TOA, 2.0)-pow(MASSE_PROTON, 2.0));;																		// [NO UNIT]		
+	}	
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+//	Cette fonction est plus lente que 'PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation' mais elle permet d'appliquer le Force Field Approximation
+//	de manière independante pour les protons et les antiprotons. Cela est utile dans le cas ou le potentiel de Fisk depend de la charge de la particule.
+
+void PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation_1(double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], double T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1], struct Structure_Nuclei* pt_Proton, struct Structure_Nuclei* pt_Helium, struct Structure_Pbar* pt_Pbar, struct Structure_Cross_Section* pt_Cross_Section, struct Structure_Propagation* pt_Propagation, double alpha_i[NDIM+1])
+{
+	long i_pbar,i,i_jeux;
+	double T_IS ,E_IS ,flux_antiproton_IS ,flux_proton_IS, flux_proton_TOA, pbar_over_p_IS;
+	double T_TOA ,E_TOA ,flux_antiproton_TOA , pbar_over_p_TOA;
+	double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_TOA[DIM_TAB_PBAR+1];
+	double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], T_PROTON_TOA[DIM_TAB_PROTON_SPECTRUM+1];
+
+	for (i_jeux=0;i_jeux<nJeuxParam;i_jeux++)
+	{
+		propagation_parameters_loading(pt_Propagation, i_jeux);
+	
+		calculation_BESSEL_PROTON_Ep_i(alpha_i, pt_Proton, pt_Propagation);
+		calculation_BESSEL_HELIUM_Ep_i(alpha_i, pt_Helium, pt_Propagation);
+		calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, pt_Proton, pt_Helium, pt_Pbar, pt_Cross_Section, pt_Propagation);
+		calculation_BESSEL_PBAR_SUM_123_Epbar_i(pt_Pbar);
+		
+		ELDR_effect_calculation(pt_Propagation, pt_Pbar, alpha_i);
+		
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{	
+			T_IS = T_PBAR_MIN *
+			pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+			E_IS = T_IS + MASSE_PROTON;
+		
+			//	Calcul du flux d'antiprotons			
+			for (i=1;i<=NDIM;i++)
+			{
+				pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
+			}
+			flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);				// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+			//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
+			PBAR_IS_SPECTRUM[i_pbar] = flux_antiproton_IS;
+
+			//	Calcul du flux de protons
+	  	  	calcul_method_B_BESSEL_Pi(E_IS, alpha_i, pt_Proton,pt_Propagation);
+			flux_proton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_IS,MASSE_PROTON,1.,alpha_i,pt_Proton->BESSEL_COEF_i, pt_Propagation);					// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
+			PROTON_IS_SPECTRUM[i_pbar] = flux_proton_IS;
+		}
+			
+		//	Nous modulons maintenant les spectres obtenus.
+	
+		pt_Propagation->PHI_FISK = fisk_potential;
+	
+		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+		{
+			T_IS = T_PBAR_MIN *
+			pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+			E_IS = T_IS + MASSE_PROTON;
+		
+			FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_IS,PBAR_IS_SPECTRUM[i_pbar],&E_TOA,&flux_antiproton_TOA);
+			FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_IS,PROTON_IS_SPECTRUM[i_pbar],&E_TOA,&flux_proton_TOA);
+		
+			if (E_TOA <= MASSE_PROTON)
+			{
+				T_PBAR_OVER_P_TOA[i_pbar] = 0.0;
+				PBAR_TOA_SPECTRUM[i_pbar] = 0.0;
+				PROTON_TOA_SPECTRUM[i_pbar] = 0.0;
+				continue;
+			}
+		
+			T_TOA = E_TOA - MASSE_PROTON;
+	
+			T_PBAR_OVER_P_TOA[i_pbar] = T_TOA;
+			PBAR_TOA_SPECTRUM[i_pbar] = flux_antiproton_TOA;																	// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+			PROTON_TOA_SPECTRUM[i_pbar] = flux_proton_TOA;																		// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+		
+		
+			pbar_over_p_TOA = flux_antiproton_TOA/flux_proton_TOA;																// [NO UNIT]
+		
+			// On stocke les valeurs extremales du ration pbar/p dans le tableau PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY
+			if(i_jeux == 0)
+			{
+				PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_TOA;
+				PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_TOA;
+			}
+			else if(pbar_over_p_TOA <= PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0])
+			{
+				PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0] = pbar_over_p_TOA;
+			}
+			else if (pbar_over_p_TOA >= PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1])
+			{
+				PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1] = pbar_over_p_TOA;																	// [NO UNIT]		
+			}
+		
+			//printf(" i_pbar = %ld \t PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[%ld][0] = %.5e \t PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[%ld][0] = %.5e \n ", i_pbar, i_pbar, PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0], i_pbar, PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1]);	
+		
+		}		
+		//printf("\n");
+	}
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
 #undef NRANSI

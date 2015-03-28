@@ -153,7 +153,7 @@ d'avoir ici un nombre PAIR. */
 
 //	Nombre de jeux de parametres de propagation
 #define nJeuxParam  1623 
-//#define nJeuxParam  3 
+//#define nJeuxParam  10 
 
 
 //	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
@@ -257,6 +257,8 @@ d'avoir ici un nombre PAIR. */
 #define pbar_IS_spectra_MIN_MED_MAX_file_name	"./results/pbar_IS_spectra_MIN_MED_MAX.txt"
 #define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt" 
 
+#define pbar_over_p_IS_uncertainty_spectrum_file_name	"./results/pbar_over_p_IS_uncertainty_spectrum.txt"
+#define pbar_over_p_TOA_uncertainty_spectrum_file_name	"./results/pbar_over_p_TOA_uncertainty_spectrum.txt" 
 
 
 /********************************************************************************************/
