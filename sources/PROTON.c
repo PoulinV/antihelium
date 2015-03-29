@@ -69,153 +69,165 @@
 */
 double flux_proton_EXP(double E_proton)
 {
-  double T,impulsion,resultat;
-  double A,N,gamma,p1,p2,p3,p4,Ep1,Ep2,Ep3,Ep4,R,beta;
+	double T,impulsion,resultat;
+	double A,N,gamma,p1,p2,p3,p4,Ep1,Ep2,Ep3,Ep4,R,beta;
 	double phi_0,alpha_p;
   
-  T = E_proton - MASSE_PROTON;
-  if (T<=0.0)
-  {
-    return (0.0);
-  }
-  else
-  {
-    impulsion = sqrt(pow(E_proton,2) - pow(MASSE_PROTON,2));
-/*
-*   OLD VERSION FRIDAY_001222
-    N = 1.3215;
-    gamma = 2.74;
-    resultat = N  * pow(impulsion,-gamma);
-*
-*   NEW VERSION TUESDAY_050412
-    N = 1.3249;
-    gamma = 2.72;
-    resultat = N  * pow(T,-gamma);
+	T = E_proton - MASSE_PROTON;
+	if (T<=0.0)
+	{
+		return (0.0);
+	}
+	else
+	{
+		impulsion = sqrt(pow(E_proton,2) - pow(MASSE_PROTON,2));
 
-    N = 1.3249;
-    gamma = 2.72;
-    resultat = N  * pow(T,-gamma);
+		//	OLD VERSION FRIDAY_001222
+/*		N = 1.3215;
+		gamma = 2.74;
+		resultat = N  * pow(impulsion,-gamma);
 */
-/*
-*   New BESS data from Shikaze et al.
-*   VERSION AS OF 080903
-
-    A    = 1.94;
-		p1   = 0.7;
-		p2   = 2.76;
-
-		R    = sqrt(T*T + 2.*MASSE_PROTON*T);
-		beta = R / (T+MASSE_PROTON);
-
-		resultat = A * pow(beta,p1) * pow(R,-p2);
+		//	NEW VERSION TUESDAY_050412
+/*		N = 1.3249;
+		gamma = 2.72;
+		resultat = N  * pow(T,-gamma);
 */
-/*
-*   New parametrization from Fiorenza and David fits to H data.
-*   VERSION AS OF 081023
-
-    if (T <= 20.0)
-		{
-		  A    = 1.94;
-		  p1   = 0.7;
-		  p2   = 2.76;		  
-		}
-		else
-		{
-		  A    = 2.4132;
-		  p1   = 0.0;
-		  p2   = 2.839;		  
-		}
-
-		R    = sqrt(T*T + 2.*MASSE_PROTON*T);
-		beta = R / (T+MASSE_PROTON);
-
-		resultat = A * pow(beta,p1) * pow(R,-p2);
+/*		N = 1.3249;
+		gamma = 2.72;
+		resultat = N  * pow(T,-gamma);
 */
-/*
-*   New parameterization proposed by Julien Lavalle and
-*   based on the CREAM high energy CR proton data.
-*   The F1p fit is published in arXiv:1011.3063.
+	
 
-    phi_0   =  3.09e-3;
-		alpha_p =  2.8;
-		Ep1     =  4.0;
-		p1      =  1.05;
-		Ep2     =  2.5e3;
-		p2      =  0.34;
-		Ep3     = 10.e3;
-		p3      = -0.29;
+		#ifdef BESS_2008_Shikaze
+		//	New BESS data from Shikaze et al. VERSION AS OF 080903.
+		
+			A = 1.94;
+			p1   = 0.7;
+			p2   = 2.76;
 
-    resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
-		resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3);
-*/
-/*
-*   New parameterization proposed by Julien Lavalle and
-*   based on the ATIC_2 high energy CR proton data.
-*   The F2p fit is published in arXiv:1011.3063.
+			R    = sqrt(T*T + 2.*MASSE_PROTON*T);
+			beta = R / (T+MASSE_PROTON);
 
-    phi_0   =  3.09e-3;
-		alpha_p =  2.8;
-		Ep1     =  4.0;
-		p1      =  1.05;
-		Ep2     =  1.5e3;
-		p2      =  0.4;
-		Ep3     = 10.e3;
-		p3      = -0.35;
+			resultat = A * pow(beta,p1) * pow(R,-p2);
 
-    resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
-		resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3);
-*/
-/*
-*   New parameterization proposed by Timur Delahaye and
-*   based on the PAMELA high energy CR proton data.
-
-    	phi_0   =  3.53e-3;
-		alpha_p =  2.5;
-		Ep1     =  2.5;
-		p1      =  0.9;
-		Ep2     =  16.;
-		p2      =  -0.5;
-		Ep3     = 300.;
-		p3      = 0.46;
-		Ep4     = 5.e3;
-		p4      = -0.21;
-
-    	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
-		resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4);
-*/
-/*
-*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
-*	Parameterized by Fiorenza Donato in arXiv:1402.0321
-
-		A    = 2.2450;
-		p1   = 2.32;
-		p2   = 2.8232;
-
-		R    = sqrt(T*T + 2.*MASSE_PROTON*T);
-		beta = R / (T+MASSE_PROTON);
-
-		resultat = A * pow(beta,p1) * pow(R,-p2);
-*/
-/*
-*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
-*	Parameterized by Kappl and Winkler in arXiv:1408.0299
-
-	A          = 1.7407;
-	gamma = 2.775;
-
-	resultat = A * pow(T,-gamma);
-*/
-/*
-*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
-*	Parameterized by Vittino in a forthcoming paper
-
-	A          = 1.183042;
-	gamma = 2.712;
-
-	resultat = A * pow(T,-gamma);
-*/
 
 	
+		#elif defined Fit_2008_Maurin_Donato
+		//	New parametrization from Fiorenza and David fits to H data. VERSION AS OF 081023.
+
+    		if (T <= 20.0)
+			{
+		  		A    = 1.94;
+		  		p1   = 0.7;
+		 		p2   = 2.76;		  
+			}
+			else
+			{
+		  		A    = 2.4132;
+		  		p1   = 0.0;
+		  		p2   = 2.839;		  
+			}
+
+			R    = sqrt(T*T + 2.*MASSE_PROTON*T);
+			beta = R / (T+MASSE_PROTON);
+
+			resultat = A * pow(beta,p1) * pow(R,-p2);
+
+
+
+		#elif defined CREAM_2010_Lavalle
+		//	New parameterization proposed by Julien Lavalle and based on the CREAM high energy CR proton data. The F1p fit is published in arXiv:1011.3063.
+
+    		phi_0   =  3.09e-3;
+			alpha_p =  2.8;
+			Ep1     =  4.0;
+			p1      =  1.05;
+			Ep2     =  2.5e3;
+			p2      =  0.34;
+			Ep3     = 10.e3;
+			p3      = -0.29;
+
+    		resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
+			resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3);
+		
+		
+		
+		#elif defined ATIC2_2010_Lavalle
+		//	New parameterization proposed by Julien Lavalle and based on the ATIC_2 high energy CR proton data. The F2p fit is published in arXiv:1011.3063.
+
+    		phi_0   =  3.09e-3;
+			alpha_p =  2.8;
+			Ep1     =  4.0;
+			p1      =  1.05;
+			Ep2     =  1.5e3;
+			p2      =  0.4;
+			Ep3     = 10.e3;
+			p3      = -0.35;
+
+    		resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
+			resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3);
+			
+
+
+		#elif defined PAMELA_2012_Delahaye
+		//	New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
+
+    		phi_0   =  3.53e-3;
+			alpha_p =  2.5;
+			Ep1     =  2.5;
+			p1      =  0.9;
+			Ep2     =  16.;
+			p2      =  -0.5;
+			Ep3     = 300.;
+			p3      = 0.46;
+			Ep4     = 5.e3;
+			p4      = -0.21;
+
+    		resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
+			resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4);
+			
+			
+			
+		#elif defined AMS02_2013_Donato
+		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
+
+			A    = 2.2450;
+			p1   = 2.32;
+			p2   = 2.8232;
+
+			R    = sqrt(T*T + 2.*MASSE_PROTON*T);
+			beta = R / (T+MASSE_PROTON);
+
+			resultat = A * pow(beta,p1) * pow(R,-p2);
+			
+			
+
+		#elif defined AMS02_2013_Kappl_Winkler
+		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Kappl and Winkler in arXiv:1408.0299.
+
+			A          = 1.7407;
+			gamma = 2.775;
+
+			resultat = A * pow(T,-gamma);
+			
+		
+		
+		#elif defined AMS02_2013_Vittino
+		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
+
+			A          = 1.183042;
+			gamma = 2.712;
+
+			resultat = A * pow(T,-gamma);
+			
+			
+		#else
+			printf("ERROR : function 'flux_proton_EXP' \nYou must specify one proton flux parametrization in COMMON.h! \n");
+			exit(0);
+		#endif
+			
+
+/*	
 	phi_0   =  3.53e-3;
 	alpha_p =  2.5;
 	Ep1     =  2.5;
@@ -229,9 +241,11 @@ double flux_proton_EXP(double E_proton)
 
 	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
 	resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4); // [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] 
-	  	
+
+*/	  	
 	return resultat;
-  }
+
+	}
 }
 
 /********************************************************************************************/

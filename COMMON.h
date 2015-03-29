@@ -144,7 +144,37 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-//	CROSS-SECTION PARAMETERS
+//	EXPERIMENTAL PROTON FLUX PARAMETRIZATION
+
+//	On choisit ici l'experience qui nous donne le flux de protons.
+
+//	New BESS data from Shikaze et al. VERSION AS OF 080903.
+//#define BESS_2008_Shikaze
+
+//	New parametrization from Fiorenza and David fits to H data. VERSION AS OF 081023.
+//#define Fit_2008_Maurin_Donato
+
+//	New parameterization proposed by Julien Lavalle and based on the CREAM high energy CR proton data. The F1p fit is published in arXiv:1011.3063.
+//#define CREAM_2010_Lavalle
+
+//	New parameterization proposed by Julien Lavalle and based on the ATIC_2 high energy CR proton data. The F2p fit is published in arXiv:1011.3063.
+//#define ATIC2_2010_Lavalle
+
+//   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
+#define PAMELA_2012_Delahaye
+
+//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
+//#define AMS02_2013_Donato
+
+//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Kappl and Winkler in arXiv:1408.0299.
+//#define AMS02_2013_Kappl_Winkler
+
+//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
+//#define AMS02_2013_Vittino
+
+/********************************************************************************************/
+
+//	SECANDARY PBAR PRODUCTION CROSS-SECTION PARAMETERS
 
 /*
 * Liste des fichiers et de leurs adresses ou sont stockees les valeurs de
