@@ -25,165 +25,163 @@
 */
 double flux_helium_EXP(double E_nucleon)
 {
-  double T_nucleon,P_nucleon,rigidity,resultat;
-  double A,N,gamma;
+ 	double T_nucleon,P_nucleon,rigidity,resultat;
+	double A,N,gamma;
 	double beta,R,Rp1,Rp2,Rp3,Rp4,p1,p2,p3,p4,Ttot,Mtot;
   
-  T_nucleon = E_nucleon - MASSE_PROTON;
-  if (T_nucleon<=0.0)
-  {
-    return (0.0);
-  }
-  else
-  {
-    P_nucleon = sqrt(pow(E_nucleon,2) - pow(MASSE_PROTON,2));
+	T_nucleon = E_nucleon - MASSE_PROTON;
+  	if (T_nucleon<=0.0)
+  	{
+		return (0.0);
+  	}
+  	else
+  	{
+    	P_nucleon = sqrt(pow(E_nucleon,2) - pow(MASSE_PROTON,2));
+
+		//   NEW VERSION TUESDAY_050412
 /*
-*   NEW VERSION TUESDAY_050412
+    	rigidity  = (A_HE / Z_HE) * P_nucleon;
+    	N = 0.0721;
+    	gamma = 2.74;
+    	resultat = N  * pow(T_nucleon,-gamma);
 
-    rigidity  = (A_HE / Z_HE) * P_nucleon;
-    N = 0.0721;
-    gamma = 2.74;
-    resultat = N  * pow(T_nucleon,-gamma);
-
-    rigidity  = (A_HE / Z_HE) * P_nucleon;
-    N = 0.0721;
-    gamma = 2.74;
-    resultat = N  * pow(T_nucleon,-gamma);
+    	rigidity  = (A_HE / Z_HE) * P_nucleon;
+    	N = 0.0721;
+    	gamma = 2.74;
+    	resultat = N  * pow(T_nucleon,-gamma);
 */
-/*
-*   New BESS data from Shikaze et al.
-*   VERSION AS OF 080903
+		
+		
+		#ifdef BESS_2008_helium_Shikaze
+		//	New BESS data from Shikaze et al. VERSION AS OF 080903.
 
-    A  = 0.71;
-		p1 = 0.5;
-		p2 = 2.78;
+   	 		A  = 0.71;
+			p1 = 0.5;
+			p2 = 2.78;
 
-		Ttot = 4. * T_nucleon;
-		Mtot = 4. * MASSE_PROTON;
-		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-		beta = 2. * R / (Ttot + Mtot);
+			Ttot = 4. * T_nucleon;
+			Mtot = 4. * MASSE_PROTON;
+			R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+			beta = 2. * R / (Ttot + Mtot);
 
-		resultat = A * pow(beta,p1) * pow(R,-p2);
-*/
-/*
-*   New parametrization from Fiorenza and David fits to HE data.
-*   VERSION AS OF 081023
+			resultat = A * pow(beta,p1) * pow(R,-p2);
+			
+			
+		
+		#elif defined Fit_2008_helium_Maurin_Donato
+		//	New parametrization from Fiorenza and David fits to HE data. VERSION AS OF 081023.
 
-    if (T_nucleon <= 20.0)
-		{
-		  A  = 0.71;
-		  p1 = 0.5;
-		  p2 = 2.78;		  
-		}
-		else
-		{
-		  A    = 0.8866;
-		  p1   = 0.0;
-		  p2   = 2.85;		  
-		}
+    		if (T_nucleon <= 20.0)
+			{
+		  	  	A  = 0.71;
+		  		p1 = 0.5;
+		  	  	p2 = 2.78;		  
+			}
+			else
+			{
+		  	  	A    = 0.8866;
+		  	  	p1   = 0.0;
+		  	  	p2   = 2.85;		  
+			}
 
-		Ttot = 4. * T_nucleon;
-		Mtot = 4. * MASSE_PROTON;
-		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-		beta = 2. * R / (Ttot + Mtot);
+			Ttot = 4. * T_nucleon;
+			Mtot = 4. * MASSE_PROTON;
+			R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+			beta = 2. * R / (Ttot + Mtot);
 
-		resultat = A * pow(beta,p1) * pow(R,-p2);
-*/
-/*
-*   New parameterization proposed by Julien Lavalle and
-*   based on the CREAM and ATIC_2 high energy CR helium data.
-*   The F1He fit is published in arXiv:1011.3063.
+			resultat = A * pow(beta,p1) * pow(R,-p2);
 
-    A   =  0.71;
-		p1  =  0.5;
-		p2  =  2.78;
-		p3  =  0.5;
-		Rp3 =  1.e3;
-		p4  = -0.5;
-		Rp4 = 10.e3;
 
-		Ttot = 4. * T_nucleon;
-		Mtot = 4. * MASSE_PROTON;
-		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-		beta = 2. * R / (Ttot + Mtot);
 
-		resultat  = A * pow(beta,p1) * pow(R,-p2);
-		resultat *= pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4);
-*/
-/*
-*   New parameterization proposed by Timur Delahaye and
-*   based on the PAMELA high energy CR helium data.
+		#elif defined CREAM_ATIC2_2010_helium_Lavalle
+		//	New parameterization proposed by Julien Lavalle and based on the CREAM and ATIC_2 high energy CR helium data. The F1He fit is published in arXiv:1011.3063.
 
-    	A       = 1.5e-5;
-		Rp1     = 50.;
-		p1      = 2.7;
-		Rp2     = 250.;
-		p2      = -1.3;
-		Rp3     = 1.e3;
-		p3      = 5.4;
-		Rp4     = 2.e3;
-		p4      = -4.15;
+    		A   =  0.71;
+			p1  =  0.5;
+			p2  =  2.78;
+			p3  =  0.5;
+			Rp3 =  1.e3;
+			p4  = -0.5;
+			Rp4 = 10.e3;
 
-		Ttot = 4. * T_nucleon;
-		Mtot = 4. * MASSE_PROTON;
-		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-		beta = 2. * R / (Ttot + Mtot);
+			Ttot = 4. * T_nucleon;
+			Mtot = 4. * MASSE_PROTON;
+			R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+			beta = 2. * R / (Ttot + Mtot);
 
-    	resultat  = A * pow((R/Rp1),-p1);
-		resultat *= pow((1. + (R/Rp2)),p2) * pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4);
-*/
-/*
-*   New AMS02 data presented at ICRC 2013 in Rio de Janeiro
-*	Parameterized by Fiorenza Donato in arXiv:1402.0321
+			resultat  = A * pow(beta,p1) * pow(R,-p2);
+			resultat *= pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4);
 
-		A  = 0.5220;
-		p1 = 1.34;
-		p2 = 2.6905;
+			
+			
+		#elif defined PAMELA_2012_helium_Delahaye
+		//	New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR helium data.
 
-		Ttot = 4. * T_nucleon;
-		Mtot = 4. * MASSE_PROTON;
-		R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-		beta = 2. * R / (Ttot + Mtot);
+    		A       = 1.5e-5;
+			Rp1     = 50.;
+			p1      = 2.7;
+			Rp2     = 250.;
+			p2      = -1.3;
+			Rp3     = 1.e3;
+			p3      = 5.4;
+			Rp4     = 2.e3;
+			p4      = -4.15;
 
-		resultat = A * pow(beta,p1) * pow(R,-p2);
-*/
-/*
-*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
-*	Parameterized by Kappl and Winkler in arXiv:1408.0299
+			Ttot = 4. * T_nucleon;
+			Mtot = 4. * MASSE_PROTON;
+			R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+			beta = 2. * R / (Ttot + Mtot);
 
-		A          = 0.05972;
-		gamma = 2.630;
+    		resultat  = A * pow((R/Rp1),-p1);
+			resultat *= pow((1. + (R/Rp2)),p2) * pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4);
 
-		resultat = A * pow(T_nucleon,-gamma);
-*/
-/*
-*	New AMS02 data presented at ICRC 2013 in Rio de Janeiro
-*	Parameterized by Vittino in a forthcoming paper
 
-		A          = 0.06576578;
-		gamma = 2.667;
 
-		resultat = A * pow(T_nucleon,-gamma);
-*/
-	A       = 1.5e-5;
-	Rp1     = 50.;
-	p1      = 2.7;
-	Rp2     = 250.;
-	p2      = -1.3;
-	Rp3     = 1.e3;
-	p3      = 5.4;
-	Rp4     = 2.e3;
-	p4      = -4.15;
+		#elif defined AMS02_2013_helium_Donato
+		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 
-	Ttot = 4. * T_nucleon;
-	Mtot = 4. * MASSE_PROTON;
-	R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
-	beta = 2. * R / (Ttot + Mtot);
+			A  = 0.5220;
+			p1 = 1.34;
+			p2 = 2.6905;
 
-	resultat  = A * pow((R/Rp1),-p1);
-	resultat *= pow((1. + (R/Rp2)),p2) * pow((1. + (R/Rp3)),p3) * pow((1. + (R/Rp4)),p4); /* [cm^{-2} s^{-1} sr^{-1} (GeV/nucleon)^{-1}] */
-  	return resultat;
-  }
+			Ttot = 4. * T_nucleon;
+			Mtot = 4. * MASSE_PROTON;
+			R    = sqrt(Ttot * (Ttot + 2.*Mtot)) / 2.;
+			beta = 2. * R / (Ttot + Mtot);
+
+			resultat = A * pow(beta,p1) * pow(R,-p2);
+
+
+
+		#elif defined AMS02_2013_helium_Kappl_Winkler
+		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Kappl and Winkler in arXiv:1408.0299.
+
+			A          = 0.05972;
+			gamma = 2.630;
+
+			resultat = A * pow(T_nucleon,-gamma);
+			
+			
+			
+		#elif defined AMS02_2013_helium_Vittino
+		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
+
+			A          = 0.06576578;
+			gamma = 2.667;
+
+			resultat = A * pow(T_nucleon,-gamma);
+		
+		
+		
+		#else
+			printf("ERROR : function 'flux_helium_EXP' \nYou must specify one helium flux parametrization in COMMON.h! \n");
+			exit(0);
+		#endif
+
+
+
+		return resultat;
+	}
 }
 
 /********************************************************************************************/

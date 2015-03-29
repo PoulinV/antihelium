@@ -98,7 +98,7 @@ double flux_proton_EXP(double E_proton)
 */
 	
 
-		#ifdef BESS_2008_Shikaze
+		#ifdef BESS_2008_proton_Shikaze
 		//	New BESS data from Shikaze et al. VERSION AS OF 080903.
 		
 			A = 1.94;
@@ -112,7 +112,7 @@ double flux_proton_EXP(double E_proton)
 
 
 	
-		#elif defined Fit_2008_Maurin_Donato
+		#elif defined Fit_2008_proton_Maurin_Donato
 		//	New parametrization from Fiorenza and David fits to H data. VERSION AS OF 081023.
 
     		if (T <= 20.0)
@@ -135,7 +135,7 @@ double flux_proton_EXP(double E_proton)
 
 
 
-		#elif defined CREAM_2010_Lavalle
+		#elif defined CREAM_2010_proton_Lavalle
 		//	New parameterization proposed by Julien Lavalle and based on the CREAM high energy CR proton data. The F1p fit is published in arXiv:1011.3063.
 
     		phi_0   =  3.09e-3;
@@ -152,7 +152,7 @@ double flux_proton_EXP(double E_proton)
 		
 		
 		
-		#elif defined ATIC2_2010_Lavalle
+		#elif defined ATIC2_2010_proton_Lavalle
 		//	New parameterization proposed by Julien Lavalle and based on the ATIC_2 high energy CR proton data. The F2p fit is published in arXiv:1011.3063.
 
     		phi_0   =  3.09e-3;
@@ -169,7 +169,7 @@ double flux_proton_EXP(double E_proton)
 			
 
 
-		#elif defined PAMELA_2012_Delahaye
+		#elif defined PAMELA_2012_proton_Delahaye
 		//	New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
 
     		phi_0   =  3.53e-3;
@@ -188,7 +188,7 @@ double flux_proton_EXP(double E_proton)
 			
 			
 			
-		#elif defined AMS02_2013_Donato
+		#elif defined AMS02_2013_proton_Donato
 		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 
 			A    = 2.2450;
@@ -202,7 +202,7 @@ double flux_proton_EXP(double E_proton)
 			
 			
 
-		#elif defined AMS02_2013_Kappl_Winkler
+		#elif defined AMS02_2013_proton_Kappl_Winkler
 		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Kappl and Winkler in arXiv:1408.0299.
 
 			A          = 1.7407;
@@ -212,13 +212,14 @@ double flux_proton_EXP(double E_proton)
 			
 		
 		
-		#elif defined AMS02_2013_Vittino
+		#elif defined AMS02_2013_proton_Vittino
 		//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
 
 			A          = 1.183042;
 			gamma = 2.712;
 
 			resultat = A * pow(T,-gamma);
+		
 			
 			
 		#else
