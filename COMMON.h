@@ -3,16 +3,87 @@
 
 /********************************************************************************************/
 /********************************************************************************************/
-#define NDIM 100
-//#define NDIM 170
 
-/* Nombre de fonctions J0(alpha_i*rho) utilisees dans le developpement en serie de Bessel. */
+#define PI (acos(-1.))
+//#define PI 3.14159265358979
 
-/********************************************************************************************/
+#define CELERITY_LIGHT 2.99792458e10
+/* La vitesse de la lumiere est exprimee en [cm s^{-1}]. */
+
+#define CM_PAR_PARSEC 3.0856775807e+18
+/* Il s'agit du nombre de centimetres correspondant a une distance
+ d'un parsec [pc] */
+
+#define CM_PAR_KPC 3.0856775807e+21
+/* Il s'agit du nombre de centimetres correspondant a une distance
+ d'un kiloparsec [kpc]. */
+
+#define SEC_PAR_MGYR (3.15581498e13)
+/* Il s'agit du nombre de secondes correspondant a un laps de
+ temps d'un million d'annees -- soit 1 megayear ou encore 1 MGYR -- [sec]. */
+
+#define SEC_PAR_KYR (3.15581498e10)
+/* Il s'agit du nombre de secondes correspondant a un laps de temps
+ d'un millier d'annees -- soit 1 kiloyear ou encore 1 KYR -- [sec]. */
+
+#define SEC_PAR_YR (3.15581498e7)
+/* Il s'agit du nombre de secondes correspondant a un laps de temps
+ d'une annee [sec]. */
+
+#define GEV_PER_KEV 1.0e-6
+#define KEV_PER_GEV 1.0e+6
+#define ERG_PER_GEV 1.60217657e-3
+
 #define MASSE_PROTON 0.938272013
 #undef  MASSE_PROTON
 #define MASSE_PROTON 0.938
 /* La masse du proton est exprimee en [GeV]. */
+
+/********************************************************************************************/
+
+//	GALACTIC PARAMETERS
+
+#define E_DISC      0.1
+/* La demi-epaisseur du disque mince galactique est exprimee en [kpc]. */
+
+#define R_GAL       20.0
+/* Le rayon du disque galactique est exprime en [kpc]. */
+
+//#define R_EARTH      8.5
+#define R_EARTH      8.33
+/* Le rayon galactocentrique du systeme solaire est exprime en [kpc]. */
+
+#define DENSITE_H_DISC 0.9
+/* La densite d'hydrogene neutre diffus dans le disque mince est exprimee en [cm^{-3}]. */
+
+#define DENSITE_HE_DISC 0.1
+/* La densite d'helium neutre diffus dans le disque mince est exprimee en [cm^{-3}]. */
+
+/********************************************************************************************/
+
+//	PROPAGATION PARAMETERS
+
+//#define MIN
+#define MED
+//#define MAX
+
+//	Nombre de parametres de propagation
+#define nParamProp  5
+
+//	Nombre de jeux de parametres de propagation
+#define nJeuxParam  1623 
+//#define nJeuxParam  10 
+
+
+//	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
+//	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
+
+//#define fisk_potential 0.0								//	[GV]
+#define fisk_potential 0.5									//	[GV]
+
+/********************************************************************************************/
+
+//	PROTON SPECTRUM TABLE PARAMETERS
 
 #define E_PROTON_MIN (7.*MASSE_PROTON)
 /* E_PROTON_MIN designe l'energie TOTALE MINIMALE des protons. Nous prenons pour l'instant
@@ -32,8 +103,15 @@ d'avoir ici un nombre PAIR. */
   #error DIM_TAB_PROTON DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
 #endif
 
+// On definit l'intervalle d'energie cinetique des protons pour afficher leur spectre.
+#define DIM_TAB_PROTON_SPECTRUM	DIM_TAB_PBAR
+#define T_PROTON_SPECTRUM_MIN	T_PBAR_MIN						// [GeV] 
+#define T_PROTON_SPECTRUM_MAX	T_PBAR_MAX						// [GeV]
 
 /********************************************************************************************/
+
+//	PBAR SPECTRUM TABLE PARAMETERS
+
 #define T_PBAR_MIN (0.1)
 //#define T_PBAR_MIN (0.2)
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
@@ -54,12 +132,20 @@ d'avoir ici un nombre PAIR. */
   #error DIM_TAB_PBAR DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
 #endif
 
-// On definit l'intervalle d'energie cinetique des protons pour afficher leur spectre.
-#define DIM_TAB_PROTON_SPECTRUM	DIM_TAB_PBAR
-#define T_PROTON_SPECTRUM_MIN	T_PBAR_MIN						// [GeV] 
-#define T_PROTON_SPECTRUM_MAX	T_PBAR_MAX						// [GeV]
 
 /********************************************************************************************/
+
+//	BESSEL PARAMETERS
+
+#define NDIM 100
+//#define NDIM 170
+
+/* Nombre de fonctions J0(alpha_i*rho) utilisees dans le developpement en serie de Bessel. */
+
+/********************************************************************************************/
+
+//	CROSS-SECTION PARAMETERS
+
 /*
 * Liste des fichiers et de leurs adresses ou sont stockees les valeurs de
 * la section efficace differentielle de production des antiprotons
@@ -93,78 +179,8 @@ d'avoir ici un nombre PAIR. */
 #define FILE_NAME_HE_ON_HE	"DSPBAR_SUR_DEPBAR_HE_on_HE_high_energy"
 
 /********************************************************************************************/
-#define E_DISC      0.1
-/* La demi-epaisseur du disque mince galactique est exprimee en [kpc]. */
 
-#define R_GAL       20.0
-/* Le rayon du disque galactique est exprime en [kpc]. */
-
-//#define R_EARTH      8.5
-#define R_EARTH      8.33
-/* Le rayon galactocentrique du systeme solaire est exprime en [kpc]. */
-
-#define DENSITE_H_DISC 0.9
-/* La densite d'hydrogene neutre diffus dans le disque mince est exprimee en [cm^{-3}]. */
-
-#define DENSITE_HE_DISC 0.1
-/* La densite d'helium neutre diffus dans le disque mince est exprimee en [cm^{-3}]. */
-
-/********************************************************************************************/
-#define PI (acos(-1.))
-//#define PI 3.14159265358979
-
-#define CELERITY_LIGHT 2.99792458e10
-/* La vitesse de la lumiere est exprimee en [cm s^{-1}]. */
-
-#define CM_PAR_PARSEC 3.0856775807e+18
-/* Il s'agit du nombre de centimetres correspondant a une distance
- d'un parsec [pc] */
-
-#define CM_PAR_KPC 3.0856775807e+21
-/* Il s'agit du nombre de centimetres correspondant a une distance
- d'un kiloparsec [kpc]. */
-
-#define SEC_PAR_MGYR (3.15581498e13)
-/* Il s'agit du nombre de secondes correspondant a un laps de
- temps d'un million d'annees -- soit 1 megayear ou encore 1 MGYR -- [sec]. */
-
-#define SEC_PAR_KYR (3.15581498e10)
-/* Il s'agit du nombre de secondes correspondant a un laps de temps
- d'un millier d'annees -- soit 1 kiloyear ou encore 1 KYR -- [sec]. */
-
-#define SEC_PAR_YR (3.15581498e7)
-/* Il s'agit du nombre de secondes correspondant a un laps de temps
- d'une annee [sec]. */
-
-#define GEV_PER_KEV 1.0e-6
-#define KEV_PER_GEV 1.0e+6
-#define ERG_PER_GEV 1.60217657e-3
-
-/********************************************************************************************/
-
-//	Propagation parameters
-
-//#define MIN
-#define MED
-//#define MAX
-
-//	Nombre de parametres de propagation
-#define nParamProp  5
-
-//	Nombre de jeux de parametres de propagation
-#define nJeuxParam  1623 
-//#define nJeuxParam  10 
-
-
-//	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
-//	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
-
-//#define fisk_potential 0.0								//	[GV]
-#define fisk_potential 0.5									//	[GV]
-
-/********************************************************************************************/
-
-//	DARK MATTER GALACTIC PROFILE
+//	PRIMARY PBAR PARAMETERS
 
 #define RHO_CHI_SOLAR 0.3
 // La densite de masse des neutralinos dans le voisinage solaire est exprimee en [GeV cm^{-3}]. 
@@ -173,16 +189,16 @@ d'avoir ici un nombre PAIR. */
 #define RC_SMBH 0.1
 // Renormalization radius expressed in [kpc]
 
+
+//	Dark matter profile
+
 //#define NFW
 //#define moore
-//#define einasto
+#define einasto
 //#define einastoB
 //#define isothermal
-#define burkert
+//#define burkert
 
-/********************************************************************************************/
-
-//	PARAMETRES DES ANTIPROTONS PRIMAIRES
 
 //#define WIMP_annihilation
 #define WIMP_decay
@@ -227,7 +243,6 @@ d'avoir ici un nombre PAIR. */
 #define sigma_v_annihilation 3.0e-26				//	[cm^{3} s^{-1}]
 #define decay_rate 1.0e-26							//	[s^{-1}]
 
-/********************************************************************************************/
 
 #define N_x_pbar_scan	300
 #define x_pbar_scan_min	1.0e-9
@@ -235,7 +250,6 @@ d'avoir ici un nombre PAIR. */
 
 #define N_gaelle_masses	62
 
-/********************************************************************************************/
 
 #define mass_chi_inf  5.0
 #define mass_chi_sup  5000.0
@@ -243,6 +257,10 @@ d'avoir ici un nombre PAIR. */
 #define N_mass_chi 2
 
 /********************************************************************************************/
+
+//	RESULTS FILE NAMES
+
+//	On definit ici le nom des fichiers dans lesquels on stocke les resultats.
 
 #define proton_IS_spectrum_file_name	"./results/proton_IS_spectrum.txt"
 #define proton_TOA_spectrum_file_name	"./results/proton_TOA_spectrum.txt"
