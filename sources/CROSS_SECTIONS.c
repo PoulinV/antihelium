@@ -573,15 +573,23 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cros
     pow((E_PROTON_MAX/E_PROTON_MIN),((double)i_proton/(double)DIM_TAB_PROTON));
 	  for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
     {
-      T_pbar = T_PBAR_MIN *
-      pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-      E_pbar = T_pbar + MASSE_PROTON;
-      pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] =
-    //dSpbar_sur_dEpbar_SIMPSON                     (E_proton,E_pbar,1000);
-	//dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray     (E_proton,E_pbar,1000);
-	//dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(E_proton,E_pbar,1000);
-	  dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12     (E_proton,E_pbar,1000);
-
+      	T_pbar = T_PBAR_MIN *
+      	pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
+      	E_pbar = T_pbar + MASSE_PROTON;
+      
+		#ifdef	DSPBAR_SUR_DEPBAR_H_on_H_unknown
+			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON(E_proton,E_pbar,1000);
+		#elif defined DSPBAR_SUR_DEPBAR_H_on_H_Duperray
+			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(E_proton,E_pbar,1000);
+		#elif defined DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
+			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(E_proton,E_pbar,1000);
+		#elif defined DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(E_proton,E_pbar,1000);
+		#else
+			printf("ERROR : function 'DSPBAR_SUR_DEPBAR_H_ON_H_write_file' \n You must to specify one parametrization for H on H reaction! \n");
+			exit(0);
+		#endif
+	  
 	  fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);
 	  //printf(" E_proton = %.5e -- T_pbar = %.5e -- pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H  = %.6e \n",
 			//E_proton,T_pbar,pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);

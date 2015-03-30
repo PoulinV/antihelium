@@ -83,6 +83,29 @@
 
 /********************************************************************************************/
 
+//	PBAR SPECTRUM TABLE PARAMETERS
+
+#define T_PBAR_MIN (0.1)
+//#define T_PBAR_MIN (0.2)
+/* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
+que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
+
+//#define T_PBAR_MAX (1.e4)
+#define T_PBAR_MAX (1.e5)
+/* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
+que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
+
+//#define DIM_TAB_PBAR 250
+#define DIM_TAB_PBAR 300
+/* DIM_TAB_PBAR est le nombre d'intervalles en energie CINETIQUE des antiprotons.
+ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
+d'avoir ici un nombre PAIR. */
+#if ((DIM_TAB_PBAR % 2) == 1)
+  #error DIM_TAB_PBAR DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
+#endif
+
+/********************************************************************************************/
+
 //	PROTON SPECTRUM TABLE PARAMETERS
 
 #define E_PROTON_MIN (7.*MASSE_PROTON)
@@ -107,31 +130,6 @@ d'avoir ici un nombre PAIR. */
 #define DIM_TAB_PROTON_SPECTRUM	DIM_TAB_PBAR
 #define T_PROTON_SPECTRUM_MIN	T_PBAR_MIN						// [GeV] 
 #define T_PROTON_SPECTRUM_MAX	T_PBAR_MAX						// [GeV]
-
-/********************************************************************************************/
-
-//	PBAR SPECTRUM TABLE PARAMETERS
-
-#define T_PBAR_MIN (0.1)
-//#define T_PBAR_MIN (0.2)
-/* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
-que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
-
-//#define T_PBAR_MAX (1.e4)
-#define T_PBAR_MAX (1.e5)
-//#define T_PBAR_MAX (2.e5)
-/* T_PBAR_MAX est la valeur MAXIMALE de l'energie CINETIQUE des antiprotons
-que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
-
-//#define DIM_TAB_PBAR 250
-#define DIM_TAB_PBAR 300
-/* DIM_TAB_PBAR est le nombre d'intervalles en energie CINETIQUE des antiprotons.
-ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
-d'avoir ici un nombre PAIR. */
-#if ((DIM_TAB_PBAR % 2) == 1)
-  #error DIM_TAB_PBAR DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
-#endif
-
 
 /********************************************************************************************/
 
@@ -201,7 +199,7 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-//	SECANDARY PBAR PRODUCTION CROSS-SECTION PARAMETERS
+//	SECONDARY PBAR PRODUCTION CROSS-SECTION PARAMETERS
 
 /*
 * Liste des fichiers et de leurs adresses ou sont stockees les valeurs de
@@ -229,11 +227,29 @@ d'avoir ici un nombre PAIR. */
 *
 */
 
-//#define FILE_NAME_H_ON_H	"DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included"
-#define FILE_NAME_H_ON_H	"DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12"
-#define FILE_NAME_H_ON_HE	"DSPBAR_SUR_DEPBAR_H_on_HE_high_energy"
-#define FILE_NAME_HE_ON_H	"DSPBAR_SUR_DEPBAR_HE_on_H_high_energy"
-#define FILE_NAME_HE_ON_HE	"DSPBAR_SUR_DEPBAR_HE_on_HE_high_energy"
+
+//#define DSPBAR_SUR_DEPBAR_H_on_H_unknown
+//#define DSPBAR_SUR_DEPBAR_H_on_H_Duperray
+#define DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
+//#define DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+
+#ifdef DSPBAR_SUR_DEPBAR_H_on_H_unknown
+	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_unknown.txt"
+#elif defined DSPBAR_SUR_DEPBAR_H_on_H_Duperray
+	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_Duperray.txt"
+#elif defined DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
+	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included.txt"
+#elif defined DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12.txt"
+#else
+	#error You must to specify one parametrization for H on H reaction!
+#endif
+
+
+
+#define FILE_NAME_H_ON_HE	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_HE_high_energy.txt"
+#define FILE_NAME_HE_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_HE_on_H_high_energy.txt"
+#define FILE_NAME_HE_ON_HE	"../sources/cross_section/DSPBAR_SUR_DEPBAR_HE_on_HE_high_energy.txt"
 
 /********************************************************************************************/
 
