@@ -408,12 +408,12 @@ void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
 
 void TABLE_PROPAGATION_loading(struct Structure_Propagation* pt_Propagation)
 {
-	int i;
+	int i, i_jeu_prop;
 	
 	FILE *input_data;
 	input_data = fopen("../sources/propagation_parameters_FDR/recherche_all_v1.dat","r");
 
-    for ( int i_jeu_prop=0 ; i_jeu_prop < nJeuxParam ; i_jeu_prop++)
+    for (i_jeu_prop=0 ; i_jeu_prop < nJeuxParam ; i_jeu_prop++)
 	{	
 	
 		//  Nous définissons à ce niveau les parametres que FIORENZA, DAVID et RICHARD   -- hereafter called FDR -- ont déterminés.
