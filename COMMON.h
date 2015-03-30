@@ -230,8 +230,8 @@ d'avoir ici un nombre PAIR. */
 
 //#define DSPBAR_SUR_DEPBAR_H_on_H_unknown
 //#define DSPBAR_SUR_DEPBAR_H_on_H_Duperray
-#define DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
-//#define DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+//#define DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
+#define DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
 
 #ifdef DSPBAR_SUR_DEPBAR_H_on_H_unknown
 	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_unknown.txt"
