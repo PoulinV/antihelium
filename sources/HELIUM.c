@@ -171,7 +171,11 @@ double flux_helium_EXP(double E_nucleon)
 
 			resultat = A * pow(T_nucleon,-gamma);
 		
-		
+		#elif defined AMS02_2015_helium_yoann
+		//	Fit performed by Yoann on data from AMS days
+	
+			resultat = fit_helium_flux_AMS02_yoann_demodulated_2(E_nucleon);
+	
 		
 		#else
 			printf("ERROR : function 'flux_helium_EXP' \nYou must specify one helium flux parametrization in COMMON.h! \n");
@@ -321,3 +325,78 @@ double flux_helium_TH(double r,double z,double E_nucleon, double alpha_i[NDIM+1]
 
 /********************************************************************************************/
 /********************************************************************************************/
+
+double fit_helium_flux_AMS02_yoann(double R)
+{
+	double C, pow_alpha, pow_gamma, one_over_R_b, delta_gamma, s, Phi;
+	double fisk_potential_AMS02, beta;
+	double r;
+	
+	fisk_potential_AMS02 = 0.62;
+	C = 4075.0;
+ 	pow_alpha = -0.163;
+	beta = 0.41;
+ 	pow_gamma = -2.795;
+ 	one_over_R_b = 1.0/284.0;
+ 	delta_gamma = 0.162;
+	
+	// delta_gamma_plus
+	//delta_gamma = 0.2563 + 0.1808;
+	
+	// delta_gamma_minus
+	//delta_gamma = 0.2563 - 0.1808;
+	
+ 	s = 0.078;
+	 
+	r = C*(1.0 - beta*exp(pow_alpha*R));
+	r *= pow(R/(R+fisk_potential_AMS02), 2.0);
+	r *= pow((R+fisk_potential_AMS02), pow_gamma);
+	r *= pow(1.0 + pow((R+fisk_potential_AMS02)*one_over_R_b, delta_gamma/s), s);
+	r *= 1.0e-4;
+	
+	return r;
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+double fit_helium_flux_AMS02_yoann_demodulated_2(double EnIS)
+{
+    double pnIS,pnTOA;
+    double pnC,EnC,En_min,En_trans;
+	double EnTOA;
+	double r;
+	double Z, A, PHI;
+	//double TnIS;
+	
+	double flux_IS, flux_TOA;
+	
+	flux_IS = 0.0;
+	
+	
+	FFA_IS_to_TOA_modified(4.0, 2.0, 0.62, EnIS, flux_IS, &EnTOA, &flux_TOA);
+	
+	//printf("EnIS = %.5e \t EnTOA = %.5e \n", EnIS, EnTOA);
+	
+    pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+	
+	flux_TOA = fit_helium_flux_AMS02_yoann(2.0*pnTOA);
+	flux_TOA *= 2.0*EnTOA / pnTOA;
+	
+	
+	FFA_TOA_to_IS(4.0, 2.0, 0.62, EnTOA, flux_TOA, &EnIS, &flux_IS);
+	
+	//printf("EnIS = %.5e \t EnTOA = %.5e \n", EnIS, EnTOA);
+	
+	r = flux_IS;
+		
+	
+	//printf("r = %.5e \n", r);
+	
+	return r;
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+

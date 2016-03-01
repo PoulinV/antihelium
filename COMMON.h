@@ -78,14 +78,18 @@
 //	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
 //	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
 
-//#define fisk_potential 0.0								//	[GV]
-#define fisk_potential 0.5									//	[GV]
+//#define fisk_potential 0.62								//	[GV]
+#define fisk_potential 0.0								//	[GV]
+//#define fisk_potential 0.93									//	[GV]
+
 
 /********************************************************************************************/
 
 //	PBAR SPECTRUM TABLE PARAMETERS
 
-#define T_PBAR_MIN (0.1)
+//#define T_PBAR_MIN (0.1)
+#define T_PBAR_MIN (0.01)
+
 //#define T_PBAR_MIN (0.2)
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
@@ -96,7 +100,9 @@ que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
 //#define DIM_TAB_PBAR 250
-#define DIM_TAB_PBAR 300
+//#define DIM_TAB_PBAR 300
+#define DIM_TAB_PBAR 350
+
 /* DIM_TAB_PBAR est le nombre d'intervalles en energie CINETIQUE des antiprotons.
 ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
 d'avoir ici un nombre PAIR. */
@@ -159,7 +165,7 @@ d'avoir ici un nombre PAIR. */
 //#define ATIC2_2010_proton_Lavalle
 
 //   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
-#define PAMELA_2012_proton_Delahaye
+//#define PAMELA_2012_proton_Delahaye
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 //#define AMS02_2013_proton_Donato
@@ -169,6 +175,12 @@ d'avoir ici un nombre PAIR. */
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
 //#define AMS02_2013_proton_Vittino
+
+//	Fit performed by Manuela Vecchi on data from a forthcoming paper of AMS-02.
+//#define AMS02_2015_proton_manuela
+	
+//	Fit performed by Yoann on data from a forthcoming paper of AMS-02.
+#define AMS02_2015_proton_yoann	
 
 /********************************************************************************************/
 
@@ -186,7 +198,7 @@ d'avoir ici un nombre PAIR. */
 //#define CREAM_ATIC2_2010_helium_Lavalle
 
 //   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR helium data.
-#define PAMELA_2012_helium_Delahaye
+//#define PAMELA_2012_helium_Delahaye
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 //#define AMS02_2013_helium_Donato
@@ -196,6 +208,11 @@ d'avoir ici un nombre PAIR. */
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
 //#define AMS02_2013_helium_Vittino
+
+//	Fit performed by Yoann on data from AMS Days
+#define AMS02_2015_helium_yoann
+
+
 
 /********************************************************************************************/
 
@@ -227,6 +244,8 @@ d'avoir ici un nombre PAIR. */
 *
 */
 
+
+// Ajouter Tan_Ng_theta_only
 
 //#define DSPBAR_SUR_DEPBAR_H_on_H_unknown
 //#define DSPBAR_SUR_DEPBAR_H_on_H_Duperray
@@ -338,6 +357,8 @@ d'avoir ici un nombre PAIR. */
 #define proton_IS_spectrum_file_name	"./results/proton_IS_spectrum.txt"
 #define proton_TOA_spectrum_file_name	"./results/proton_TOA_spectrum.txt"
 #define proton_exp_spectrum_file_name	"./results/proton_exp_spectrum.txt"
+
+#define helium_exp_spectrum_file_name	"./results/helium_exp_spectrum.txt"
 
 #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum.txt"
 #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum.txt" 

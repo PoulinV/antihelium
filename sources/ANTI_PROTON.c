@@ -304,13 +304,33 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
 */
       if (i_pbar == 0)
       {
-        vec_a[0]  = 0.0;
+        
+		  /*
+		vec_a[0]  = 0.0;
         vec_b[0]  = 1.0;
         vec_b[0] -= grand_C_cal * b_coeff[0] / DELTA_x;
         vec_b[0] += grand_C_cal * (a_coeff[1] - a_coeff[0]) / pow(DELTA_x,2);
         vec_c[0]  = grand_C_cal * b_coeff[1] / DELTA_x;
         vec_c[0] -= grand_C_cal * (a_coeff[1] - a_coeff[0]) / pow(DELTA_x,2);
-      }
+      */
+		  
+////////////////////////////
+		// Test a new boudary condition: J_0 = 0.0
+		
+		
+        vec_a[0]  = 0.0;
+        vec_b[0]  = 1.0;
+        vec_b[0] += grand_C_cal * b_coeff[0] / (2.0*DELTA_x);
+        vec_b[0] += grand_C_cal * a_coeff[1] / pow(DELTA_x,2);
+        vec_c[0]  = grand_C_cal * b_coeff[1] / (2.0*DELTA_x);
+        vec_c[0] -= grand_C_cal * a_coeff[1] / pow(DELTA_x,2);
+		  
+	  
+	  
+////////////////////////////
+	  
+	  
+	  }
       else if (i_pbar == DIM_TAB_PBAR)
       {
         vec_a[DIM_TAB_PBAR]  = 0.0;
@@ -1361,6 +1381,7 @@ void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TA
 		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
 		E_IS = T_IS + MASSE_PROTON;
 		
+		
 		//	Calcul du flux d'antiprotons
 		for (i=1;i<=NDIM;i++)
 		{
@@ -1390,6 +1411,8 @@ void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TA
 
 		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_IS,PBAR_IS_SPECTRUM[i_pbar],&E_TOA,&flux_pbar_TOA);
 		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_IS,PROTON_IS_SPECTRUM[i_pbar],&E_TOA,&flux_proton_TOA);
+		
+		// Prescription de fin de soiree, ATTENTION : pour des petites valeurs de phi_Fisk, le FFA donne n'importe quoi à bass energie
 		
 		
 		if (E_TOA <= MASSE_PROTON)

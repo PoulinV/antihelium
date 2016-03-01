@@ -65,7 +65,7 @@ int main(void)
 	double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1], PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR+1], T_PBAR_OVER_P_TOA[DIM_TAB_PBAR+1];
 	double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2];
 
-	
+	double EnTOA, pnTOA, flux_TOA, TnTOA;
 
 //	INITALISATION DES VARIABLES
 	///////////////////////////
@@ -87,7 +87,7 @@ int main(void)
 	bessel_preliminary_read_file (alpha_i, &Proton, &Helium);
 
 	CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR   (&Cross_Section);
-	DSPBAR_SUR_DEPBAR_H_ON_H_write_file  (&Cross_Section);
+	//DSPBAR_SUR_DEPBAR_H_ON_H_write_file  (&Cross_Section);
 	//DSPBAR_SUR_DEPBAR_H_ON_HE_write_file (&Cross_Section);
 	//DSPBAR_SUR_DEPBAR_HE_ON_H_write_file (&Cross_Section);
 	//DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(&Cross_Section);
@@ -137,7 +137,7 @@ int main(void)
 ////////////////////////////////
 
 	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);	
-	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Propagation);
+	//PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Propagation);
 
 //	CALCUL DU RAPPORT Pbar/P
 ////////////////////////////
@@ -155,24 +155,44 @@ int main(void)
 	print_PROTON_IS_SPECTRUM(PROTON_IS_SPECTRUM);
 	print_PROTON_TOA_SPECTRUM(PROTON_TOA_SPECTRUM, T_PROTON_TOA);
 	print_PROTON_SPECTRUM_exp();
+	print_HELIUM_SPECTRUM_exp();
+	
 	
 	
 	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
-	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA);
+	//print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA);
 	//print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	
-	print_PBAR_OVER_P_IS_SPECTRUM(PBAR_OVER_P_IS_SPECTRUM);
+	//print_PBAR_OVER_P_IS_SPECTRUM(PBAR_OVER_P_IS_SPECTRUM);
 	print_PBAR_OVER_P_TOA_SPECTRUM(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA);
 	
 	//print_PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY);
 	//print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY, T_PBAR_OVER_P_TOA);
-	
+		
 	
 
 //	CALCUL DES SPECTRES D'ANTIPROTONS PRIMAIRES POUR LE PPPC DE M.Cirelli
 	/////////////////////////////////////////////////////////////////////
 	
 	//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	
+	
+	
+//	TEST
+	
+	TnTOA = 100.0;
+	EnTOA = TnTOA + MASSE_PROTON;
+    pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+	
+	flux_TOA = fit_proton_flux_AMS02_yoann(pnTOA);
+	flux_TOA *= EnTOA / pnTOA;
+	
+	
+	
+	printf("TnTOA = %.5e \t flux_TOA = %.5e  \n", EnTOA, flux_TOA);
+		
+	
+	
 	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

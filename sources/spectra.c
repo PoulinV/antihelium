@@ -369,6 +369,31 @@ void print_PROTON_SPECTRUM_exp(void)
 
 		flux_proton_exp = flux_proton_EXP(E_proton);
 
+		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_exp));											// [#proton m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+	}
+	
+	fclose(results);	
+}
+
+/****************************************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************************************/
+
+void print_HELIUM_SPECTRUM_exp(void)
+{
+	long i_proton;
+	double T_proton ,E_proton ,flux_proton_exp;
+	double flux_proton;
+	
+	FILE* results;
+	results = fopen(helium_exp_spectrum_file_name,"w");
+
+	for (i_proton=0;i_proton<=DIM_TAB_PROTON_SPECTRUM;i_proton++)
+	{
+		T_proton = T_PROTON_SPECTRUM_MIN * pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),((double)i_proton/(double)DIM_TAB_PROTON_SPECTRUM));
+		E_proton = T_proton + MASSE_PROTON;
+
+		flux_proton_exp = flux_helium_EXP(E_proton);
+
 		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_exp));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
 	
@@ -414,7 +439,8 @@ void print_PBAR_OVER_P_TOA_SPECTRUM(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR
 	FILE* results;
 	results = fopen(pbar_over_p_TOA_spectrum_file_name,"w");
 
-	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	//for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	for (i_pbar=DIM_TAB_PBAR;i_pbar>=0;i_pbar--)	
 	{	
 		T_pbar_over_p_TOA = T_PBAR_OVER_P_TOA[i_pbar];
 		pbar_over_p_TOA = PBAR_OVER_P_TOA_SPECTRUM[i_pbar];

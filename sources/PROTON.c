@@ -72,6 +72,9 @@ double flux_proton_EXP(double E_proton)
 	double T,impulsion,resultat;
 	double A,N,gamma,p1,p2,p3,p4,Ep1,Ep2,Ep3,Ep4,R,beta;
 	double phi_0,alpha_p;
+	
+	
+	
   
 	T = E_proton - MASSE_PROTON;
 	if (T<=0.0)
@@ -220,7 +223,18 @@ double flux_proton_EXP(double E_proton)
 
 			resultat = A * pow(T,-gamma);
 		
+		#elif defined AMS02_2015_proton_manuela
+		//	Fit performed by Manuela Vecchi on data from a forthcoming paper of AMS-02.
 			
+			
+			//resultat = fit_proton_flux_AMS02_manuela_demodulated(E_proton);
+			resultat = fit_proton_flux_AMS02_manuela_demodulated_2(E_proton);
+			
+		#elif defined AMS02_2015_proton_yoann
+		//	Fit performed by Manuela Vecchi on data from a forthcoming paper of AMS-02.
+	
+			resultat = fit_proton_flux_AMS02_yoann_demodulated_2(E_proton);
+
 			
 		#else
 			printf("ERROR : function 'flux_proton_EXP' \nYou must specify one proton flux parametrization in COMMON.h! \n");
@@ -228,22 +242,7 @@ double flux_proton_EXP(double E_proton)
 		#endif
 			
 
-/*	
-	phi_0   =  3.53e-3;
-	alpha_p =  2.5;
-	Ep1     =  2.5;
-	p1      =  0.9;
-	Ep2     =  16.;
-	p2      =  -0.5;
-	Ep3     = 300.;
-	p3      = 0.46;
-	Ep4     = 5.e3;
-	p4      = -0.21;
-
-	resultat  = phi_0 * (1.0 - exp(-pow((T/Ep1),p1))) * pow((T/10.),(-alpha_p));
-	resultat *= pow((1. + (T/Ep2)),p2) * pow((1. + (T/Ep3)),p3) * pow((1. + (T/Ep4)),p4); // [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] 
-
-*/	  	
+	  	
 	return resultat;
 
 	}
@@ -557,6 +556,264 @@ void PROTON_SPECTRUM_initialization(double SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1])
 
 /********************************************************************************************/
 /********************************************************************************************/
+
+double fit_proton_flux_AMS02_manuela(double R)
+{
+	double C, pow_alpha, pow_gamma, one_over_R_b, delta_gamma, s, Phi;
+	double fisk_potential_AMS02;
+	double r;
+	
+	fisk_potential_AMS02 = 0.62;
+	C = 0.4556;
+ 	pow_alpha = -0.3835;
+ 	pow_gamma = -2.876;
+ 	one_over_R_b = 0.001927;
+ 	delta_gamma = 0.2563;
+	
+	
+	// delta_gamma_plus
+	//delta_gamma = 0.2563 + 0.1808;
+	
+	// delta_gamma_minus
+	//delta_gamma = 0.2563 - 0.1808;
+	
+ 	s = 0.1823;
+ 	Phi = 0.62;
+	 
+	r = C*(1.0 - exp(pow_alpha*R));
+	r *= pow(R/(R+fisk_potential_AMS02), 2.0);
+	r *= pow((R+fisk_potential_AMS02)/45, pow_gamma);
+	r *= pow(1.0 + pow((R+fisk_potential_AMS02)*one_over_R_b, delta_gamma/s), s);
+	r *= 1.0e-4;
+	
+	return r;
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+double fit_proton_flux_AMS02_yoann(double R)
+{
+	double C, pow_alpha, pow_gamma, one_over_R_b, delta_gamma, s, Phi;
+	double fisk_potential_AMS02, beta;
+	double r;
+	
+	fisk_potential_AMS02 = 0.62;
+	C = 23566.0;
+ 	pow_alpha = -0.519;
+ 	pow_gamma = -2.849;
+ 	one_over_R_b = 1.0 / 355.0;
+ 	delta_gamma = 0.146;
+	beta = 1.21;
+	
+	
+ 	s = 0.0325;
+ 	Phi = 0.62;
+	 
+	r = C*(1.0 - beta*exp(pow_alpha*R));
+	r *= pow(R/(R+fisk_potential_AMS02), 2.0);
+	r *= pow((R+fisk_potential_AMS02), pow_gamma);
+	r *= pow(1.0 + pow((R+fisk_potential_AMS02)*one_over_R_b, delta_gamma/s), s);
+	r *= 1.0e-4;
+	
+	return r;
+}
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+double fit_proton_flux_AMS02_manuela_demodulated(double EnIS)
+{
+    double pnIS,pnTOA;
+    double pnC,EnC,En_min,En_trans;
+	double EnTOA;
+	double r;
+	double Z, A, PHI;
+	
+	
+	Z = 1.0;
+	A = 1.0;
+  	PHI = 0.62;
+  
+    pnC = Z * RIGIDITY_MS_C / A; /* Dans nos unites, la charge de l'electron vaut 1. */
+    EnC = sqrt(pow(MASSE_PROTON,2) + pow(pnC,2));
+  
+    En_trans = EnC + Z*PHI/A;
+    En_min   = En_trans + pnC*log(MASSE_PROTON/(EnC+pnC));
+	
+	//printf("En_min = %.5e \t En_trans = %.5e \t  EnC = %.5e \n", En_min, En_trans, EnC);
+	
+	
+   	if (EnIS <= En_trans)
+    {
+      EnTOA = MASSE_PROTON * cosh((EnIS - En_min)/pnC);
+      pnIS  = sqrt(pow(EnIS,2) - pow(MASSE_PROTON,2));
+      pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+	  
+	  r = pow((pnIS/pnTOA),2.) * fit_proton_flux_AMS02_manuela(pnTOA);
+	 // printf("EnTOA = %.5e \t pnIS = %.5e \t pnTOA = %.5e \n", EnTOA, pnIS, pnTOA);
+
+    }
+    else
+    {
+      EnTOA = EnIS - Z*PHI/A;
+      pnIS  = sqrt(pow(EnIS,2) - pow(MASSE_PROTON,2));
+      pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+
+	  r = pow((pnIS/pnTOA),2.) * fit_proton_flux_AMS02_manuela(pnTOA);
+	  //printf("EnTOA = %.5e \t pnIS = %.5e \t pnTOA = %.5e \n", EnTOA, pnIS, pnTOA);
+	  
+    }
+	
+	r *= EnIS / sqrt(pow(EnIS,2) - pow(MASSE_PROTON,2));
+	
+
+	//printf("r = %.5e \n", r);
+	
+	return r;
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+double fit_proton_flux_AMS02_manuela_demodulated_2(double EnIS)
+{
+    double pnIS,pnTOA;
+    double pnC,EnC,En_min,En_trans;
+	double EnTOA;
+	double r;
+	double Z, A, PHI;
+	//double TnIS;
+	
+	double flux_IS, flux_TOA;
+	
+	flux_IS = 0.0;
+	
+	
+	FFA_IS_to_TOA_modified(1.0, 1.0, 0.62, EnIS, flux_IS, &EnTOA, &flux_TOA);
+	
+	//printf("EnIS = %.5e \t EnTOA = %.5e \n", EnIS, EnTOA);
+	
+    pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+	
+	flux_TOA = fit_proton_flux_AMS02_manuela(pnTOA);
+	flux_TOA *= EnTOA / pnTOA;
+	//printf("EnTOA = %.5e \t flux_TOA = %.5e  \n", EnTOA, flux_TOA);
+	
+	
+	FFA_TOA_to_IS(1.0, 1.0, 0.62, EnTOA, flux_TOA, &EnIS, &flux_IS);
+	
+	//printf("EnIS = %.5e \t EnTOA = %.5e \n", EnIS, EnTOA);
+	
+	r = flux_IS;
+	
+	
+	
+	//printf("r = %.5e \n", r);
+	
+	return r;
+}
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+double fit_proton_flux_AMS02_yoann_demodulated_2(double EnIS)
+{
+    double pnIS,pnTOA;
+    double pnC,EnC,En_min,En_trans;
+	double EnTOA;
+	double r;
+	double Z, A, PHI;
+	//double TnIS;
+	
+	double flux_IS, flux_TOA;
+	
+	flux_IS = 0.0;
+	
+	
+	FFA_IS_to_TOA_modified(1.0, 1.0, 0.62, EnIS, flux_IS, &EnTOA, &flux_TOA);
+	
+	//printf("EnIS = %.5e \t EnTOA = %.5e \n", EnIS, EnTOA);
+	
+    pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+	
+	flux_TOA = fit_proton_flux_AMS02_yoann(pnTOA);
+	flux_TOA *= EnTOA / pnTOA;
+	
+	//printf("EnTOA = %.5e \t flux_TOA = %.5e  \n", EnTOA, flux_TOA);
+	
+	
+	FFA_TOA_to_IS(1.0, 1.0, 0.62, EnTOA, flux_TOA, &EnIS, &flux_IS);
+	
+	//printf("EnIS = %.5e \t EnTOA = %.5e \n", EnIS, EnTOA);
+	
+	r = flux_IS;
+	
+	
+	
+	//printf("r = %.5e \n", r);
+	
+	return r;
+}
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+void FFA_IS_to_TOA_modified(double A,double Z,double PHI,
+double EnIS,double flux_IS,double *EnTOA,double *flux_TOA)
+{
+  double pnIS,pnTOA;
+  double pnC,EnC,En_min,En_trans;
+  
+  pnC = Z * RIGIDITY_MS_C / A; /* Dans nos unites, la charge de l'electron vaut 1. */
+  EnC = sqrt(pow(MASSE_PROTON,2) + pow(pnC,2));
+  
+  En_trans = EnC + Z*PHI/A;
+  En_min   = En_trans + pnC*log(MASSE_PROTON/(EnC+pnC));
+
+/*  
+  if (EnIS <= En_min)
+  {
+    printf(
+    " TON NUCLEON EST TROP MOU : IL N'ARRIVERA JAMAIS SUR TERRE !\n"
+    " SON ENERGIE INTER_STELLAIRE EST INFERIEURE A LA VALEUR CRITIQUE = %.5e [GEV]\n"
+    " PRENDS UNE ENERGIE SUPERIEURE \n",
+    En_min);
+    *EnTOA = MASSE_PROTON;
+    *flux_TOA = 0.0;
+    return;
+  }
+ */
+ /* else*/ if (EnIS <= En_trans)
+  {
+    *EnTOA = MASSE_PROTON * cosh((EnIS - En_min)/pnC);
+    pnIS  = sqrt(pow(EnIS,2) - pow(MASSE_PROTON,2));
+    pnTOA = sqrt(pow(*EnTOA,2) - pow(MASSE_PROTON,2));
+    *flux_TOA = pow((pnTOA/pnIS),2) * flux_IS;
+    return;
+  }
+  else
+  {
+    *EnTOA = EnIS - Z*PHI/A;
+    pnIS  = sqrt(pow(EnIS,2) - pow(MASSE_PROTON,2));
+    pnTOA = sqrt(pow(*EnTOA,2) - pow(MASSE_PROTON,2));
+    *flux_TOA = pow((pnTOA/pnIS),2) * flux_IS;
+    return;
+  }
+}
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+
+
+
+
+
+
 
 
 

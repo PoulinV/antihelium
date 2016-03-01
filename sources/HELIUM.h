@@ -17,6 +17,7 @@
 #include "besselj1_next.h"
 #include "CROSS_SECTIONS.h"
 #include "DIFFUSION_PROPAGATION.h"
+#include "PROTON.h"
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
@@ -40,6 +41,12 @@ void calcul_method_B_BESSEL_HEi(double E_nucleon, double alpha_i[NDIM+1], struct
 void calculation_BESSEL_HELIUM_Ep_i(double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Helium, struct Structure_Propagation* pt_Propagation);
 
 double flux_helium_TH(double r,double z,double E_nucleon, double alpha_i[NDIM+1], struct Structure_Nuclei* pt_Helium, struct Structure_Propagation* pt_Propagation);
+
+double fit_helium_flux_AMS02_yoann(double R);
+
+double fit_helium_flux_AMS02_yoann_demodulated_2(double EnIS);
+
+
 
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
