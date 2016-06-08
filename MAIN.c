@@ -96,7 +96,7 @@ int main(void)
 	DSPBAR_SUR_DEPBAR_HE_ON_H_read_file  (&Cross_Section);
 	DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section);
 	
-	//DM_source_term_calculation(&Primary_Source_Term);
+	DM_source_term_calculation(&Primary_Source_Term);
 	
 	PROTON_SPECTRUM_initialization(PROTON_IS_SPECTRUM);
 	PROTON_SPECTRUM_initialization(PROTON_TOA_SPECTRUM);
@@ -118,18 +118,18 @@ int main(void)
 /////////////////////////////////
 
 //	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
-	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+	calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
 //	CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
 	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
-	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+	//calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 	
 	
 //	CALCUL DES Pi EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
-	//tertiary_component_effect_calculation(&Pbar, alpha_i);
+	tertiary_component_effect_calculation(&Pbar, alpha_i);
 	ELDR_effect_calculation(&Propagation, &Pbar, alpha_i);
 
 
@@ -174,7 +174,8 @@ int main(void)
 //	CALCUL DES SPECTRES D'ANTIPROTONS PRIMAIRES POUR LE PPPC DE M.Cirelli
 	/////////////////////////////////////////////////////////////////////
 	
-	//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	
+	primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	
 	
 	

@@ -369,6 +369,8 @@ double rapport_rho_chi_sur_rho_0(double rr,double z)
 	
 		alpha = 0.17;							// [NO UNIT]
 		core = 28.44;							// [kpc]
+		
+		//core = 28.44;							// [kpc]
 	
 		rho_chi = pow(R_EARTH/core, alpha) - pow(r/core, alpha);
 		rho_chi = RHO_CHI_SOLAR * exp((2.0/alpha) * rho_chi);
@@ -999,7 +1001,7 @@ void primary_spectra_BCGS_2014(struct Structure_Pbar* pt_Pbar, struct Structure_
 //				CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
 
 				calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, pt_Pbar, pt_Propagation, pt_Primary_Source_Term);
-				//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+				//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, pt_Pbar, pt_Propagation, pt_Primary_Source_Term);
 
 //				CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE
 //				PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.

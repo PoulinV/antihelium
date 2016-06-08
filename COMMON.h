@@ -87,8 +87,8 @@
 
 //	PBAR SPECTRUM TABLE PARAMETERS
 
-//#define T_PBAR_MIN (0.1)
-#define T_PBAR_MIN (0.01)
+#define T_PBAR_MIN (0.1)
+//#define T_PBAR_MIN (0.01)
 
 //#define T_PBAR_MIN (0.2)
 /* T_PBAR_MIN est la valeur MINIMALE de l'energie CINETIQUE des antiprotons
@@ -100,8 +100,8 @@ que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 que l'on considere dans le probleme. Elle est exprimee en [GeV]. */
 
 //#define DIM_TAB_PBAR 250
-//#define DIM_TAB_PBAR 300
-#define DIM_TAB_PBAR 350
+#define DIM_TAB_PBAR 300
+//#define DIM_TAB_PBAR 350
 
 /* DIM_TAB_PBAR est le nombre d'intervalles en energie CINETIQUE des antiprotons.
 ATTENTION : pour pouvoir realiser une integration a la SIMPSON, il est imperatif
@@ -292,8 +292,8 @@ d'avoir ici un nombre PAIR. */
 //#define burkert
 
 
-//#define WIMP_annihilation
-#define WIMP_decay
+#define WIMP_annihilation
+//#define WIMP_decay
 
 #define number_channels     23
 
@@ -323,7 +323,7 @@ d'avoir ici un nombre PAIR. */
 //	22	:	V->mu
 //	23	:	V->tau
 
-#define channel_choice	17
+#define channel_choice	9
 
 
 //	Choix de la masse du WIMP et de sa section efficace d'annihilation
