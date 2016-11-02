@@ -235,6 +235,61 @@ double flux_proton_EXP(double E_proton)
 	
 			resultat = fit_proton_flux_AMS02_yoann_demodulated_2(E_proton);
 
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_830MV
+		  //AMS and CREAM parametrization with phi_fisk=830MV (2015)
+			double C = 2.96486e+04, alpha = -0.693431, gamma = -2.90507, InvRb = 0.00290823, DeltaGamma = 0.250774, s = 0.17;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
+
+		    //AMS and CREAM parametrization with phi_fisk=783MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_783MV
+			double C = 2.84802e+04, alpha = -0.597458, gamma = -2.89580, InvRb = 0.00256341, DeltaGamma = 0.250503, s = 0.17;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
+
+		    //AMS and CREAM parametrization with phi_fisk=755MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_755MV
+			double C = 2.7863e+04, alpha = -0.552239, gamma = -2.89087, InvRb = 0.0024036, DeltaGamma = 0.249856, s = 0.169558;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
+
+		//AMS and CREAM parametrization with phi_fisk=724MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_724MV
+			double C = 2.716e+04, alpha = -0.5115, gamma = -2.885, InvRb = 0.002357, DeltaGamma = 0.242, s = 0.1556;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
+
+		    //AMS and CREAM parametrization with phi_fisk=701MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_701MV
+			double C = 2.669e+04, alpha = -0.484480, gamma = -2.88066, InvRb = 0.0023288, DeltaGamma = 0.236575, s = 0.146339;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
+
+		   //AMS and CREAM parametrization with phi_fisk=671MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_671MV
+			double C = 2.6125e+04, alpha = -0.452629, gamma = -2.87576, InvRb = 0.0022972, DeltaGamma = 0.23017, s = 0.135759;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
+
+		   //AMS and CREAM parametrization with phi_fisk=647MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_H_phi_fisk_647MV
+			double C = 2.57104e+04, alpha = -0.429501, gamma = -2.87218, InvRb = 0.00227701, DeltaGamma = 0.225418, s = 0.128178;
+			double R = sqrt(T*T + 2.*MASSE_PROTON*T);
+			double Beta = R/(T+MASSE_PROTON);
+			double dR_On_dT = (T+MASSE_PROTON)/R;
+			resultat = C * 1e-4 * dR_On_dT * Beta * (1 - exp(R*alpha)) * pow(R,gamma)*pow(1+pow((R*InvRb),DeltaGamma/s),s);
 			
 		#else
 			printf("ERROR : function 'flux_proton_EXP' \nYou must specify one proton flux parametrization in COMMON.h! \n");
@@ -510,7 +565,7 @@ void PROTON_TOA_SPECTRUM_calculation(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SP
 	double T_proton_IS ,E_proton_IS,flux_proton_IS;
 	
 
-	pt_Propagation->PHI_FISK = fisk_potential;
+	pt_Propagation->PHI_FISK = phi_fisk;
 	
 
 	for (i_proton=0;i_proton<=DIM_TAB_PBAR;i_proton++)

@@ -1266,7 +1266,7 @@ void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], doub
 	
 
 
-	pt_Propagation->PHI_FISK = fisk_potential;
+	pt_Propagation->PHI_FISK = phi_fisk;
 	
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -1398,7 +1398,7 @@ void PBAR_OVER_P_TOA_SPECTRUM_calculation(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TA
 	
 	//	Nous modulons maintenant les spectres obtenus.
 	
-	pt_Propagation->PHI_FISK = fisk_potential;
+	pt_Propagation->PHI_FISK = phi_fisk;
 	
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -1561,7 +1561,7 @@ void PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation(double PBAR_OVER_P_IS_SPEC
 	
 	//	Nous modulons maintenant les spectres obtenus.
 	
-	pt_Propagation->PHI_FISK = fisk_potential;
+	pt_Propagation->PHI_FISK = phi_fisk;
 	
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
@@ -1636,7 +1636,7 @@ void PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation_1(double PBAR_OVER_P_IS_SP
 			
 		//	Nous modulons maintenant les spectres obtenus.
 	
-		pt_Propagation->PHI_FISK = fisk_potential;
+		pt_Propagation->PHI_FISK = phi_fisk;
 	
 		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 		{

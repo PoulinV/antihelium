@@ -210,7 +210,7 @@ TEST:
 //		Nous modulons maintenant les spectres PBAR obtenus.
 	
 	
-	pt_Propagation->PHI_FISK = fisk_potential;
+	pt_Propagation->PHI_FISK = phi_fisk;
 	
 	results = fopen(pbar_TOA_spectra_MIN_MED_MAX_file_name,"w");
 	

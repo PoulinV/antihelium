@@ -75,14 +75,6 @@
 //#define nJeuxParam  10 
 
 
-//	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
-//	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
-
-#define fisk_potential 0.724								//	[GV]
-//#define fisk_potential 0.0								//	[GV]
-//#define fisk_potential 0.93									//	[GV]
-
-
 /********************************************************************************************/
 
 //	PBAR SPECTRUM TABLE PARAMETERS
@@ -148,7 +140,7 @@ d'avoir ici un nombre PAIR. */
 
 /********************************************************************************************/
 
-//	EXPERIMENTAL PROTON FLUX PARAMETRIZATION
+//	EXPERIMENTAL PROTON FLUX PARAMETRIZATION (maintenant le parametrage depend su potentiel de Fisk, voir plus bas)
 
 //	On choisit ici l'experience qui nous donne le flux de protons.
 
@@ -165,7 +157,7 @@ d'avoir ici un nombre PAIR. */
 //#define ATIC2_2010_proton_Lavalle
 
 //   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
-#define PAMELA_2012_proton_Delahaye
+//#define PAMELA_2012_proton_Delahaye
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 //#define AMS02_2013_proton_Donato
@@ -182,9 +174,10 @@ d'avoir ici un nombre PAIR. */
 //	Fit performed by Yoann on data from a forthcoming paper of AMS-02.
 //#define AMS02_2015_proton_yoann	
 
+
 /********************************************************************************************/
 
-//	EXPERIMENTAL HELIUM FLUX PARAMETRIZATION
+//	EXPERIMENTAL HELIUM FLUX PARAMETRIZATION (maintenant le parametrage depend su potentiel de Fisk, voir plus bas)
 
 //	On choisit ici l'experience qui nous donne le flux d'helium.
 
@@ -198,7 +191,7 @@ d'avoir ici un nombre PAIR. */
 //#define CREAM_ATIC2_2010_helium_Lavalle
 
 //   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR helium data.
-#define PAMELA_2012_helium_Delahaye
+//#define PAMELA_2012_helium_Delahaye
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 //#define AMS02_2013_helium_Donato
@@ -213,6 +206,65 @@ d'avoir ici un nombre PAIR. */
 //#define AMS02_2015_helium_yoann
 
 
+/********************************************************************************************/
+
+// Valeur moyenne pour AMS-02 (2011-2013) donne par Ghelfi et al. 2015
+#define Fisk_Average
+//#define Fisk_Plus_1_Sigma
+//#define Fisk_Plus_2_Sigma
+//#define Fisk_Plus_3_Sigma
+//#define Fisk_Minus_1_Sigma
+//#define Fisk_Minus_2_Sigma
+//#define Fisk_Minus_3_Sigma
+
+#ifdef Fisk_Average
+#define phi_fisk      724.0		//[MV]
+//#define phi_fisk      0.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_724MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_724MV
+#endif
+
+#ifdef Fisk_Plus_1_Sigma
+#define phi_fisk      755.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_755MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_755MV
+#endif
+
+#ifdef Fisk_Plus_2_Sigma
+#define phi_fisk      783.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_783MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_783MV
+#endif
+
+#ifdef Fisk_Plus_3_Sigma
+#define phi_fisk      830.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_830MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_830MV
+#endif
+
+#ifdef Fisk_Minus_1_Sigma
+#define phi_fisk      701.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_701MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_701MV
+#endif
+
+#ifdef Fisk_Minus_2_Sigma
+#define phi_fisk      671.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_671MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_671MV
+#endif
+
+#ifdef Fisk_Minus_3_Sigma
+#define phi_fisk      647.0		//[MV]
+#define AMS_CREAM_BCV_2015_H_phi_fisk_647MV
+#define AMS_CREAM_BCV_2015_He_phi_fisk_647MV
+#endif
+
+//#define Phi_Fisk      830.0		// phi_Fisk_max = phi_Fisk + 3sigma Ghelfi et al. 2015
+//#define Phi_Fisk      783.0		// phi_Fisk_max = phi_Fisk + 2sigma Ghelfi et al. 2015
+//#define Phi_Fisk      755.0		// phi_Fisk_max = phi_Fisk + 1sigma Ghelfi et al. 2015
+//#define Phi_Fisk      671.0		// phi_Fisk_max = phi_Fisk - 2sigma Ghelfi et al. 2015
+//#define Phi_Fisk      647.0		// phi_Fisk_max = phi_Fisk - 3sigma Ghelfi et al. 2015
 
 /********************************************************************************************/
 

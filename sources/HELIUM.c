@@ -177,6 +177,86 @@ double flux_helium_EXP(double E_nucleon)
 			resultat = fit_helium_flux_AMS02_yoann_demodulated_2(E_nucleon);
 	
 		
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_830MV
+		  //AMS and CREAM parametrization with phi_fisk=830MV (2015)
+			double C = 4161.04, gamma = -2.80057, InvRb = 0.00256938, DeltaGamma = 0.238820, s = 0.1;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		  //AMS and CREAM parametrization with phi_fisk=783MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_783MV
+			double C = 3877.65, gamma = -2.78370, InvRb = 0.00221080, DeltaGamma = 0.228006, s = 0.0716495;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		  //AMS and CREAM parametrization with phi_fisk=755MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_755MV
+			double C = 3724.18, gamma = -2.77444, InvRb = 0.00205778, DeltaGamma = 0.21889, s = 0.056466;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		  //AMS and CREAM parametrization with phi_fisk=724MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_724MV
+			double C = 3564, gamma = -2.765, InvRb = 0.001842, DeltaGamma = 0.2129, s = 0.04654;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		  //AMS and CREAM parametrization with phi_fisk=701MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_701MV
+			double C = 3.44977e+03, gamma = -2.75738, InvRb = 0.00166612, DeltaGamma = 0.210402, s = 0.0421538;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		  //AMS and CREAM parametrization with phi_fisk=671MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_671MV
+			double C = 3.30613e+03, gamma = -2.74806, InvRb = 0.00144018, DeltaGamma = 0.208364, s = 0.0381031;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		  //AMS and CREAM parametrization with phi_fisk=647MV (2015)
+		#elif defined AMS_CREAM_BCV_2015_He_phi_fisk_647MV
+			double C = 3.19340e+03, gamma = -2.74044, InvRb = 0.001, DeltaGamma = 0.235347, s = 0.0559997;
+			double Ttot = 4.*T_nucleon;
+			double Mtot = 4.*MASSE_PROTON;
+			double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+			double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+			double dR_On_dT = (Ttot+Mtot)/(R);
+			resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
+		//AMS and CREAM Helium parametrization with random variables(2015)
+		#elif defined AMS_CREAM_Helium_Random_2015
+		  double C = pt_RandomVariables->C_rand, gamma = pt_RandomVariables->gamma_rand, InvRb = pt_RandomVariables->InvRb_rand, DeltaGamma = pt_RandomVariables->DeltaGamma_rand, s = pt_RandomVariables->s_rand;
+		  double Ttot = 4.*T_nucleon;
+		  double Mtot = 4.*MASSE_PROTON;
+		  double R = sqrt(Ttot*(Ttot + 2.*Mtot))/2.;
+		  double Beta = sqrt(Ttot*(Ttot + 2.*Mtot))/(Ttot+Mtot);
+		  double dR_On_dT = (Ttot+Mtot)/(R);
+		  resultat = C * dR_On_dT * 1e-4 * Beta * pow(R,gamma) * pow(1+pow(R*InvRb,DeltaGamma/s),s);
+
 		#else
 			printf("ERROR : function 'flux_helium_EXP' \nYou must specify one helium flux parametrization in COMMON.h! \n");
 			exit(0);
