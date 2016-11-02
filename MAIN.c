@@ -118,32 +118,35 @@ int main(void)
 /////////////////////////////////
 
 //	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
-	calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
+	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
 //	CALCUL DE LA CONTRIBUTION SECONDAIRE PROVENANT DE LA SPALLATION DU GAZ INTERSTELLAIRE PAR LES PROTONS ET LES HELIONS DU RAYONNEMENT COSMIQUE.
 	calculation_BESSEL_PROTON_Ep_i(alpha_i, &Proton, &Propagation);
 	calculation_BESSEL_HELIUM_Ep_i(alpha_i, &Helium, &Propagation);
-	//calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
+	calculation_BESSEL_PBAR_SECONDARY_Epbar_i(alpha_i, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation);
 	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 	
 	
 //	CALCUL DES Pi EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
-	tertiary_component_effect_calculation(&Pbar, alpha_i);
+	//tertiary_component_effect_calculation(&Pbar, alpha_i);
 	ELDR_effect_calculation(&Propagation, &Pbar, alpha_i);
+	
 
 
 //	CALCUL DU FLUX D'ANTIPROTONS
 ////////////////////////////////
 
 	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);	
-	//PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Propagation);
+	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Propagation);
 
 //	CALCUL DU RAPPORT Pbar/P
 ////////////////////////////
 	
 	PBAR_OVER_P_IS_SPECTRUM_calculation(PBAR_OVER_P_IS_SPECTRUM, &Proton, &Pbar, &Propagation, alpha_i);
-	PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
+	//PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
+	PBAR_OVER_P_TOA_SPECTRUM_calculation_new(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA,  PROTON_TOA_SPECTRUM, T_PROTON_TOA, &Pbar, &Propagation, alpha_i);
+	
 	
 	//PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY_calculation(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
 	//PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation_1(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY, T_PBAR_OVER_P_TOA, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
@@ -160,7 +163,7 @@ int main(void)
 	
 	
 	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM);
-	//print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA);
+	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA);
 	//print_total_pbar_spectra_MIN_MED_MAX(&Proton, &Helium, &Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	
 	//print_PBAR_OVER_P_IS_SPECTRUM(PBAR_OVER_P_IS_SPECTRUM);
@@ -175,7 +178,7 @@ int main(void)
 	/////////////////////////////////////////////////////////////////////
 	
 	
-	primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
+	//primary_spectra_BCGS_2014(&Pbar, &Cross_Section, &Propagation, &Primary_Source_Term, alpha_i);
 	
 	
 	

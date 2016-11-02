@@ -64,8 +64,8 @@
 //	PROPAGATION PARAMETERS
 
 //#define MIN
-#define MED
-//#define MAX
+//#define MED
+#define MAX
 
 //	Nombre de parametres de propagation
 #define nParamProp  5
@@ -78,8 +78,8 @@
 //	For SOLAR MINIMUM, the Fisk potential is PHI_FISK_MIN =  500 MV = 0.5 GV.
 //	For SOLAR MAXIMUM, the Fisk potential is PHI_FISK_MAX = 1000 MV = 1.0 GV.
 
-//#define fisk_potential 0.62								//	[GV]
-#define fisk_potential 0.0								//	[GV]
+#define fisk_potential 0.724								//	[GV]
+//#define fisk_potential 0.0								//	[GV]
 //#define fisk_potential 0.93									//	[GV]
 
 
