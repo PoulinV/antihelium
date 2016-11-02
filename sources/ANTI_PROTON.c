@@ -305,19 +305,19 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
       if (i_pbar == 0)
       {
         
-		  /*
+		  
 		vec_a[0]  = 0.0;
         vec_b[0]  = 1.0;
         vec_b[0] -= grand_C_cal * b_coeff[0] / DELTA_x;
         vec_b[0] += grand_C_cal * (a_coeff[1] - a_coeff[0]) / pow(DELTA_x,2);
         vec_c[0]  = grand_C_cal * b_coeff[1] / DELTA_x;
         vec_c[0] -= grand_C_cal * (a_coeff[1] - a_coeff[0]) / pow(DELTA_x,2);
-      */
+      
 		  
 ////////////////////////////
-		// Test a new boudary condition: J_0 = 0.0
+		// Test a new boudary condition: J_0 = 0.0.
 		
-		
+		  /*
         vec_a[0]  = 0.0;
         vec_b[0]  = 1.0;
         vec_b[0] += grand_C_cal * b_coeff[0] / (2.0*DELTA_x);
@@ -325,8 +325,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
         vec_c[0]  = grand_C_cal * b_coeff[1] / (2.0*DELTA_x);
         vec_c[0] -= grand_C_cal * a_coeff[1] / pow(DELTA_x,2);
 		  
-	  
-	  
+	  */	  
 ////////////////////////////
 	  
 	  
