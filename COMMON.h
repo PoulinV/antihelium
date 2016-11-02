@@ -64,8 +64,8 @@
 //	PROPAGATION PARAMETERS
 
 //#define MIN
-//#define MED
-#define MAX
+#define MED
+//#define MAX
 
 //	Nombre de parametres de propagation
 #define nParamProp  5
@@ -165,7 +165,7 @@ d'avoir ici un nombre PAIR. */
 //#define ATIC2_2010_proton_Lavalle
 
 //   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
-//#define PAMELA_2012_proton_Delahaye
+#define PAMELA_2012_proton_Delahaye
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 //#define AMS02_2013_proton_Donato
@@ -180,7 +180,7 @@ d'avoir ici un nombre PAIR. */
 //#define AMS02_2015_proton_manuela
 	
 //	Fit performed by Yoann on data from a forthcoming paper of AMS-02.
-#define AMS02_2015_proton_yoann	
+//#define AMS02_2015_proton_yoann	
 
 /********************************************************************************************/
 
@@ -198,7 +198,7 @@ d'avoir ici un nombre PAIR. */
 //#define CREAM_ATIC2_2010_helium_Lavalle
 
 //   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR helium data.
-//#define PAMELA_2012_helium_Delahaye
+#define PAMELA_2012_helium_Delahaye
 
 //	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
 //#define AMS02_2013_helium_Donato
@@ -210,7 +210,7 @@ d'avoir ici un nombre PAIR. */
 //#define AMS02_2013_helium_Vittino
 
 //	Fit performed by Yoann on data from AMS Days
-#define AMS02_2015_helium_yoann
+//#define AMS02_2015_helium_yoann
 
 
 

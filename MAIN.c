@@ -107,7 +107,7 @@ int main(void)
 	PBAR_SPECTRUM_initialization(PBAR_OVER_P_TOA_SPECTRUM);
 
 
-//	CALCUL DU FLUX DE PROTONS
+//	CALCUL DU FLUX DES PROTONS
 //////////////////////////////////////////
 	
 	PROTON_IS_SPECTRUM_calculation(PROTON_IS_SPECTRUM, &Proton, &Propagation, alpha_i);
@@ -128,8 +128,7 @@ int main(void)
 	calculation_BESSEL_PBAR_SUM_123_Epbar_i(&Pbar);
 	
 	
-//	CALCUL DES Pi EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
-	//tertiary_component_effect_calculation(&Pbar, alpha_i);
+//	CALCUL DES Pi DES PBAR EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
 	ELDR_effect_calculation(&Propagation, &Pbar, alpha_i);
 	
 
@@ -144,8 +143,7 @@ int main(void)
 ////////////////////////////
 	
 	PBAR_OVER_P_IS_SPECTRUM_calculation(PBAR_OVER_P_IS_SPECTRUM, &Proton, &Pbar, &Propagation, alpha_i);
-	//PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
-	PBAR_OVER_P_TOA_SPECTRUM_calculation_new(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA,  PROTON_TOA_SPECTRUM, T_PROTON_TOA, &Pbar, &Propagation, alpha_i);
+	PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
 	
 	
 	//PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY_calculation(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
@@ -190,10 +188,8 @@ int main(void)
 	
 	flux_TOA = fit_proton_flux_AMS02_yoann(pnTOA);
 	flux_TOA *= EnTOA / pnTOA;
-	
-	
-	
-	printf("TnTOA = %.5e \t flux_TOA = %.5e  \n", EnTOA, flux_TOA);
+
+	//printf("TnTOA = %.5e \t flux_TOA = %.5e  \n", EnTOA, flux_TOA);
 		
 	
 	
