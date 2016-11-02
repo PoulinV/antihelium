@@ -64,8 +64,8 @@
 //	PROPAGATION PARAMETERS
 
 //#define MIN
-#define MED
-//#define MAX
+//#define MED
+#define MAX
 
 //	Nombre de parametres de propagation
 #define nParamProp  5
@@ -218,53 +218,48 @@ d'avoir ici un nombre PAIR. */
 //#define Fisk_Minus_3_Sigma
 
 #ifdef Fisk_Average
-#define phi_fisk      724.0		//[MV]
-//#define phi_fisk      0.0		//[MV]
+#define phi_fisk      0.724		//[GV]
+//#define phi_fisk      0.0		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_724MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_724MV
 #endif
 
 #ifdef Fisk_Plus_1_Sigma
-#define phi_fisk      755.0		//[MV]
+#define phi_fisk      0.755		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_755MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_755MV
 #endif
 
 #ifdef Fisk_Plus_2_Sigma
-#define phi_fisk      783.0		//[MV]
+#define phi_fisk      0.783		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_783MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_783MV
 #endif
 
 #ifdef Fisk_Plus_3_Sigma
-#define phi_fisk      830.0		//[MV]
+#define phi_fisk      0.830		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_830MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_830MV
 #endif
 
 #ifdef Fisk_Minus_1_Sigma
-#define phi_fisk      701.0		//[MV]
+#define phi_fisk      0.701		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_701MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_701MV
 #endif
 
 #ifdef Fisk_Minus_2_Sigma
-#define phi_fisk      671.0		//[MV]
+#define phi_fisk      0.671		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_671MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_671MV
 #endif
 
 #ifdef Fisk_Minus_3_Sigma
-#define phi_fisk      647.0		//[MV]
+#define phi_fisk      0.647		//[GV]
 #define AMS_CREAM_BCV_2015_H_phi_fisk_647MV
 #define AMS_CREAM_BCV_2015_He_phi_fisk_647MV
 #endif
 
-//#define Phi_Fisk      830.0		// phi_Fisk_max = phi_Fisk + 3sigma Ghelfi et al. 2015
-//#define Phi_Fisk      783.0		// phi_Fisk_max = phi_Fisk + 2sigma Ghelfi et al. 2015
-//#define Phi_Fisk      755.0		// phi_Fisk_max = phi_Fisk + 1sigma Ghelfi et al. 2015
-//#define Phi_Fisk      671.0		// phi_Fisk_max = phi_Fisk - 2sigma Ghelfi et al. 2015
-//#define Phi_Fisk      647.0		// phi_Fisk_max = phi_Fisk - 3sigma Ghelfi et al. 2015
 
 /********************************************************************************************/
 
