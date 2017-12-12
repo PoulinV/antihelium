@@ -26,17 +26,17 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 	static double RESULTS_SPECTRUM_TOA_MAX[DIM_TAB_PBAR+1];
 
 	FILE* results;
-	
-	
+
+
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 	    PBAR_SPECTRUM_MIN[i_pbar] = 0.0;
 	    PBAR_SPECTRUM_MED[i_pbar] = 0.0;
 	    PBAR_SPECTRUM_MAX[i_pbar] = 0.0;
 	}
-	
-	
-	
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	On charge les valeurs des multiplicites
 //	$g \left( T_{\pbar} \right) = \frac{d N_{\pbar}}{d T_{\pbar}}$ et l'on calcule
@@ -52,11 +52,11 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 
 	mass_chi = mass_chi_choice;
 	channel  = channel_choice;
-	
 
-		
+
+
 	printf("\n mass_chi = %.2e GeV \n", mass_chi);
-		
+
 	#if defined (WIMP_annihilation)
 		DNPBAR_ON_DTPBAR_gaelle_read_file   (mass_chi, pt_Primary_Source_Term);
 		dNpbar_on_dEpbar_primary_calculation(mass_chi, channel, pt_Primary_Source_Term);
@@ -68,9 +68,9 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 	#else
 		printf("Error! \n Function : 'main' \n You have to specify in COMMON.h WIMP_annihilation or WIMP_decay \n");
 		exit (0);
-	#endif	
-		
-		
+	#endif
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	ON PEUT Y ALLER !
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 //			Nous definissons a ce niveau les parametres que FIORENZA, DAVID et RICHARD
 //			-- hereafter called FDR -- ont determines.
 
-		if (i_data == 1)       // CAS MAX 
+		if (i_data == 1)       // CAS MAX
 		{
 			pt_Propagation->PUISSANCE_COEFF_DIFF = 0.46;
 			pt_Propagation->DIFFUSION_0_GV  = 0.0765 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
@@ -89,7 +89,7 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 			pt_Propagation->VENT_GALACTIQUE = (5.0   * 1.0e5);                            		// [cm s^{-1}]
 			pt_Propagation->V_ALFEN         = (117.6 * 1.0e5);                            		// [cm s^{-1}]
 		}
-		else if (i_data == 2) // CAS MED 
+		else if (i_data == 2) // CAS MED
 		{
 			pt_Propagation->PUISSANCE_COEFF_DIFF = 0.70;
 			pt_Propagation->DIFFUSION_0_GV  = 0.0112 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
@@ -97,7 +97,7 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 			pt_Propagation->VENT_GALACTIQUE = (12.0  * 1.0e5);                            		// [cm s^{-1}]
 			pt_Propagation->V_ALFEN         = (52.9  * 1.0e5);                            		// [cm s^{-1}]
 		}
-		else if (i_data == 3) // CAS MIN 
+		else if (i_data == 3) // CAS MIN
 		{
 			pt_Propagation->PUISSANCE_COEFF_DIFF = 0.85;
 			pt_Propagation->DIFFUSION_0_GV  = 0.0016 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR; 		// [cm^{2} s^{-1}]
@@ -108,14 +108,14 @@ void print_total_pbar_spectra_MIN_MED_MAX(struct Structure_Nuclei* pt_Proton, st
 
 
 //				Nous imprimons les coefficients de diffusion_propagation choisis dans le calcul.
-/*		
+/*
 		printf(" CAS NUMERO      = %ld \n",i_data);
 		printf(" DELTA           = %.5e [NO UNIT]\n",pt_Propagation->PUISSANCE_COEFF_DIFF);
 		printf(" DIFFUSION_0_GV  = %.5e [cm^{2} s^{-1}]\n",pt_Propagation->DIFFUSION_0_GV);
 		printf(" E_DIFFUS        = %.5e [kpc]\n",pt_Propagation->E_DIFFUS);
 		printf(" VENT_GALACTIQUE = %.5e [cm s^{-1}]\n",pt_Propagation->VENT_GALACTIQUE);
 		printf(" V_ALFEN         = %.5e [cm s^{-1}]\n\n",pt_Propagation->V_ALFEN);
-*/		
+*/
 //				On remet a zero les tableaux Pbar.BESSEL_PBAR_SEC_Epbar_i et Pbar.BESSEL_PBAR_TER_Epbar_i.
 
 		for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -188,7 +188,7 @@ TEST:
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //			On imprime le resultat
-	
+
 	results = fopen(pbar_IS_spectra_MIN_MED_MAX_file_name,"w");
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -200,27 +200,27 @@ TEST:
 		FLUX_PBAR_MED = PBAR_SPECTRUM_MED[i_pbar];
 		FLUX_PBAR_MAX = PBAR_SPECTRUM_MAX[i_pbar];
 
-		fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*FLUX_PBAR_MIN), (1.0e04*FLUX_PBAR_MED), (1.0e04*FLUX_PBAR_MAX));	
+		fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*FLUX_PBAR_MIN), (1.0e04*FLUX_PBAR_MED), (1.0e04*FLUX_PBAR_MAX));
 	}
-	
+
 	fclose(results);
 
-	
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		Nous modulons maintenant les spectres PBAR obtenus.
-	
-	
+
+
 	pt_Propagation->PHI_FISK = phi_fisk;
-	
+
 	results = fopen(pbar_TOA_spectra_MIN_MED_MAX_file_name,"w");
-	
+
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 		T_pbar_IS = T_PBAR_MIN *
 		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
 		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
-		
+
 		FFA_IS_to_TOA(1.,1.,pt_Propagation->PHI_FISK,E_pbar_IS,PBAR_SPECTRUM_MIN[i_pbar],&E_pbar_TOA,&FLUX_PBAR_TOA_MIN);
 
 		if (E_pbar_TOA <= MASSE_PROTON)
@@ -241,7 +241,7 @@ TEST:
 		fprintf(results, " %.10e\t %.10e\t %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*FLUX_PBAR_TOA_MIN), (1.0e04*FLUX_PBAR_TOA_MED), (1.0e04*FLUX_PBAR_TOA_MAX));
 
 //		Nous les stockons en memoire dans les tableaux RESULTS_T_PBAR_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
-	
+
 		RESULTS_T_PBAR_TOA[i_pbar] = T_pbar_TOA;
 		RESULTS_SPECTRUM_TOA_MAX[i_pbar] = (1.0e04*FLUX_PBAR_TOA_MAX);
 		RESULTS_SPECTRUM_TOA_MED[i_pbar] = (1.0e04*FLUX_PBAR_TOA_MED);
@@ -255,15 +255,26 @@ TEST:
 
 //	On imprime le resultat
 
-void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1])
+void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], int A_nuclei)
 {
 	long i_pbar;
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
 	double flux_pbar;
-	
-	FILE* results;
-	results = fopen(pbar_IS_spectrum_file_name,"w");
 
+	FILE* results;
+	// results = fopen(pbar_IS_spectrum_file_name,"w");
+	if(A_nuclei == 1){
+		results = fopen(pbar_IS_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", pbar_IS_spectrum_file_name);
+	}
+	else if (A_nuclei == 2){
+		results = fopen(Debar_IS_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", Debar_IS_spectrum_file_name);
+	}
+	else if (A_nuclei == 3){
+		results = fopen(Hebar_IS_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", Hebar_IS_spectrum_file_name);
+	}
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 		T_pbar_IS = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
@@ -273,8 +284,8 @@ void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1])
 
 		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_IS, (1.0e04*flux_pbar));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -282,24 +293,34 @@ void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1])
 
 //	On imprime le resultat
 
-void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_TOA[DIM_TAB_PBAR+1])
+void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_TOA[DIM_TAB_PBAR+1], int A_nuclei)
 {
 	long i_pbar;
 	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA;
 	double flux_pbar_TOA;
-	
-	FILE* results;
-	results = fopen(pbar_TOA_spectrum_file_name,"w");
 
+	FILE* results;
+	if(A_nuclei == 1){
+		results = fopen(pbar_TOA_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", pbar_TOA_spectrum_file_name);
+	}
+	else if (A_nuclei == 2){
+		results = fopen(Debar_TOA_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", Debar_TOA_spectrum_file_name);
+	}
+	else if (A_nuclei == 3){
+		results = fopen(Hebar_TOA_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", Hebar_TOA_spectrum_file_name);
+	}
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-	{	
+	{
 		T_pbar_TOA = T_PBAR_TOA[i_pbar];
 		flux_pbar_TOA = PBAR_TOA_SPECTRUM[i_pbar];
-			
-		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*flux_pbar_TOA));									// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
+
+		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*flux_pbar_TOA));									// [#pbar m^{-2} sr^{-1} s^{-1} GeV^{-1}]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -310,7 +331,7 @@ void print_PROTON_IS_SPECTRUM(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+
 	long i_proton;
 	double T_proton ,E_proton ,flux_proton_IS;
 	double flux_proton;
-	
+
 	FILE* results;
 	results = fopen(proton_IS_spectrum_file_name,"w");
 
@@ -323,8 +344,8 @@ void print_PROTON_IS_SPECTRUM(double PROTON_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+
 
 		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_IS));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -334,7 +355,7 @@ void print_PROTON_TOA_SPECTRUM(double PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRU
 {
 	long i_proton;
 	double T_proton_TOA ,E_proton_TOA ,flux_proton_TOA;
-	
+
 	FILE* results;
 	results = fopen(proton_TOA_spectrum_file_name,"w");
 
@@ -346,8 +367,8 @@ void print_PROTON_TOA_SPECTRUM(double PROTON_TOA_SPECTRUM[DIM_TAB_PROTON_SPECTRU
 
 		fprintf(results, " %.10e\t %.10e\t \n", T_proton_TOA, (1.0e04*flux_proton_TOA));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -358,7 +379,7 @@ void print_PROTON_SPECTRUM_exp(void)
 	long i_proton;
 	double T_proton ,E_proton ,flux_proton_exp;
 	double flux_proton;
-	
+
 	FILE* results;
 	results = fopen(proton_exp_spectrum_file_name,"w");
 
@@ -371,8 +392,8 @@ void print_PROTON_SPECTRUM_exp(void)
 
 		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_exp));											// [#proton m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -383,7 +404,7 @@ void print_HELIUM_SPECTRUM_exp(void)
 	long i_proton;
 	double T_proton ,E_proton ,flux_proton_exp;
 	double flux_proton;
-	
+
 	FILE* results;
 	results = fopen(helium_exp_spectrum_file_name,"w");
 
@@ -396,8 +417,8 @@ void print_HELIUM_SPECTRUM_exp(void)
 
 		fprintf(results, " %.10e\t %.10e\t \n", T_proton, (1.0e04*flux_proton_exp));											// [#pbar m^{-3} sr^{-1} s^{-1} GeV^{-1}]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -409,7 +430,7 @@ void print_PBAR_OVER_P_IS_SPECTRUM(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1
 {
 	long i_pbar;
 	double T_IS ,E_IS , pbar_over_p_IS;
-	
+
 	FILE* results;
 	results = fopen(pbar_over_p_IS_spectrum_file_name,"w");
 
@@ -420,10 +441,10 @@ void print_PBAR_OVER_P_IS_SPECTRUM(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_PBAR+1
 
 		pbar_over_p_IS = PBAR_OVER_P_IS_SPECTRUM[i_pbar];																					// [NO UNIT]
 
-		fprintf(results, " %.10e\t %.10e\t \n", T_IS, pbar_over_p_IS);	
+		fprintf(results, " %.10e\t %.10e\t \n", T_IS, pbar_over_p_IS);
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -435,20 +456,20 @@ void print_PBAR_OVER_P_TOA_SPECTRUM(double PBAR_OVER_P_TOA_SPECTRUM[DIM_TAB_PBAR
 {
 	long i_pbar;
 	double T_pbar_over_p_TOA,pbar_over_p_TOA;
-	
+
 	FILE* results;
 	results = fopen(pbar_over_p_TOA_spectrum_file_name,"w");
 
 	//for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
-	for (i_pbar=DIM_TAB_PBAR;i_pbar>=0;i_pbar--)	
-	{	
+	for (i_pbar=DIM_TAB_PBAR;i_pbar>=0;i_pbar--)
+	{
 		T_pbar_over_p_TOA = T_PBAR_OVER_P_TOA[i_pbar];
 		pbar_over_p_TOA = PBAR_OVER_P_TOA_SPECTRUM[i_pbar];
-			
+
 		fprintf(results, " %.10e\t %.10e\t \n",T_pbar_over_p_TOA,pbar_over_p_TOA);																					// [NO UNIT]
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -460,7 +481,7 @@ void print_PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_IS_SPECTRUM_UN
 {
 	long i_pbar;
 	double T_IS ,E_IS , pbar_over_p_IS_INF, pbar_over_p_IS_SUP;
-	
+
 	FILE* results;
 	results = fopen(pbar_over_p_IS_uncertainty_spectrum_file_name,"w");
 
@@ -471,11 +492,11 @@ void print_PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_IS_SPECTRUM_UN
 
 		pbar_over_p_IS_INF = PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][0];																					// [NO UNIT]
 		pbar_over_p_IS_SUP = PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[i_pbar][1];																					// [NO UNIT]
-		
-		fprintf(results, " %.10e\t %.10e\t %.10e\t \n", T_IS, pbar_over_p_IS_INF, pbar_over_p_IS_SUP);	
+
+		fprintf(results, " %.10e\t %.10e\t %.10e\t \n", T_IS, pbar_over_p_IS_INF, pbar_over_p_IS_SUP);
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
@@ -488,23 +509,22 @@ void print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_TOA_SPECTRUM_
 {
 	long i_pbar;
 	double T_TOA ,E_TOA , pbar_over_p_TOA_INF, pbar_over_p_TOA_SUP;
-	
+
 	FILE* results;
 	results = fopen(pbar_over_p_TOA_uncertainty_spectrum_file_name,"w");
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
 		T_TOA = T_PBAR_OVER_P_TOA[i_pbar];
-		
+
 		pbar_over_p_TOA_INF = PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][0];																					// [NO UNIT]
 		pbar_over_p_TOA_SUP = PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[i_pbar][1];																					// [NO UNIT]
-		
-		fprintf(results, " %.10e\t %.10e\t %.10e\t \n", T_TOA, pbar_over_p_TOA_INF, pbar_over_p_TOA_SUP);	
+
+		fprintf(results, " %.10e\t %.10e\t %.10e\t \n", T_TOA, pbar_over_p_TOA_INF, pbar_over_p_TOA_SUP);
 	}
-	
-	fclose(results);	
+
+	fclose(results);
 }
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
-

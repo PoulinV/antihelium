@@ -3,7 +3,8 @@
 
 /********************************************************************************************/
 /********************************************************************************************/
-
+#define _TRUE_ 1
+#define _FALSE_ 0
 #define PI (acos(-1.))
 //#define PI 3.14159265358979
 
@@ -37,6 +38,9 @@
 #define MASSE_PROTON 0.938272013
 #undef  MASSE_PROTON
 #define MASSE_PROTON 0.938
+
+#define MASS_NEUTRON 939.565
+#define MASS_HELIUM_TROIS 2809.413
 /* La masse du proton est exprimee en [GeV]. */
 
 /********************************************************************************************/
@@ -71,8 +75,8 @@
 #define nParamProp  5
 
 //	Nombre de jeux de parametres de propagation
-#define nJeuxParam  1623 
-//#define nJeuxParam  10 
+#define nJeuxParam  1623
+//#define nJeuxParam  10
 
 
 /********************************************************************************************/
@@ -126,7 +130,7 @@ d'avoir ici un nombre PAIR. */
 
 // On definit l'intervalle d'energie cinetique des protons pour afficher leur spectre.
 #define DIM_TAB_PROTON_SPECTRUM	DIM_TAB_PBAR
-#define T_PROTON_SPECTRUM_MIN	T_PBAR_MIN						// [GeV] 
+#define T_PROTON_SPECTRUM_MIN	T_PBAR_MIN						// [GeV]
 #define T_PROTON_SPECTRUM_MAX	T_PBAR_MAX						// [GeV]
 
 /********************************************************************************************/
@@ -170,9 +174,9 @@ d'avoir ici un nombre PAIR. */
 
 //	Fit performed by Manuela Vecchi on data from a forthcoming paper of AMS-02.
 //#define AMS02_2015_proton_manuela
-	
+
 //	Fit performed by Yoann on data from a forthcoming paper of AMS-02.
-//#define AMS02_2015_proton_yoann	
+//#define AMS02_2015_proton_yoann
 
 
 /********************************************************************************************/
@@ -317,14 +321,23 @@ d'avoir ici un nombre PAIR. */
 #define FILE_NAME_HE_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_HE_on_H_high_energy.txt"
 #define FILE_NAME_HE_ON_HE	"../sources/cross_section/DSPBAR_SUR_DEPBAR_HE_on_HE_high_energy.txt"
 
+#define FILE_NAME_DE_H_ON_H "../sources/cross_section/DSDe_SUR_DEDe_H_on_H_MDGS_F12.txt"
+#define FILE_NAME_DE_H_ON_HE "../sources/cross_section/DSDe_SUR_DEDe_H_on_HE_MDGS_F12.txt"
+#define FILE_NAME_DE_HE_ON_H "../sources/cross_section/DSDe_SUR_DEDe_HE_on_H_MDGS_F12.txt"
+#define FILE_NAME_DE_HE_ON_HE "../sources/cross_section/DSDe_SUR_DEDe_HE_on_HE_MDGS_F12.txt"
+
+#define FILE_NAME_HE3_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_H_on_H_MDGS_F12.txt"
+#define FILE_NAME_HE3_H_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_H_on_HE_MDGS_F12.txt"
+#define FILE_NAME_HE3_HE_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_HE_on_H_MDGS_F12.txt"
+#define FILE_NAME_HE3_HE_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_HE_on_HE_MDGS_F12.txt"
 /********************************************************************************************/
 
 //	PRIMARY PBAR PARAMETERS
 
 #define RHO_CHI_SOLAR 0.3
-// La densite de masse des neutralinos dans le voisinage solaire est exprimee en [GeV cm^{-3}]. 
+// La densite de masse des neutralinos dans le voisinage solaire est exprimee en [GeV cm^{-3}].
 #define RHO_CHI_0 1.0
-// La valeur de reference pour la densite de masse des neutralinos est exprimee en [GeV cm^{-3}]. 
+// La valeur de reference pour la densite de masse des neutralinos est exprimee en [GeV cm^{-3}].
 #define RC_SMBH 0.1
 // Renormalization radius expressed in [kpc]
 
@@ -407,17 +420,31 @@ d'avoir ici un nombre PAIR. */
 
 #define helium_exp_spectrum_file_name	"./results/helium_exp_spectrum.txt"
 
-#define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum.txt"
-#define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum.txt" 
+// #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full.txt"
+// #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full.txt"
+// #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full.txt"
+// #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full.txt"
+// #define Hebar_IS_spectrum_file_name	"./results/Hebar_IS_spectrum_full.txt"
+// #define Hebar_TOA_spectrum_file_name	"./results/Hebar_TOA_spectrum_full.txt"
+#define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary.txt"
+#define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary.txt"
+#define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary.txt"
+#define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary.txt"
+#define Hebar_IS_spectrum_file_name	"./results/Hebar_IS_spectrum_noTertiary.txt"
+#define Hebar_TOA_spectrum_file_name	"./results/Hebar_TOA_spectrum_noTertiary.txt"
 
 #define pbar_over_p_IS_spectrum_file_name	"./results/pbar_over_p_IS_spectrum.txt"
-#define pbar_over_p_TOA_spectrum_file_name	"./results/pbar_over_p_TOA_spectrum.txt" 
+#define pbar_over_p_TOA_spectrum_file_name	"./results/pbar_over_p_TOA_spectrum.txt"
+#define Debar_over_p_IS_spectrum_file_name	"./results/Debar_over_p_IS_spectrum.txt"
+#define Debar_over_p_TOA_spectrum_file_name	"./results/Debar_over_p_TOA_spectrum.txt"
+#define Hebar_over_p_IS_spectrum_file_name	"./results/Hebar_over_p_IS_spectrum.txt"
+#define Hebar_over_p_TOA_spectrum_file_name	"./results/Hebar_over_p_TOA_spectrum.txt"
 
 #define pbar_IS_spectra_MIN_MED_MAX_file_name	"./results/pbar_IS_spectra_MIN_MED_MAX.txt"
-#define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt" 
+#define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt"
 
 #define pbar_over_p_IS_uncertainty_spectrum_file_name	"./results/pbar_over_p_IS_uncertainty_spectrum.txt"
-#define pbar_over_p_TOA_uncertainty_spectrum_file_name	"./results/pbar_over_p_TOA_uncertainty_spectrum.txt" 
+#define pbar_over_p_TOA_uncertainty_spectrum_file_name	"./results/pbar_over_p_TOA_uncertainty_spectrum.txt"
 
 
 /********************************************************************************************/

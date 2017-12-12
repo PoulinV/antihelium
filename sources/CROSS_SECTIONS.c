@@ -53,7 +53,7 @@ double sigma_inelastic_pH_TAN_and_NG(double E_proton)
 {
   double EK_proton,U,Cp;
   double resultat;
-  
+
   EK_proton = E_proton - MASSE_PROTON;
   resultat = 0.0;
   if (EK_proton<=0.0)
@@ -186,7 +186,7 @@ double sigma_inelastic_pbarH_TAN_and_NG(double E_pbar)
   extern FILE *probleme;
   double EK_pbar;
   double resultat;
-  
+
   EK_pbar = E_pbar - MASSE_PROTON;
   resultat = 0.0;
   if (EK_pbar<=0.0)
@@ -285,11 +285,11 @@ double sigma_total_dbarH(double E_dbar)
 {
   double p;
   double resultat;
-  
+
   resultat = 0.0;
 
   p = sqrt(pow(E_dbar,2.) - pow(MASSE_DEUT,2.)) / 2.; /* Impulsion du proton */
-  
+
   if (p<=p_seuil_min_pbard_tot)
   {
     resultat = P1_pbard_min_tot + P2_pbard_min_tot*(p) + P3_pbard_min_tot*pow((p),2.) +
@@ -299,14 +299,14 @@ double sigma_total_dbarH(double E_dbar)
   }
   else if ((p_seuil_min_pbard_tot<p) && (p<=p_seuil_max_pbard_tot))
   {
-    resultat = exp(P1_pbard_max_tot + P2_pbard_max_tot*log(p));  
+    resultat = exp(P1_pbard_max_tot + P2_pbard_max_tot*log(p));
   }
   else if (p_seuil_max_pbard_tot<p)
   {
     resultat = A_pbard_tot + B_pbard_tot*pow(p,n_pbard_tot) + C_pbard_tot*pow(log(p),2.) +
                D_pbard_tot*log(p);
   }
-  
+
   return (resultat*mb_cm2);
 }
 
@@ -324,7 +324,7 @@ double E_d3S_on_d3P_PBAR_ECM(double E_CMF,double pLstar,double pTstar)
   double Q,Estar,E_MAX_star,XR,f_XR,A,B;
   double XR_min,DXR,LE_sur_RS;
   double resultat;
-  
+
   Q = E_CMF - 4.*MASSE_PROTON;
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) /
   (2.*E_CMF);
@@ -336,7 +336,7 @@ double E_d3S_on_d3P_PBAR_ECM(double E_CMF,double pLstar,double pTstar)
   resultat = 0.0;
   if (Q<=0.0) goto LA_FIN;
   if (XR>=1.0) goto LA_FIN;
-  
+
 /*
 * f_XR is expressed in [millibarns GeV^{-2}].
 */
@@ -348,14 +348,14 @@ double E_d3S_on_d3P_PBAR_ECM(double E_CMF,double pLstar,double pTstar)
   A = 3.95 * exp(-2.76*XR);                          /* [GeV^{-1}] */
   B = 40.5 * exp(-3.21*XR) * pow(XR,2.13);           /* [GeV^{-2}] */
   resultat = f_XR * exp(-A*pTstar-B*pTstar*pTstar);  /* [millibarns GeV^{-2}] */
-  
+
   XR_min = sqrt(pow(pTstar,2) + pow(MASSE_PROTON,2)) / E_MAX_star;
   DXR = XR - XR_min;
   LE_sur_RS = (6.25e-3) * (exp(-0.592*Q) + 493.*exp(-5.40*Q)) *
   (exp(6.08 + 2.57*DXR + 7.95*DXR*DXR) - 1.) * exp(3.00*DXR*(3.09-Q));
   LE_sur_RS += 1.;
   resultat *= LE_sur_RS; /* [millibarns GeV^{-2}] */
-  
+
 LA_FIN :
   return resultat;
 }
@@ -372,14 +372,14 @@ double E_d3S_on_d3P_PBAR_LAB(double E_proton,double pL,double pT,
 double *E_CMF,double *pLstar,double *pTstar)
 {
   double gamma,beta,E_pbar,resultat;
-  
+
   gamma = sqrt((E_proton+MASSE_PROTON)/(2.*MASSE_PROTON));
   beta  = sqrt((E_proton-MASSE_PROTON)/(E_proton+MASSE_PROTON));
   E_pbar = sqrt(pow(MASSE_PROTON,2) + pow(pL,2) + pow(pT,2));
   *E_CMF = sqrt(2.*MASSE_PROTON*(E_proton+MASSE_PROTON));
   *pLstar = gamma * (pL - beta*E_pbar);
   *pTstar = pT;
-  
+
   resultat = E_d3S_on_d3P_PBAR_ECM(*E_CMF,*pLstar,*pTstar); /* [millibarns GeV^{-2}] */
   return resultat;
 }
@@ -399,25 +399,25 @@ double dSpbar_sur_dEpbar_DIRECTE(double E_proton,double E_pbar,long n_step_theta
   double P_pbar,E_CMF,E_MAX_star,gamma,beta,pL,pT,pLstar,pTstar;
   long i_theta;
   double cos_theta,sin_theta,cos_theta_min,cos_theta_max,dcos_theta,resultat;
-  
+
   resultat = 0.0;
-  
+
   E_CMF = sqrt(2.*MASSE_PROTON*(E_proton+MASSE_PROTON));
   if (E_CMF<=4.0*MASSE_PROTON)      goto LA_FIN;
   if (E_pbar>=(E_proton-2.*MASSE_PROTON)) goto LA_FIN;
   if (E_pbar<=MASSE_PROTON)         goto LA_FIN;
   P_pbar = sqrt(pow(E_pbar,2) - pow(MASSE_PROTON,2));
-  
+
   gamma      = sqrt((E_proton+MASSE_PROTON)/(2.*MASSE_PROTON));
   beta       = sqrt((E_proton-MASSE_PROTON)/(E_proton+MASSE_PROTON));
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) /
   (2.*E_CMF);
-  
+
   cos_theta_max = 1.0;
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
   if (cos_theta_min<=-1.0) {cos_theta_min = -1.0;}
   if (cos_theta_min>=+1.0) {goto LA_FIN;}
-  
+
   dcos_theta = (cos_theta_max - cos_theta_min) / (double) n_step_theta;
   cos_theta  = cos_theta_min - dcos_theta/2.;
   for (i_theta=1;i_theta<=n_step_theta;i_theta++)
@@ -441,7 +441,7 @@ double dSpbar_sur_dEpbar_DIRECTE(double E_proton,double E_pbar,long n_step_theta
 * facteur 2 pour les prendre en compte.
 */
   resultat *= 2.; /* [cm^{2} GeV^{-1}] */
-  
+
 LA_FIN :
   return resultat;
 }
@@ -462,57 +462,57 @@ double dSpbar_sur_dEpbar_SIMPSON(double E_proton,double E_pbar,long n_step_theta
   long i_theta;
   double cos_theta,sin_theta,dcos_theta,cos_theta_min,cos_theta_max;
   double h,x1,x2,x3,f1,f2,f3,resultat;
-  
+
   resultat = 0.0;
-  
+
   E_CMF = sqrt(2.*MASSE_PROTON*(E_proton+MASSE_PROTON));
   if (E_CMF<=4.0*MASSE_PROTON)      goto LA_FIN;
   if (E_pbar>=(E_proton-2.*MASSE_PROTON)) goto LA_FIN;
   if (E_pbar<=MASSE_PROTON)         goto LA_FIN;
   P_pbar = sqrt(pow(E_pbar,2) - pow(MASSE_PROTON,2));
-  
+
   gamma = sqrt((E_proton+MASSE_PROTON)/(2.*MASSE_PROTON));
   beta  = sqrt((E_proton-MASSE_PROTON)/(E_proton+MASSE_PROTON));
   E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) /
   (2.*E_CMF);
-  
+
   cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
   cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
   if (cos_theta_min<=-1.0) {cos_theta_min = -1.0;}
   if (cos_theta_min>=+1.0) {goto LA_FIN;}
-  
+
   dcos_theta = (cos_theta_max - cos_theta_min) / (double) n_step_theta;
   h = dcos_theta/2.;
   x1 = cos_theta_min - dcos_theta;
   x2 = x1 + h;
   x3 = x2 + h;
-  
+
   cos_theta = x3;
   sin_theta = sqrt(1. - pow(cos_theta,2));
   pL = cos_theta * P_pbar;
   pT = sin_theta * P_pbar;
   f3 = E_d3S_on_d3P_PBAR_LAB(E_proton,pL,pT,&E_CMF,&pLstar,&pTstar);
-  
+
   for (i_theta=1;i_theta<=n_step_theta;i_theta++)
   {
     x1 = x3;
     x2 = x1 + h;
     x3 = x2 + h;
-    
+
     f1 = f3;
-    
+
     cos_theta = x2;
     sin_theta = sqrt(1. - pow(cos_theta,2));
     pL = cos_theta * P_pbar;
     pT = sin_theta * P_pbar;
     f2 = E_d3S_on_d3P_PBAR_LAB(E_proton,pL,pT,&E_CMF,&pLstar,&pTstar);
-    
+
     cos_theta = x3;
     sin_theta = sqrt(1. - pow(cos_theta,2));
     pL = cos_theta * P_pbar;
     pT = sin_theta * P_pbar;
     f3 = E_d3S_on_d3P_PBAR_LAB(E_proton,pL,pT,&E_CMF,&pLstar,&pTstar);
-    
+
     resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
   }
   resultat *= 2. * PI * P_pbar * (1.e-27); /* [cm^{2} GeV^{-1}] */
@@ -527,7 +527,7 @@ double dSpbar_sur_dEpbar_SIMPSON(double E_proton,double E_pbar,long n_step_theta
 * facteur 2 pour les prendre en compte.
 */
   resultat *= 2.; /* [cm^{2} GeV^{-1}] */
-  
+
 LA_FIN :
   return resultat;
 }
@@ -548,7 +548,7 @@ LA_FIN :
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_proton,i_pbar;
   double E_proton,T_pbar,E_pbar;
@@ -566,7 +566,10 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cros
 /*
 * Et maintenant, on le remplit !
 */
-  p_to_pbar_file = fopen(FILE_NAME_H_ON_H,"w");
+  if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_H_ON_H,"r");
+  else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_H_ON_H,"r");
+  else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_H_ON_H,"r");
+
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
     E_proton = E_PROTON_MIN *
@@ -576,20 +579,30 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cros
       	T_pbar = T_PBAR_MIN *
       	pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       	E_pbar = T_pbar + MASSE_PROTON;
-      
-		#ifdef	DSPBAR_SUR_DEPBAR_H_on_H_unknown
-			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON(E_proton,E_pbar,1000);
-		#elif defined DSPBAR_SUR_DEPBAR_H_on_H_Duperray
-			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(E_proton,E_pbar,1000);
-		#elif defined DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
-			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(E_proton,E_pbar,1000);
-		#elif defined DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
-			pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(E_proton,E_pbar,1000);
-		#else
-			printf("ERROR : function 'DSPBAR_SUR_DEPBAR_H_ON_H_write_file' \n You must to specify one parametrization for H on H reaction! \n");
-			exit(0);
-		#endif
-	  
+
+
+    if(A_nuclei == 1){
+      #ifdef	DSPBAR_SUR_DEPBAR_H_on_H_unknown
+        pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON(E_proton,E_pbar,1000);
+      #elif defined DSPBAR_SUR_DEPBAR_H_on_H_Duperray
+        pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_duperray(E_proton,E_pbar,1000);
+      #elif defined DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
+        pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_tan_ng_mass_T(E_proton,E_pbar,1000);
+      #elif defined DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+        pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(E_proton,E_pbar,1000);
+      #else
+        printf("ERROR : function 'DSPBAR_SUR_DEPBAR_H_ON_H_write_file' \n You must to specify one parametrization for H on H reaction! \n");
+        exit(0);
+      #endif
+    }
+    else if(A_nuclei == 2){
+      pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(E_proton,E_pbar,1000);
+      // pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_Hebar][i_proton] = dS3He_sur_sE3He_H_on_H_MDGS_F12_coalescence(E_proton,E_Hebar,P_coal,1000);
+    }
+    else if(A_nuclei == 3){
+      pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton] = dS3He_sur_sE3He_H_on_H_MDGS_F12_coalescence(E_proton,E_pbar,pt_Cross_Section->P_coal,1000);
+    }
+
 	  fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);
 	  //printf(" E_proton = %.5e -- T_pbar = %.5e -- pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H  = %.6e \n",
 			//E_proton,T_pbar,pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]);
@@ -649,14 +662,16 @@ void CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR(struct Structure_Cross_Section* pt_Cross
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_proton,i_pbar;
   FILE *p_to_pbar_file;
 /*
 * On remplit le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton].
 */
-  p_to_pbar_file = fopen(FILE_NAME_H_ON_H,"r");
+  if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_H_ON_H,"r");
+  else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_H_ON_H,"r");
+  else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_H_ON_H,"r");
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -667,6 +682,8 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross
   fclose(p_to_pbar_file);
   return;
 }
+
+
 
 /********************************************************************************************/
 /*
@@ -684,15 +701,17 @@ void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_proton,i_pbar;
   FILE *p_to_pbar_file;
 /*
 * On remplit le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton].
 */
-  p_to_pbar_file = fopen(FILE_NAME_H_ON_HE,"r");
-  for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
+if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_H_ON_HE,"r");
+else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_H_ON_HE,"r");
+else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_H_ON_HE,"r");
+for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
     {
@@ -719,14 +738,17 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cros
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_nucleon,i_pbar;
   FILE *p_to_pbar_file;
 /*
 * On remplit le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_nucleon].
 */
-  p_to_pbar_file = fopen(FILE_NAME_HE_ON_H,"r");
+if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_HE_ON_H,"r");
+else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_HE_ON_H,"r");
+else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_HE_ON_H,"r");
+
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -754,14 +776,17 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cros
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_nucleon,i_pbar;
   FILE *p_to_pbar_file;
 /*
 * On remplit le tableau pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_nucleon].
 */
-  p_to_pbar_file = fopen(FILE_NAME_HE_ON_HE,"r");
+if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_HE_ON_HE,"r");
+else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_HE_ON_HE,"r");
+else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_HE_ON_HE,"r");
+
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
     for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
@@ -857,7 +882,7 @@ double GetReactionCrossSection(double At,double Pproj)
 	{
 /*
 *   Section efficace totale de reaction p + Noyau avec dependance en masse A et energie labo Elab
-*   selon Letaw (Ap.J.Suppl.,51,271) en unites de [millibarns]. 
+*   selon Letaw (Ap.J.Suppl.,51,271) en unites de [millibarns].
 *
 */
     double sig0=45.*pow(At,0.695)*(1.+0.016*sin(5.3-2.63*log(At)));
@@ -885,16 +910,28 @@ double GetReactionCrossSection(double At,double Pproj)
 * Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
-double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT)
+double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT,int A_nuclei,double P_coal)
 {
-  double P_proton,E_pbar,mt_pbar,y_pbar,resultat;
+  double P_proton,E_pbar,mt_pbar,y_pbar,resultat,Ed3S_on_d3P_pbar,Ed3S_on_d3P_nbar,B;
 
   P_proton = sqrt(pow(E_proton,2) - pow(MASSE_PROTON,2));
 	E_pbar   = sqrt(pow(MASSE_PROTON,2) + pT*pT + pL*pL);
 	mt_pbar  = sqrt(pow(MASSE_PROTON,2) + pT*pT);
 	y_pbar   = atanh(pL/E_pbar);
-
-  resultat = GetInvarMul_pAapX(4.0,P_proton,y_pbar,mt_pbar) * GetReactionCrossSection(4.0,P_proton);
+  Ed3S_on_d3P_pbar = GetInvarMul_pAapX(4.0,P_proton,y_pbar,mt_pbar) * GetReactionCrossSection(4.0,P_proton);
+  if(A_nuclei == 1) resultat = Ed3S_on_d3P_pbar;
+  if(A_nuclei == 2){
+    B = MASSE_DEUT/(MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(P_coal,3)/8,2); //MeV^4
+    B *= 1e-12; // conversion en GeV^4
+    B /= 2*sigma_total_pH(E_proton); //GeV^4 Simple scaling factor 2 to be updated
+    resultat = Ed3S_on_d3P_pbar*Ed3S_on_d3P_pbar*1.3;
+  }
+  if(A_nuclei == 3){
+    B = MASS_HELIUM_TROIS/(MASSE_PROTON*1e3*MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(P_coal,3)/8,2); //MeV^4
+    B *= 1e-12; //GeV^4
+    B /= pow(2*sigma_total_pH(E_proton),2); //GeV^4 Simple scaling factor 2 to be updated
+    resultat = Ed3S_on_d3P_pbar*Ed3S_on_d3P_pbar*Ed3S_on_d3P_pbar*1.3;
+  }
   return resultat; /* [millibarns GeV^{-2}] */
 }
 
@@ -911,7 +948,7 @@ double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT)
 * est alors menee par la methode de SIMPSON.
 *
 */
-double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_step)
+double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_step,int A_nuclei,double P_coal)
 {
   extern FILE *probleme;
 	double P_pbar,E_CMF,E_MAX_star,gamma,beta,pL,pT,pLstar,pTstar;
@@ -962,7 +999,7 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_st
   sin_theta = sqrt(1. - pow(cos_theta,2));
   pL = cos_theta * P_pbar;
   pT = sin_theta * P_pbar;
-  f3 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT);
+  f3 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT,A_nuclei,P_coal);
 
   for (i_theta=1;i_theta<=n_step;i_theta++)
   {
@@ -976,13 +1013,13 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_st
     sin_theta = sqrt(1. - pow(cos_theta,2));
     pL = cos_theta * P_pbar;
     pT = sin_theta * P_pbar;
-    f2 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT);
+    f2 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT,A_nuclei,P_coal);
 
     cos_theta = x3;
     sin_theta = sqrt(1. - pow(cos_theta,2));
     pL = cos_theta * P_pbar;
     pT = sin_theta * P_pbar;
-    f3 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT);
+    f3 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT,A_nuclei,P_coal);
 
     resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
   }
@@ -995,9 +1032,9 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_st
 * sont pas a priori detectes dans les experiences de haute energie au niveau
 * des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
-* facteur 2 pour les prendre en compte.
+* facteur 2 pour les prendre en compte. De meme pour les antiTritium si l'on calcule le flux d'antiHe3.
 */
-  resultat *= 2.; /* [cm^{2} GeV^{-1}] */
+  if(A_nuclei == 1 || A_nuclei == 3)resultat *= 2.; /* [cm^{2} GeV^{-1}] */
 	return resultat;
 
 
@@ -1005,8 +1042,19 @@ TRANSVERSE_MASS :
 /*
 * INTEGRATION SUR LA MASSE TRANSVERSE M_T DE L'ANTIPROTON FINAL.
 */
-  mt_min = MASSE_PROTON;
-	mt_max = pow(MASSE_PROTON,2.0) + pow(P_pbar,2.0)*(1.0 - cos_theta_min*cos_theta_min);
+  // if(A_nuclei == 1){
+    mt_min = MASSE_PROTON;
+    mt_max = pow(MASSE_PROTON,2.0) + pow(P_pbar,2.0)*(1.0 - cos_theta_min*cos_theta_min);
+  // }
+  // else if(A_nuclei == 2){
+  //   mt_min = MASSE_DEUT;
+  //   mt_max = pow(MASSE_DEUT,2.0) + pow(P_pbar,2.0)*(1.0 - cos_theta_min*cos_theta_min);
+  // }
+  // else if(A_nuclei == 3){
+  //   mt_min = MASS_HELIUM_TROIS*1e-3;
+  //   mt_max = pow(MASS_HELIUM_TROIS*1e-3,2.0) + pow(P_pbar,2.0)*(1.0 - cos_theta_min*cos_theta_min);
+  // }
+
 	mt_max = sqrt(mt_max);
 	dmt    = (mt_max - mt_min) / (double) n_step;
   h      = dmt/2.;
@@ -1016,8 +1064,17 @@ TRANSVERSE_MASS :
 
   mt     = x3;
   pL     = sqrt(E_pbar*E_pbar - mt*mt);
-  pT     = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
-  f3     = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT) * mt / pL;
+  if(A_nuclei == 1){
+    pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
+  }
+  else if(A_nuclei == 2){
+    pT = sqrt(mt*mt - pow(MASSE_DEUT,2.0));
+  }
+  else if(A_nuclei == 3){
+    pT = sqrt(mt*mt - pow(MASS_HELIUM_TROIS*1e-3,2.0));
+  }
+
+  f3     = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT,A_nuclei,P_coal) * mt / pL;
 
   for (i_mt=1;i_mt<=n_step;i_mt++)
   {
@@ -1029,13 +1086,29 @@ TRANSVERSE_MASS :
 
 		mt = x2;
     pL = sqrt(E_pbar*E_pbar - mt*mt);
-    pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
-    f2 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT) * mt / pL;
+    // if(A_nuclei == 1){
+      pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
+    // }
+    // else if(A_nuclei == 2){
+    //   pT = sqrt(mt*mt - pow(MASSE_DEUT,2.0));
+    // }
+    // else if(A_nuclei == 3){
+    //   pT = sqrt(mt*mt - pow(MASS_HELIUM_TROIS*1e-3,2.0));
+    // }
+    f2 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT,A_nuclei,P_coal) * mt / pL;
 
     mt = x3;
 		pL = sqrt(E_pbar*E_pbar - mt*mt);
-    pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
-    f3 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT) * mt / pL;
+    // if(A_nuclei == 1){
+      pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
+    // }
+    // else if(A_nuclei == 2){
+    //   pT = sqrt(mt*mt - pow(MASSE_DEUT,2.0));
+    // }
+    // else if(A_nuclei == 3){
+    //   pT = sqrt(mt*mt - pow(MASS_HELIUM_TROIS*1e-3,2.0));
+    // }
+    f3 = E_d3S_on_d3P_PBAR_H_ON_HE_LAB(E_proton,pL,pT,A_nuclei,P_coal) * mt / pL;
 
     resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
   }
@@ -1048,9 +1121,9 @@ TRANSVERSE_MASS :
 * sont pas a priori detectes dans les experiences de haute energie au niveau
 * des accelerateurs de particules alors qu'ils se desintegrent au bout de
 * \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un
-* facteur 2 pour les prendre en compte.
+* facteur 2 pour les prendre en compte. De meme pour les antiTritium si l'on calcule le flux d'antiHe3.
 */
-  resultat *= 2.; /* [cm^{2} GeV^{-1}] */
+  if(A_nuclei == 1 || A_nuclei == 3)resultat *= 2.; /* [cm^{2} GeV^{-1}] */
 	return resultat;
 }
 
@@ -1069,7 +1142,7 @@ TRANSVERSE_MASS :
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_proton,i_pbar;
   double E_proton,T_pbar,E_pbar;
@@ -1087,7 +1160,9 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cro
 /*
 * Et maintenant, on le remplit !
 */
-  p_to_pbar_file = fopen(FILE_NAME_H_ON_HE,"w");
+  if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_H_ON_HE,"w");
+  else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_H_ON_HE,"w");
+  else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_H_ON_HE,"w");
   for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
   {
     E_proton = E_PROTON_MIN *
@@ -1098,7 +1173,7 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cro
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       E_pbar = T_pbar + MASSE_PROTON;
       pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton] =
-			dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(E_proton,E_pbar,1000);
+			dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(E_proton,E_pbar,1000,A_nuclei,pt_Cross_Section->P_coal);
       fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]);
     }
   }
@@ -1116,17 +1191,33 @@ void DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cro
 * Cette LI section efficace est exprimee en unites de [millibarns GeV^{-2}].
 *
 */
-double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT)
+double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT, int A_nuclei, double P_coal)
 {
-  double P_nucleon,E_pbar,mt_pbar,y_pbar,resultat;
+  double P_nucleon,E_pbar,mt_pbar,y_pbar,resultat,Ed3S_on_d3P_pbar,Ed3S_on_d3P_nbar,B;
 
   P_nucleon = sqrt(pow(E_nucleon,2) - pow(MASSE_PROTON,2));
 	E_pbar    = sqrt(pow(MASSE_PROTON,2) + pT*pT + pL*pL);
 	mt_pbar   = sqrt(pow(MASSE_PROTON,2) + pT*pT);
 	y_pbar    = acosh(E_nucleon/MASSE_PROTON) - atanh(pL/E_pbar);
+  Ed3S_on_d3P_pbar = GetInvarMul_pAapX(4.0,P_nucleon,y_pbar,mt_pbar) * GetReactionCrossSection(4.0,P_nucleon);
 
-  resultat  = GetInvarMul_pAapX(4.0,P_nucleon,y_pbar,mt_pbar) * GetReactionCrossSection(4.0,P_nucleon);
+  if(A_nuclei == 1) resultat = Ed3S_on_d3P_pbar;
+  if(A_nuclei == 2){
+    B = MASSE_DEUT/(MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(P_coal,3)/8,2); //MeV^4
+    B *= 1e-12; // conversion en GeV^4
+    B /= pow(4,1./3)*sigma_total_pH(E_nucleon); //GeV^4 Simple scaling factor 2 to be updated
+    resultat = Ed3S_on_d3P_pbar*Ed3S_on_d3P_pbar*1.3;
+  }
+  if(A_nuclei == 3){
+    B = MASS_HELIUM_TROIS/(MASSE_PROTON*1e3*MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(P_coal,3)/8,2); //MeV^4
+    B *= 1e-12; //GeV^4
+    B /= pow(pow(4,1./3)*sigma_total_pH(E_nucleon),2); //GeV^4 Simple volume factor, to be updated
+    resultat = Ed3S_on_d3P_pbar*Ed3S_on_d3P_pbar*Ed3S_on_d3P_pbar*1.3;
+  }
+
   return resultat; /* [millibarns GeV^{-2}] */
+
+
 }
 
 /********************************************************************************************/
@@ -1143,7 +1234,7 @@ double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT)
 * est alors menee par la methode de SIMPSON.
 *
 */
-double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_step)
+double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_step, int A_nuclei, double P_coal)
 {
   extern FILE *probleme;
 	double P_pbar,E_CMF,E_MAX_star,gamma,beta,pL,pT,pLstar,pTstar;
@@ -1195,7 +1286,7 @@ double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_s
   sin_theta = sqrt(1. - pow(cos_theta,2));
   pL = cos_theta * P_pbar;
   pT = sin_theta * P_pbar;
-  f3 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT);
+  f3 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT,A_nuclei,P_coal);
 
   for (i_theta=1;i_theta<=n_step;i_theta++)
   {
@@ -1209,13 +1300,13 @@ double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_s
     sin_theta = sqrt(1. - pow(cos_theta,2));
     pL = cos_theta * P_pbar;
     pT = sin_theta * P_pbar;
-    f2 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT);
+    f2 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT,A_nuclei,P_coal);
 
     cos_theta = x3;
     sin_theta = sqrt(1. - pow(cos_theta,2));
     pL = cos_theta * P_pbar;
     pT = sin_theta * P_pbar;
-    f3 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT);
+    f3 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT,A_nuclei,P_coal);
 
     resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
   }
@@ -1250,7 +1341,7 @@ TRANSVERSE_MASS :
   mt     = x3;
   pL     = sqrt(E_pbar*E_pbar - mt*mt);
   pT     = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
-  f3     = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT) * mt / pL;
+  f3     = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT,A_nuclei,P_coal) * mt / pL;
 
   for (i_mt=1;i_mt<=n_step;i_mt++)
   {
@@ -1263,12 +1354,12 @@ TRANSVERSE_MASS :
 		mt = x2;
     pL = sqrt(E_pbar*E_pbar - mt*mt);
     pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
-    f2 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT) * mt / pL;
+    f2 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT,A_nuclei,P_coal) * mt / pL;
 
     mt = x3;
 		pL = sqrt(E_pbar*E_pbar - mt*mt);
     pT = sqrt(mt*mt - pow(MASSE_PROTON,2.0));
-    f3 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT) * mt / pL;
+    f3 = E_d3S_on_d3P_PBAR_HE_ON_H_LAB(E_nucleon,pL,pT,A_nuclei,P_coal) * mt / pL;
 
     resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
   }
@@ -1302,7 +1393,7 @@ TRANSVERSE_MASS :
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_nucleon,i_pbar;
   double E_nucleon,T_pbar,E_pbar;
@@ -1320,7 +1411,9 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cro
 /*
 * Et maintenant, on le remplit !
 */
-  p_to_pbar_file = fopen(FILE_NAME_HE_ON_H,"w");
+  if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_HE_ON_H,"w");
+  else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_HE_ON_H,"w");
+  else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_HE_ON_H,"w");
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
     E_nucleon = E_PROTON_MIN *
@@ -1331,7 +1424,7 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cro
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       E_pbar = T_pbar + MASSE_PROTON;
       pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_nucleon] =
-			dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(E_nucleon,E_pbar,1000);
+			dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(E_nucleon,E_pbar,1000,A_nuclei,pt_Cross_Section->P_coal);
       fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_nucleon]);
     }
   }
@@ -1356,7 +1449,7 @@ void DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cro
 * en prenant (DIM_TAB_PBAR + 1) valeurs differentes.
 *
 */
-void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section)
+void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei)
 {
   long i_nucleon,i_pbar;
   double E_nucleon,T_pbar,E_pbar;
@@ -1374,7 +1467,9 @@ void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cr
 /*
 * Et maintenant, on le remplit !
 */
-  p_to_pbar_file = fopen(FILE_NAME_HE_ON_HE,"w");
+  if(A_nuclei == 1)p_to_pbar_file = fopen(FILE_NAME_HE_ON_HE,"w");
+  else if(A_nuclei == 2)p_to_pbar_file = fopen(FILE_NAME_DE_HE_ON_HE,"w");
+  else if(A_nuclei == 3)p_to_pbar_file = fopen(FILE_NAME_HE3_HE_ON_HE,"w");
   for (i_nucleon=0;i_nucleon<=DIM_TAB_PROTON;i_nucleon++)
   {
     E_nucleon = E_PROTON_MIN *
@@ -1385,7 +1480,7 @@ void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cr
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       E_pbar = T_pbar + MASSE_PROTON;
       pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_nucleon] = pow((4.0),(1.0/3.0)) *
-			dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(E_nucleon,E_pbar,1000);
+			dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(E_nucleon,E_pbar,1000,A_nuclei,pt_Cross_Section->P_coal);
       fprintf(p_to_pbar_file," %.6e \n",pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_nucleon]);
     }
   }
@@ -1945,6 +2040,30 @@ double E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(double E_proton,double pL,double pT
 	resultat = invariant_multiplicity_pH_apX_MDGS_F12(P_proton,y_pbar,mt_pbar) * sigma_inelastic_pH_MDGS(E_proton);
 	return resultat; /* [cm^{2} GeV^{-2}] */
 }
+/********************************************************************************************/
+/* VP
+* Ce module calcule la section efficace invariante de Lorentz (LI) de la reaction
+* proton (E_proton) + hydrogene (repos) -----> antiHe3 (E_pbar) + X.
+* consideree dans le referentiel du laboratoire dans lequel l'hydrogene est au repos.
+* Cette LI section efficace est exprimee en unites de [cm^{2} GeV^{-2}].
+* Nous utilisons le scenario de coalescence comme decrit dans 1711.08465.
+*/
+double E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(double E_proton,double pL,double pT, double P_coal)
+{
+	double P_proton,E_pbar,mt_pbar,y_pbar,resultat,Ed3S_on_d3P_pbar,Ed3S_on_d3P_nbar,B;
+
+	P_proton = sqrt(pow(E_proton,2) - pow(MASSE_PROTON,2));
+	E_pbar   = sqrt(pow(MASSE_PROTON,2) + pT*pT + pL*pL);
+	mt_pbar  = sqrt(pow(MASSE_PROTON,2) + pT*pT);
+	y_pbar   = atanh(pL/E_pbar);
+  B = MASS_HELIUM_TROIS/(MASSE_PROTON*1e3*MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(P_coal,3)/8,2); //MeV^4
+  B *= 1e-12; //GeV^4
+  B /= pow(sigma_total_pH(E_proton),2); //GeV^4
+	Ed3S_on_d3P_pbar = invariant_multiplicity_pH_apX_MDGS_F12(P_proton,y_pbar,mt_pbar) * sigma_inelastic_pH_MDGS(E_proton);
+	Ed3S_on_d3P_nbar = 1.3*Ed3S_on_d3P_pbar;
+  resultat = B*Ed3S_on_d3P_pbar  * Ed3S_on_d3P_pbar * Ed3S_on_d3P_nbar;
+	return resultat; /* [cm^{2} GeV^{-2}] */
+}
 
 /********************************************************************************************/
 /*
@@ -2099,3 +2218,153 @@ TRANSVERSE_MASS :
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
+
+/********************************************************************************************/
+/* VP
+* Ce module evalue la section efficace differentielle du processus
+* proton (E_proton) + hydrogene (repos) -----> antiHe3 (E_pbar) + X.
+* La quantite \frac{d \sigma_{\pbar}}{d E_{\pbar}} est exprimee en [cm^{2} GeV^{-1}].
+*
+* L'integrale sur le cosinus de l'angle \theta que font les impulsions
+* de l'antiproton final et du proton incident est menee par la methode de SIMPSON.
+*
+* Lorsque cet angle est petit, une integrale sur la masse transverse mt de l'antiproton final
+* est alors menee par la methode de SIMPSON.
+*
+*/
+double dS3He_sur_sE3He_H_on_H_MDGS_F12_coalescence(double E_proton,double E_pbar, double P_coal, long n_step)
+{
+  extern FILE *probleme;
+	double P_pbar,E_CMF,E_MAX_star,gamma,beta,pL,pT,pLstar,pTstar;
+  long   i_theta,i_mt;
+  double cos_theta,sin_theta,dcos_theta,cos_theta_min,cos_theta_max;
+	double mt,dmt,mt_min,mt_max;
+  double h,x1,x2,x3,f1,f2,f3;
+
+  double resultat = 0.0;
+
+  if (E_pbar>=(E_proton-2.*MASSE_PROTON)){return resultat;}
+
+  E_CMF = sqrt(2.*MASSE_PROTON*(E_proton+MASSE_PROTON));
+  if (E_CMF<=4.0*MASSE_PROTON){return resultat;}
+
+  if (E_pbar<=MASSE_PROTON){return resultat;}
+  P_pbar = sqrt(pow(E_pbar,2) - pow(MASSE_PROTON,2));
+
+  gamma = sqrt((E_proton+MASSE_PROTON)/(2.*MASSE_PROTON));
+  beta  = sqrt((E_proton-MASSE_PROTON)/(E_proton+MASSE_PROTON));
+  E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
+
+
+  cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */
+  cos_theta_min = (E_pbar - (E_MAX_star/gamma)) / beta / P_pbar;
+	if (cos_theta_min>=cos_theta_max){return resultat;}
+	if (cos_theta_min<=0.0)
+	{
+	  printf(" cos_theta_min = %.5e and NEGATIVE !\n",cos_theta_min);
+		fprintf(probleme," cos_theta_min = %.5e and NEGATIVE !\n",cos_theta_min);
+		printf(" more information ! E_proton = %.5e -- E_pbar = %.5e\n",E_proton,E_pbar);
+		fprintf(probleme," more information ! E_proton = %.5e -- E_pbar = %.5e\n",E_proton,E_pbar);
+		return resultat;
+	}
+//if (cos_theta_min<=-1.0) {cos_theta_min = -1.0;}
+	if (cos_theta_min<cos_theta_max && cos_theta_min>=(0.99)){goto TRANSVERSE_MASS;}
+
+/*
+* INTEGRATION SUR LE COSINUS DE L'ANGLE THETA.
+*/
+  dcos_theta = (cos_theta_max - cos_theta_min) / (double) n_step;
+  h = dcos_theta/2.;
+  x1 = cos_theta_min - dcos_theta;
+  x2 = x1 + h;
+  x3 = x2 + h;
+
+  cos_theta = x3;
+  sin_theta = sqrt(1. - pow(cos_theta,2));
+  pL = cos_theta * P_pbar;
+  pT = sin_theta * P_pbar;
+  f3 = E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(E_proton,pL,pT,P_coal);
+
+  for (i_theta=1;i_theta<=n_step;i_theta++)
+  {
+    x1 = x3;
+    x2 = x1 + h;
+    x3 = x2 + h;
+
+    f1 = f3;
+
+    cos_theta = x2;
+    sin_theta = sqrt(1. - pow(cos_theta,2));
+    pL = cos_theta * P_pbar;
+    pT = sin_theta * P_pbar;
+    f2 = E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(E_proton,pL,pT,P_coal);
+
+    cos_theta = x3;
+    sin_theta = sqrt(1. - pow(cos_theta,2));
+    pL = cos_theta * P_pbar;
+    pT = sin_theta * P_pbar;
+    f3 = E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(E_proton,pL,pT,P_coal);
+
+    resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
+  }
+  resultat *= 2. * PI * P_pbar; /* [cm^{2} GeV^{-1}] */
+/*
+* La section efficace de MDGS ne concerne que la production d'antiprotons lors d'une collision proton sur hydrogene (H).
+* Dans notre contexte astrophysique, il y a autant, voire plus, d'antineutrons produits que d'antiprotons lors de la
+* spallation de protons de haute energie sur du gaz interstellaire. Les antineutrons ne sont pas a priori detectes dans
+* les experiences de haute energie au niveau des accelerateurs de particules alors qu'ils se desintegrent au bout de
+* \gamma \times 10 minutes dans la galaxie. Il nous faut donc rajouter un facteur >= 2 pour les prendre en compte.
+*/
+  resultat *= 2.; /* [cm^{2} GeV^{-1}] */
+	return resultat;
+
+
+TRANSVERSE_MASS :
+/*
+* INTEGRATION SUR LA MASSE TRANSVERSE M_T DE L'ANTIHE3 FINAL.
+*/
+  mt_min = MASS_HELIUM_TROIS*1e-3 + 1.0e-6; //MASS_HELIUM_TROIS est en MeV
+	mt_max = pow( MASS_HELIUM_TROIS*1e-3,2.0) + pow(P_pbar,2.0)*(1.0 - cos_theta_min*cos_theta_min);
+	mt_max = sqrt(mt_max);
+	dmt    = (mt_max - mt_min) / (double) n_step;
+  h      = dmt/2.;
+  x1     = mt_min - dmt;
+  x2     = x1 + h;
+  x3     = x2 + h;
+
+  mt     = x3;
+  pL     = sqrt(E_pbar*E_pbar - mt*mt);
+  pT     = sqrt(mt*mt - pow( MASS_HELIUM_TROIS*1e-3,2.0));
+  f3     = E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(E_proton,pL,pT,P_coal) * mt / pL;
+
+  for (i_mt=1;i_mt<=n_step;i_mt++)
+  {
+    x1 = x3;
+    x2 = x1 + h;
+    x3 = x2 + h;
+
+    f1 = f3;
+
+		mt = x2;
+    pL = sqrt(E_pbar*E_pbar - mt*mt);
+    pT = sqrt(mt*mt - pow(MASS_HELIUM_TROIS,2.0));
+    f2 = E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(E_proton,pL,pT,P_coal) * mt / pL;
+
+    mt = x3;
+		pL = sqrt(E_pbar*E_pbar - mt*mt);
+    pT = sqrt(mt*mt - pow(MASS_HELIUM_TROIS,2.0));
+    f3 = E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(E_proton,pL,pT,P_coal) * mt / pL;
+
+    resultat += h * (f1/3. + 4.*f2/3. + f3/3.);
+  }
+  resultat *= 2. * PI; /* [cm^{2} GeV^{-1}] */
+/*
+* Nous prenons maintenant en compte la production d'antiTritium qui se desintegrera en antiHe3 en multipliant simplement par un facteur 2.
+*/
+  resultat *= 2.; /* [cm^{2} GeV^{-1}] */
+	return resultat;
+}
+
+// /********************************************************************************************/
+// /********************************************************************************************/
+// /********************************************************************************************/

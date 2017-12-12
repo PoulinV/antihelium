@@ -86,7 +86,7 @@
 
 /*
 * VALABLE POUR L'INTERVALLE: 0.14-3.0 GEV/C
-*/ 
+*/
 #define  P1_pp_tot 29.038		  /* erreur=+/- 0.62113E-01 */
 #define  P2_pp_tot 37.126		  /* erreur=+/- 0.16886	    */
 #define  P3_pp_tot 28.260		  /* erreur=+/- 0.26031	    */
@@ -97,7 +97,7 @@
 
 /*
 * VALABLE POUR L'INTERVALLE: 0.18-5.0 GEV/C
-*/ 
+*/
 #define  P1_pbarp_tot 117.44		/* erreur=+/- 0.15108 	*/
 #define  P2_pbarp_tot -49.027		/* erreur=+/- 0.24424 	*/
 #define  P3_pbarp_tot 27.982		/* erreur=+/- 0.41893 	*/
@@ -176,25 +176,25 @@ double *E_CMF,double *pLstar,double *pTstar);
 double dSpbar_sur_dEpbar_DIRECTE(double E_proton,double E_pbar,long n_step_theta);
 double dSpbar_sur_dEpbar_SIMPSON(double E_proton,double E_pbar,long n_step_theta);
 
-void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section);
+void DSPBAR_SUR_DEPBAR_H_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section,int A_nuclei);
 void CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR(struct Structure_Cross_Section* pt_Cross_Section);
-void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section);
-void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section);
-void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section);
-void DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section);
+void DSPBAR_SUR_DEPBAR_H_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei);
+void DSPBAR_SUR_DEPBAR_H_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei);
+void DSPBAR_SUR_DEPBAR_HE_ON_H_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei);
+void DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file(struct Structure_Cross_Section* pt_Cross_Section, int A_nuclei);
 
 double GetInvarMul_pAapX(double At,double p1,double y,double mt);
 double GetReactionCrossSection(double At,double Pproj);
 
-double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT);
-double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_step);
-void   DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section);
+double E_d3S_on_d3P_PBAR_H_ON_HE_LAB(double E_proton,double pL,double pT,int A_nuclei,double P_coal);
+double dSpbar_sur_dEpbar_SIMPSON_H_ON_HE(double E_proton,double E_pbar,long n_step,int A_nuclei,double P_coal);
+void   DSPBAR_SUR_DEPBAR_H_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section,int A_nuclei);
 
-double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT);
-double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_step);
-void   DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section);
+double E_d3S_on_d3P_PBAR_HE_ON_H_LAB(double E_nucleon,double pL,double pT, int A_nuclei,double P_coal);
+double dSpbar_sur_dEpbar_SIMPSON_HE_ON_H(double E_nucleon,double E_pbar,long n_step, int A_nuclei,double P_coal);
+void   DSPBAR_SUR_DEPBAR_HE_ON_H_write_file(struct Structure_Cross_Section* pt_Cross_Section,int A_nuclei);
 
-void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section);
+void DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(struct Structure_Cross_Section* pt_Cross_Section,int A_nuclei);
 
 double invariant_multiplicity_pH_apX(double p1,double y,double mt);
 double E_d3S_on_d3P_PBAR_H_ON_H_LAB_duperray(double E_proton,double pL,double pT);
@@ -209,7 +209,8 @@ double invariant_multiplicity_pH_apX_MDGS_F12(double p1,double y,double mt);
 double E_d3S_on_d3P_PBAR_H_ON_H_LAB_MDGS_F12(double E_proton,double pL,double pT);
 double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(double E_proton,double E_pbar,long n_step);
 
-
+double E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(double E_proton,double pL,double pT, double P_coal);
+double dS3He_sur_sE3He_H_on_H_MDGS_F12_coalescence(double E_proton,double E_pbar, double P_coal, long n_step);
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
 #endif
