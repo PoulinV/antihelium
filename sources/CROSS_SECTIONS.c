@@ -2311,7 +2311,8 @@ double dS3He_sur_sE3He_H_on_H_MDGS_F12_coalescence(double E_proton,double E_pbar
 
   gamma = sqrt((E_proton+MASSE_PROTON)/(2.*MASSE_PROTON));
   beta  = sqrt((E_proton-MASSE_PROTON)/(E_proton+MASSE_PROTON));
-  E_MAX_star = (pow(E_CMF,2) - pow(3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
+  E_MAX_star = (pow(E_CMF,2) - pow((2+A_nuclei)*MASSE_PROTON,2) + pow(M_nuclei,2)) / (2.*E_CMF);
+  // E_MAX_star = (pow(E_CMF,2) - pow((3.*MASSE_PROTON,2) + pow(MASSE_PROTON,2)) / (2.*E_CMF);
 
 
   cos_theta_max = 1. - 1.e-12; /* La valeur 1 entraine des problemes avec le sin_theta */

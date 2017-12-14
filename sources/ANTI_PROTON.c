@@ -202,7 +202,6 @@ void calculation_BESSEL_PBAR_SUM_123_Epbar_i(struct Structure_Pbar* pt_Pbar)
     {
       pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i] = pt_Pbar->BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] +
       pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] + pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i];
-      pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i], pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i]);
 	}
   }
 

@@ -107,8 +107,8 @@ d'avoir ici un nombre PAIR. */
 #endif
 
 // /********************************************************************************************/
-#define WRITE_CROSS_SECTION _TRUE_
-// #define WRITE_CROSS_SECTION _FALSE_
+// #define WRITE_CROSS_SECTION _TRUE_
+#define WRITE_CROSS_SECTION _FALSE_
 
 #define TERTIARY_COMPUTATION _TRUE_
 // #define TERTIARY_COMPUTATION _FALSE_
@@ -117,8 +117,8 @@ d'avoir ici un nombre PAIR. */
 #define A_LA_CHARDONNET _FALSE_
 
 // #define  ANTIPROTON
-// #define  ANTIDEUTERIUM
-#define  ANTIHELIUM3
+#define  ANTIDEUTERIUM
+// #define  ANTIHELIUM3
 
 
 //	PROTON SPECTRUM TABLE PARAMETERS

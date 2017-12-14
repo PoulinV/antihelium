@@ -567,7 +567,7 @@ void print_secondary_source_term(double PRIMARY_IS_SPECTRUM[DIM_TAB_PROTON_SPECT
 				}
 				T_pbar = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR)); //T/n
 				// fprintf(stderr, " %.10e\t %.10e\t \n", T_pbar, (1.0e06*resultat));											// [#pbar m^{-3} s^{-1} GeV^{-1}]
-				fprintf(results, " %.10e\t %.10e\t \n", T_pbar, (1.0e04*resultat));											// [#pbar m^{-3} s^{-1} GeV^{-1}]
+				fprintf(results, " %.10e\t %.10e\t \n", T_pbar, (1.0e06*resultat));											// [#pbar m^{-3} s^{-1} GeV^{-1}]
 		}
 		printf("printing in file: %s\n", secondary_source_term_file_name);
 
