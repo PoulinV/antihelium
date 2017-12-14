@@ -253,11 +253,11 @@ double energy,double mass,double Z_em, double alpha_i[NDIM+1],double BESSEL_COEF
   double momentum,velocity,K;
   long i;
   double Si,resultat;
-  
+
   x = r/R_GAL;
   az = (z<0) ? -z : z;
   resultat = 0.0;
-  
+
   if (az>=pt_Propagation->E_DIFFUS || x>=1.0)
   {
     return resultat;
@@ -267,7 +267,7 @@ double energy,double mass,double Z_em, double alpha_i[NDIM+1],double BESSEL_COEF
     momentum = sqrt(pow(energy,2) - pow(mass,2));
     velocity = CELERITY_LIGHT * momentum / energy;
     K        = K_space_diffusion(energy,mass,Z_em,pt_Propagation);
-    
+
     for (i=1;i<=NDIM;i++)
     {
 /*    Si est exprime en [kpc^{-1}].  */
@@ -293,11 +293,10 @@ double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFF
   long i;
   double Si,resultat;
   double coefficient_torsten = 1.0;
-  
+
   x = r/R_GAL;
   az = (z<0) ? -z : z;
   resultat = 0.0;
-  
   if (az>=pt_Propagation->E_DIFFUS || x>=1.0)
   {
     return resultat;
@@ -307,14 +306,14 @@ double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFF
     momentum = sqrt(pow(energy,2) - pow(mass,2));
     velocity = CELERITY_LIGHT * momentum / energy;
     K        = K_space_diffusion(energy,mass,Z_em,pt_Propagation);
-	
-    
+
+
     for (i=1;i<=NDIM;i++)
     {
 /*    Si est exprime en [kpc^{-1}].  */
       Si =
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K,2));
-	
+
 
       if (i==(NDIM-15)){coefficient_torsten = 624./625.;}
 			if (i==(NDIM-14)){coefficient_torsten = 620./625.;}
@@ -336,9 +335,10 @@ double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFF
       resultat += coefficient_torsten * BESSEL_COEFFICIENTi[i] * besselj0(alpha_i[i]*x) *
       exp(pt_Propagation->VENT_GALACTIQUE*az*CM_PAR_KPC / (2.*K)) *
 	  sinh((Si/2.)*(pt_Propagation->E_DIFFUS-az)) / sinh((Si/2.)*pt_Propagation->E_DIFFUS);
+    // printf("K %e energy %e resultat  %e 1 %e 2 %e 3 %e velocity %e\n",K,energy, resultat, coefficient_torsten , BESSEL_COEFFICIENTi[i] , besselj0(alpha_i[i]*x) ,velocity);
+    // printf("K %e energy %e resultat  %e 1 %e 2 %e 3 %e velocity %e\n",K,energy, resultat, coefficient_torsten * BESSEL_COEFFICIENTi[i] * besselj0(alpha_i[i]*x) , exp(pt_Propagation->VENT_GALACTIQUE*az*CM_PAR_KPC / (2.*K)),  sinh((Si/2.)*(pt_Propagation->E_DIFFUS-az)) / sinh((Si/2.)*pt_Propagation->E_DIFFUS),velocity);
     }
 	resultat *= (1. / 4. / PI) * velocity;
-    
 	return resultat; /* [cm^{-2} s^{-1} sr^{-1} GeV^{-1}] */
   }
 }
@@ -348,8 +348,8 @@ double energy,double mass,double Z_em,double alpha_i[NDIM+1],double BESSEL_COEFF
 
 void MIN_MED_MAX_loading(struct Structure_Propagation* pt_Propagation)
 {
-			// COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MAXIMUM 
-	
+			// COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MAXIMUM
+
 	#ifdef MAX
 
 		pt_Propagation->DIFFUSION_0_GV		 = 0.0765 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;   												// [cm^{2} s^{-1}]
@@ -367,12 +367,12 @@ void MIN_MED_MAX_loading(struct Structure_Propagation* pt_Propagation)
 		pt_Propagation->DIFFUSION_0_GV		 = 0.0112 * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;     												// [cm^{2} s^{-1}]
 		pt_Propagation->PUISSANCE_COEFF_DIFF = 0.7;                                                 										// [NO UNIT]
 		pt_Propagation->E_DIFFUS         	 = 4.0;                                           												// [kpc]
-		pt_Propagation->VENT_GALACTIQUE  	 = 12.0  * 1.0e5;                                												// [cm s^{-1}]              
+		pt_Propagation->VENT_GALACTIQUE  	 = 12.0  * 1.0e5;                                												// [cm s^{-1}]
 		pt_Propagation->V_ALFEN          	 = 52.9  * 1.0e5;                                												// [cm s^{-1}]
 
 	#endif
 
-			// COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MINIMUM 
+			// COEFFICIENTS RELATIFS AU MODELE DE DIFFUSION_PROPAGATION MINIMUM
 
 	#ifdef MIN
 
@@ -383,7 +383,7 @@ void MIN_MED_MAX_loading(struct Structure_Propagation* pt_Propagation)
 		pt_Propagation->V_ALFEN          	 = 22.4  * 1.0e5;                                												// [cm s^{-1}]
 
 	#endif
-	
+
 }
 
 /********************************************************************************************/
@@ -409,34 +409,34 @@ void print_propagation_parameters(struct Structure_Propagation* pt_Propagation)
 void TABLE_PROPAGATION_loading(struct Structure_Propagation* pt_Propagation)
 {
 	int i, i_jeu_prop;
-	
+
 	FILE *input_data;
 	input_data = fopen("../sources/propagation_parameters_FDR/recherche_all_v1.dat","r");
 
     for (i_jeu_prop=0 ; i_jeu_prop < nJeuxParam ; i_jeu_prop++)
-	{	
-	
+	{
+
 		//  Nous définissons à ce niveau les parametres que FIORENZA, DAVID et RICHARD   -- hereafter called FDR -- ont déterminés.
-		
+
 		fscanf(input_data,"%lf %lf %lf %lf %lf %lf",&pt_Propagation->DATA_FDR[1],&pt_Propagation->DATA_FDR[2],&pt_Propagation->DATA_FDR[3],&pt_Propagation->DATA_FDR[4],&pt_Propagation->DATA_FDR[5],&pt_Propagation->DATA_FDR[6]);
-	
-		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][0] = pt_Propagation->DATA_FDR[1] ;																					// [NO UNIT]	
-		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][1] = pt_Propagation->DATA_FDR[2] * pt_Propagation->DATA_FDR[3] * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;        			// [cm^{2} s^{-1}] 
+
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][0] = pt_Propagation->DATA_FDR[1] ;																					// [NO UNIT]
+		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][1] = pt_Propagation->DATA_FDR[2] * pt_Propagation->DATA_FDR[3] * pow(CM_PAR_KPC,2.) / SEC_PAR_MGYR;        			// [cm^{2} s^{-1}]
 		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][2] = pt_Propagation->DATA_FDR[3];  																					// [kpc]
 		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][3] = (pt_Propagation->DATA_FDR[4] * 1.0e5);                               											// [cm s^{-1}]
 		pt_Propagation->TABLE_PROPAGATION[i_jeu_prop][4] = (pt_Propagation->DATA_FDR[5] * sqrt(pt_Propagation->DATA_FDR[2] * pt_Propagation->DATA_FDR[3]) * 1.0e5);  		// [cm s^{-1}]
-		
-/*		
+
+/*
 		printf("\n CAS NUMERO    = %6d \n",i_jeu_prop);
 	    printf(" DIFFUSION_0_GV	 = %.5e \t %.5e [cm^{2} s^{-1}]\n",pt_Propagation->DIFFUSION_0_GV, pt_Propagation->TABLE_PROPAGATION[i][1]);
 	    printf(" DELTA		 = %.5e \t %.5e \n",pt_Propagation->PUISSANCE_COEFF_DIFF, pt_Propagation->TABLE_PROPAGATION[i][0]);
 		printf(" E_DIFFUS        = %.2e \t %.5e [kpc]\n",pt_Propagation->E_DIFFUS, pt_Propagation->TABLE_PROPAGATION[i][2]);
 	    printf(" VENT_GALACTIQUE = %.5e \t %.5e [cm s^{-1}]\n",pt_Propagation->VENT_GALACTIQUE, pt_Propagation->TABLE_PROPAGATION[i][3]);
 		printf(" V_ALFEN         = %.5e \t %.5e [cm s^{-1}]\n",pt_Propagation->V_ALFEN, pt_Propagation->TABLE_PROPAGATION[i][4]);
-*/				
-		
+*/
+
 	}
-	
+
 	fclose(input_data);
 }
 
@@ -444,12 +444,12 @@ void TABLE_PROPAGATION_loading(struct Structure_Propagation* pt_Propagation)
 /********************************************************************************************/
 
 void propagation_parameters_loading(struct Structure_Propagation* pt_Propagation, long i_jeux)
-{	
+{
 	pt_Propagation->DIFFUSION_0_GV       = pt_Propagation->TABLE_PROPAGATION[i_jeux][1];     																			// [cm^{2} s^{-1}]
 	pt_Propagation->PUISSANCE_COEFF_DIFF = pt_Propagation->TABLE_PROPAGATION[i_jeux][0];                                                 								// [NO UNIT]
 	pt_Propagation->E_DIFFUS         	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][2];                                           										// [kpc]
 	pt_Propagation->VENT_GALACTIQUE  	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][3];                                												// [cm s^{-1}]
-	pt_Propagation->V_ALFEN          	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][4];                                												// [cm s^{-1}]	
+	pt_Propagation->V_ALFEN          	 = pt_Propagation->TABLE_PROPAGATION[i_jeux][4];                                												// [cm s^{-1}]
 }
 
 /********************************************************************************************/

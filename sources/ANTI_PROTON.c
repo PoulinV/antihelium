@@ -54,12 +54,12 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
-    T_pbar = T_PBAR_MIN *
+    T_pbar = T_PBAR_MIN*pt_Pbar->A_nuclei *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-    E_pbar = T_pbar + MASSE_PROTON;
-    impulsion_pbar = sqrt(pow(E_pbar,2) - pow(MASSE_PROTON,2));
+    E_pbar = T_pbar + pt_Pbar->M_nuclei;
+    impulsion_pbar = sqrt(pow(E_pbar,2) - pow(pt_Pbar->M_nuclei,2));
     v_pbar         = CELERITY_LIGHT * impulsion_pbar / E_pbar;
-    K_pbar         = K_space_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
+    K_pbar         = K_space_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation);
 
     for (i=1;i<=NDIM;i++)
     {
@@ -82,49 +82,11 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
       for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
       {
         E_proton = pow(impulsion_proton[i_proton]*impulsion_proton[i_proton]+MASSE_PROTON*MASSE_PROTON,0.5);
-        /* We first calculte dsigma_Hebar/dp_i
-        * We fist sum all contribution, calculate dsig_pbar/dp*dsig_pbar/dp*dsig_nbar/dp
-        * and rescale with the factor B = mHebar/(mp*mp*mn)*(4*pi/3*p_c**3)**2
-        */
-        // P_coal
-        //MASSE_PROTON en GeV
 
-        // printf("B %e\n", B);
-        // B = 3e-4; //in GeV^4
-        // printf("2*impulsion_proton[i_proton]*(pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]+ pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]) %e \n", 2*impulsion_proton[i_proton]*(pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]+ pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]));
-        if(pt_Pbar->A_nuclei == 1){
-          dsigHe_over_dp_H_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
-          dsigHe_over_dp_He_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton];
-          dsigHe_over_dp_H_on_He_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton];
-          dsigHe_over_dp_He_on_He_i =  pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton];
-        }
-        else if(pt_Pbar->A_nuclei == 2){
-          B = MASSE_DEUT/(MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(pt_Cross_Section->P_coal,3)/8,2); //MeV^4
-          B *= 1e-12; // conversion en GeV^4
-          dsigHe_over_dp_H_on_H_i = B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*1.3/(sigma_total_pH(E_proton));
-          dsigHe_over_dp_He_on_H_i = B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]*1.3/(2*sigma_total_pH(E_proton));
-          dsigHe_over_dp_H_on_He_i = B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]*1.3/(2*sigma_total_pH(E_proton));
-          dsigHe_over_dp_He_on_He_i =  B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]*1.3/(4*sigma_total_pH(E_proton));
-        }
-        else if(pt_Pbar->A_nuclei == 3){
-          B = MASS_HELIUM_TROIS/(MASSE_PROTON*1e3*MASSE_PROTON*1e3*MASS_NEUTRON)*pow(4*PI/3*pow(pt_Cross_Section->P_coal,3)/8,2); //MeV^4
-          B *= 1e-12; // conversion en GeV^4
-          // dsigHe_over_dp_H_on_H_i = B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*1.3/pow(sigma_total_pH(E_proton),2); //Old way
-          // dsigHe_over_dp_He_on_H_i = B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]*1.3/pow(2*sigma_total_pH(E_proton),2);
-          // dsigHe_over_dp_H_on_He_i = B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]*1.3/pow(2*sigma_total_pH(E_proton),2);
-          // dsigHe_over_dp_He_on_He_i =  B*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]*pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]*1.3/pow(4*sigma_total_pH(E_proton),2);
-          dsigHe_over_dp_H_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
-          dsigHe_over_dp_He_on_H_i = 0;
-          dsigHe_over_dp_H_on_He_i = 0;
-          dsigHe_over_dp_He_on_He_i =  0;
-
-        }
-        // dsigHe_over_dp_on_H_i = B*pow(impulsion_proton[i_proton]*(pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]+ pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]),3)/pow(sigma_total_pH(E_proton),2);
-        // dsigHe_over_dp_on_He_i = B*pow(impulsion_proton[i_proton]*(pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]+ pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]),3)/pow(sigma_total_pH(E_proton),2);
-        // printf("dsigHe_over_dp_on_H_i%e %e \n", dsigHe_over_dp_on_H_i,sigma_total_pH(pow(impulsion_proton[i_proton]*impulsion_proton[i_proton]+MASSE_PROTON*MASSE_PROTON,0.5)));
-
-        // dsigHe_over_dp_i = pow(2*impulsion_proton[i_proton]*((pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]+ pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton]) * DENSITE_H_DISC
-                          // + (pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton]+ pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton]) * DENSITE_HE_DISC),1);
+        dsigHe_over_dp_H_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
+        dsigHe_over_dp_He_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton];
+        dsigHe_over_dp_H_on_He_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton];
+        dsigHe_over_dp_He_on_He_i =  pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton];
 /*
 *       CONTRIBUTION total
 */
@@ -142,10 +104,9 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
         weight_SIMSPON[i_proton] * dlog_E_proton; /* [antiprotons GeV^{-1} s^{-1} cm^{-3}] */
 
       }
-      if(pt_Pbar->A_nuclei == 1) pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] *= 2.3*E_DISC*CM_PAR_KPC / Abar_i; //factor 2.3 takes into account formation and decay of antineutron
-      else if(pt_Pbar->A_nuclei == 2) pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] *= E_DISC*CM_PAR_KPC / Abar_i; //factor 2 takes into account formation and decay of tritium
-      else if(pt_Pbar->A_nuclei == 3) pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] *= 2*E_DISC*CM_PAR_KPC / Abar_i; //factor 2 takes into account formation and decay of tritium
-/*    S'exprime maintenant en unites de [antiprotons cm^{-3} GeV^{-1}].
+      pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] *= 2*E_DISC*CM_PAR_KPC / Abar_i;
+/*
+  S'exprime maintenant en unites de [antiprotons cm^{-3} GeV^{-1}].
 */
 	}
   }
@@ -172,10 +133,10 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
-    T_pbar         = T_PBAR_MIN *
+    T_pbar         = T_PBAR_MIN*pt_Pbar->A_nuclei *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-    E_pbar         = T_pbar + MASSE_PROTON;
-    impulsion_pbar = sqrt(pow(E_pbar,2) - pow(MASSE_PROTON,2));
+    E_pbar         = T_pbar + pt_Pbar->M_nuclei;
+    impulsion_pbar = sqrt(pow(E_pbar,2) - pow(pt_Pbar->M_nuclei,2));
     v_pbar         = CELERITY_LIGHT * impulsion_pbar / E_pbar;
 
     S_inel_NOANN_fois_v_pbar[i_pbar] = sigma_inelastic_NOANN_pbarH_TAN_and_NG(E_pbar) * pt_Pbar->A_nuclei  //Assume simple factor A  between the pH / DeH / 3HeH cross sections
@@ -241,6 +202,7 @@ void calculation_BESSEL_PBAR_SUM_123_Epbar_i(struct Structure_Pbar* pt_Pbar)
     {
       pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i] = pt_Pbar->BESSEL_PBAR_PRI_Epbar_i[i_pbar][i] +
       pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] + pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i];
+      pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i], pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i]);
 	}
   }
 
@@ -287,10 +249,10 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR+1;i_pbar++)
   {
-    T_pbar = T_PBAR_MIN *
+    T_pbar = T_PBAR_MIN*pt_Pbar->A_nuclei *
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
-    E_pbar = T_pbar + MASSE_PROTON;
-    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
+    E_pbar = T_pbar + pt_Pbar->M_nuclei;
+    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation) / T_pbar;
 /*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
@@ -299,10 +261,10 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
 */
   for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
   {
-    T_pbar = T_PBAR_MIN *
+    T_pbar = T_PBAR_MIN*pt_Pbar->A_nuclei *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-    E_pbar = T_pbar + MASSE_PROTON;
-    b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
+    E_pbar = T_pbar + pt_Pbar->M_nuclei;
+    b_coeff[i_pbar] = b_energy_losses(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation);
 /*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
@@ -336,7 +298,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
       Abar_i = pt_Pbar->TABLE_Abar_i[i_pbar][i];
 /*    Abar_i est exprime en [cm s^{-1}].
 */
-      T_pbar = T_PBAR_MIN *
+      T_pbar = T_PBAR_MIN*pt_Pbar->A_nuclei *
       pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
       grand_C_cal = 2. * E_DISC*CM_PAR_KPC / T_pbar / Abar_i;
 /*
@@ -346,7 +308,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_A(struct Structure_Pbar* pt_Pb
       {
 
 
-		vec_a[0]  = 0.0;
+		    vec_a[0]  = 0.0;
         vec_b[0]  = 1.0;
         vec_b[0] -= grand_C_cal * b_coeff[0] / DELTA_x;
         vec_b[0] += grand_C_cal * (a_coeff[1] - a_coeff[0]) / pow(DELTA_x,2);
@@ -443,7 +405,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_B(struct Structure_Pbar* pt_Pb
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
+    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation) / T_pbar;
 /*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
@@ -455,7 +417,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_B(struct Structure_Pbar* pt_Pb
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
+    b_coeff[i_pbar] = b_energy_losses(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation);
 /*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
@@ -580,7 +542,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_TD_NR(struct Structure_Pbar* p
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
+    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation) / T_pbar;
 /*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
@@ -592,7 +554,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_TD_NR(struct Structure_Pbar* p
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
+    b_coeff[i_pbar] = b_energy_losses(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation);
 /*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
@@ -714,7 +676,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(struct Structure_Pbar* p
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
+    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation) / T_pbar;
 /*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
@@ -726,7 +688,7 @@ void calculation_BESSEL_PBAR_TOT_direct_inversion_GJ_NR(struct Structure_Pbar* p
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
+    b_coeff[i_pbar] = b_energy_losses(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation);
 /*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
@@ -861,7 +823,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
+    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation) / T_pbar;
 /*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
@@ -873,7 +835,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_A(double time_max,long n_time,
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    b_coeff[i_pbar] = b_energy_losses(E_pbar,MASSE_PROTON,1.0,pt_Propagation);
+    b_coeff[i_pbar] = b_energy_losses(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation);
 /*  Ce coefficient s'exprime egalement en unites de [GeV s^{-1}].
 */
   }
@@ -1050,7 +1012,7 @@ void calculation_BESSEL_PBAR_TOT_diffusion_soluce_B(double time_max,long n_time,
     T_pbar = T_PBAR_MIN *
     pow((T_PBAR_MAX/T_PBAR_MIN),((-0.5+(double)i_pbar)/(double)DIM_TAB_PBAR));
     E_pbar = T_pbar + MASSE_PROTON;
-    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,MASSE_PROTON,1.0,pt_Propagation) / T_pbar;
+    a_coeff[i_pbar] = D_energy_diffusion(E_pbar,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,pt_Propagation) / T_pbar;
 /*  Ce coefficient s'exprime en unites de [GeV s^{-1}].
 */
   }
@@ -1275,14 +1237,16 @@ void PBAR_IS_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], struc
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
-		T_pbar_IS = T_PBAR_MIN *
+		T_pbar_IS = T_PBAR_MIN*pt_Pbar->A_nuclei *
 		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+		E_pbar_IS = T_pbar_IS + pt_Pbar->M_nuclei;
 		for (i=1;i<=NDIM;i++)
 		{
 			pt_Pbar->BESSEL_PBARi[i] = pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
+      // printf("pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i] %e\n", pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i]);
 		}
-		flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);
+    // printf("%e\n", pt_Pbar->Z_nuclei);
+		flux_antiproton_IS = GENERIC_FLUX_04(R_EARTH,0.,E_pbar_IS,pt_Pbar->M_nuclei,pt_Pbar->Z_nuclei,alpha_i,pt_Pbar->BESSEL_PBARi, pt_Propagation);
 		//flux_antiproton_IS = GENERIC_FLUX(R_EARTH,0.,E_pbar_IS,MASSE_PROTON,1.,alpha_i,pt_Pbar->BESSEL_PBARi, &Propagation);
 
 
@@ -1311,26 +1275,26 @@ void PBAR_TOA_SPECTRUM_calculation(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], doub
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
-		T_pbar_IS = T_PBAR_MIN *
+		T_pbar_IS = T_PBAR_MIN *  //per nucleon here
 		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
-		E_pbar_IS = T_pbar_IS + MASSE_PROTON;
+		E_pbar_IS = T_pbar_IS + pt_Pbar->M_nuclei/pt_Pbar->A_nuclei;
 
 //		Nous modulons maintenant les spectres PBAR obtenus.
 
-		FFA_IS_to_TOA(pt_Pbar->A_nuclei,pt_Pbar->Z_nuclei,pt_Propagation->PHI_FISK,E_pbar_IS,PBAR_IS_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);
+		FFA_IS_to_TOA(pt_Pbar->A_nuclei,pt_Pbar->Z_nuclei,pt_Propagation->PHI_FISK,E_pbar_IS,PBAR_IS_SPECTRUM[i_pbar],&E_pbar_TOA,&flux_pbar_TOA);  //In the fisk model, E_pbar_TOA and E_pbar_IS is the E/n
 
-		if (E_pbar_TOA <= MASSE_PROTON)
+		if (E_pbar_TOA*pt_Pbar->A_nuclei <= pt_Pbar->M_nuclei)
 		{
 			T_PBAR_TOA[i_pbar]        = 0.0;
 			PBAR_TOA_SPECTRUM[i_pbar] = 0.0;
 			continue;
 		}
 
-		T_pbar_TOA = E_pbar_TOA - MASSE_PROTON;
+		T_pbar_TOA = E_pbar_TOA- pt_Pbar->M_nuclei/pt_Pbar->A_nuclei;
 
 //		Nous les stockons en memoire dans les tableaux RESULTS_T_PBAR_TOA[DIM_TAB_PBAR+1] et RESULTS_SPECTRUM_TOA_MIN_MED_MAX[DIM_TAB_PBAR+1];
 
-		T_PBAR_TOA[i_pbar] = T_pbar_TOA;
+		T_PBAR_TOA[i_pbar] = T_pbar_TOA;  //here it is T per nucleon
 		PBAR_TOA_SPECTRUM[i_pbar] = flux_pbar_TOA;										// [#pbar cm^{-3} sr^{-1} s^{-1} GeV^{-1}]
 
 	}
@@ -1377,7 +1341,7 @@ void PBAR_OVER_P_IS_SPECTRUM_calculation(double PBAR_OVER_P_IS_SPECTRUM[DIM_TAB_
 
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
-		T_IS = T_PBAR_MIN *
+		T_IS = T_PBAR_MIN*pt_Pbar->A_nuclei *
 		pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR));
 		E_IS = T_IS + MASSE_PROTON;
 

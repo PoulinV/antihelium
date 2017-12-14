@@ -255,7 +255,7 @@ TEST:
 
 //	On imprime le resultat
 
-void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], int A_nuclei)
+void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double A_nuclei)
 {
 	long i_pbar;
 	double T_pbar_IS ,E_pbar_IS ,flux_antiproton_IS ,flux_proton_IS;
@@ -293,7 +293,7 @@ void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], int A_nucle
 
 //	On imprime le resultat
 
-void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_TOA[DIM_TAB_PBAR+1], int A_nuclei)
+void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_PBAR_TOA[DIM_TAB_PBAR+1], double A_nuclei)
 {
 	long i_pbar;
 	double T_pbar_TOA,E_pbar_TOA,flux_antiproton_TOA;
@@ -317,7 +317,7 @@ void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_
 		T_pbar_TOA = T_PBAR_TOA[i_pbar];
 		flux_pbar_TOA = PBAR_TOA_SPECTRUM[i_pbar];
 
-		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*flux_pbar_TOA));									// [#pbar m^{-2} sr^{-1} s^{-1} GeV^{-1}]
+		fprintf(results, " %.10e\t %.10e\t \n", T_pbar_TOA, (1.0e04*flux_pbar_TOA));									// [#pbar m^{-2} sr^{-1} s^{-1} GeV/n^{-1}]
 	}
 
 	fclose(results);
@@ -528,3 +528,47 @@ void print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_TOA_SPECTRUM_
 
 /****************************************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************************************/
+
+
+void print_secondary_source_term(double PRIMARY_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], struct Structure_Cross_Section* pt_Cross_Section, double TARGET_DENSITY,  double A_nuclei){
+
+		double T_proton ,E_proton,T_proton_previous ,E_proton_previous,T_pbar,flux_proton_IS, CS, resultat;
+
+		FILE* results;
+		results = fopen(secondary_source_term_file_name,"w");
+		double weight_SIMSPON[DIM_TAB_PROTON+1];
+		double E,dE,E_min,E_max,dlog_E_proton;
+		int i_proton, i_pbar;
+
+
+
+		dlog_E_proton = pow((E_PROTON_MAX/E_PROTON_MIN),(1./(double)DIM_TAB_PROTON)) - 1.;
+	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
+	{
+		resultat = 0;
+		for (i_proton=0;i_proton<=DIM_TAB_PROTON;i_proton++)
+		{
+						E_proton = E_PROTON_MIN *
+						pow((E_PROTON_MAX/E_PROTON_MIN),((double)i_proton/(double)DIM_TAB_PROTON));
+
+
+						if (i_proton==0 || i_proton==DIM_TAB_PROTON) {weight_SIMSPON[i_proton] = 1./3.;}
+						else {weight_SIMSPON[i_proton] = (1. + (double)(i_proton % 2)) * 2. / 3.;}
+						// T_proton = T_PROTON_SPECTRUM_MIN * pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),((double)i_proton/(double)DIM_TAB_PROTON_SPECTRUM));
+						// T_proton_previous = T_PROTON_SPECTRUM_MIN * pow((T_PROTON_SPECTRUM_MAX/T_PROTON_SPECTRUM_MIN),(((double) i_proton-1)/(double)DIM_TAB_PROTON_SPECTRUM));
+						// E_proton = T_proton + MASSE_PROTON;
+						// E_proton_previous = T_proton_previous + MASSE_PROTON;
+						// dE = E_proton - E_proton_previous;
+						// printf("dE %e E_proton %E\n", dE,E_proton_previous);
+						flux_proton_IS = flux_proton_EXP(E_proton);
+						CS = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
+						resultat += 4*PI*flux_proton_IS*TARGET_DENSITY*CS*
+		        weight_SIMSPON[i_proton] * dlog_E_proton * E_proton;
+				}
+				T_pbar = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR)); //T/n
+				// fprintf(stderr, " %.10e\t %.10e\t \n", T_pbar, (1.0e06*resultat));											// [#pbar m^{-3} s^{-1} GeV^{-1}]
+				fprintf(results, " %.10e\t %.10e\t \n", T_pbar, (1.0e04*resultat));											// [#pbar m^{-3} s^{-1} GeV^{-1}]
+		}
+		printf("printing in file: %s\n", secondary_source_term_file_name);
+
+}

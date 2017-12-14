@@ -76,8 +76,9 @@ struct Structure_Pbar
 	double BESSEL_PBAR_SEC_Epbar_i[DIM_TAB_PBAR+1][NDIM+1];
 	double BESSEL_PBAR_TER_Epbar_i[DIM_TAB_PBAR+1][NDIM+1];
 	double BESSEL_PBAR_TOT_Epbar_i[DIM_TAB_PBAR+1][NDIM+1];
-	int A_nuclei;
-	int Z_nuclei;
+	double A_nuclei;
+	double Z_nuclei;
+	double M_nuclei;
 	short Tertiary_computation;
 };
 

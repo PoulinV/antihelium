@@ -66,10 +66,11 @@ int main(void)
 	double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2];
 
 	double EnTOA, pnTOA, flux_TOA, TnTOA;
-	Cross_Section.P_coal = 248;
-	Pbar.Tertiary_computation = _FALSE_;
-	Pbar.A_nuclei = 3;
-	Pbar.Z_nuclei = 2;
+	Cross_Section.P_coal = 0.248; //In GeV
+	Pbar.Tertiary_computation = TERTIARY_COMPUTATION;
+	Pbar.A_nuclei = A_NUCLEI;
+	Pbar.Z_nuclei = Z_NUCLEI;
+	Pbar.M_nuclei = M_NUCLEI; //Mass of the nuclei in GeV
 //	INITALISATION DES VARIABLES
 	///////////////////////////
 
@@ -90,26 +91,28 @@ int main(void)
 	bessel_preliminary_read_file (alpha_i, &Proton, &Helium);
 
 	CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR   (&Cross_Section);
-	DSPBAR_SUR_DEPBAR_H_ON_H_write_file  (&Cross_Section,Pbar.A_nuclei);
-	DSPBAR_SUR_DEPBAR_H_ON_HE_write_file (&Cross_Section,Pbar.A_nuclei);
-	DSPBAR_SUR_DEPBAR_HE_ON_H_write_file (&Cross_Section,Pbar.A_nuclei);
-	DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(&Cross_Section,Pbar.A_nuclei);
+	if (WRITE_CROSS_SECTION == _TRUE_){
+		DSPBAR_SUR_DEPBAR_H_ON_H_write_file  (&Cross_Section,Pbar.A_nuclei,Pbar.Z_nuclei,Pbar.M_nuclei);
+		// DSPBAR_SUR_DEPBAR_H_ON_HE_write_file (&Cross_Section,Pbar.A_nuclei);
+		// DSPBAR_SUR_DEPBAR_HE_ON_H_write_file (&Cross_Section,Pbar.A_nuclei);
+		// DSPBAR_SUR_DEPBAR_HE_ON_HE_write_file(&Cross_Section,Pbar.A_nuclei);
+	}
 
 	DSPBAR_SUR_DEPBAR_H_ON_H_read_file   (&Cross_Section,Pbar.A_nuclei);
-	DSPBAR_SUR_DEPBAR_H_ON_HE_read_file  (&Cross_Section,1); //To do
-	DSPBAR_SUR_DEPBAR_HE_ON_H_read_file  (&Cross_Section,1); //To do
-	DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section,1); //To do
+	// DSPBAR_SUR_DEPBAR_H_ON_HE_read_file  (&Cross_Section,Pbar.A_nuclei); //To do
+	// DSPBAR_SUR_DEPBAR_HE_ON_H_read_file  (&Cross_Section,Pbar.A_nuclei); //To do
+	// DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section,Pbar.A_nuclei); //To do
 
 
-	DM_source_term_calculation(&Primary_Source_Term);
+	// DM_source_term_calculation(&Primary_Source_Term);
 
 	PROTON_SPECTRUM_initialization(PROTON_IS_SPECTRUM);
 	PROTON_SPECTRUM_initialization(PROTON_TOA_SPECTRUM);
 	PBAR_BESSEL_TABLES_123_initialization(&Pbar);
 	PBAR_SPECTRUM_initialization(PBAR_IS_SPECTRUM);
 	PBAR_SPECTRUM_initialization(PBAR_TOA_SPECTRUM);
-	PBAR_SPECTRUM_initialization(PBAR_OVER_P_IS_SPECTRUM);
-	PBAR_SPECTRUM_initialization(PBAR_OVER_P_TOA_SPECTRUM);
+	// PBAR_SPECTRUM_initialization(PBAR_OVER_P_IS_SPECTRUM);
+	// PBAR_SPECTRUM_initialization(PBAR_OVER_P_TOA_SPECTRUM);
 
 
 //	CALCUL DU FLUX DES PROTONS
@@ -147,8 +150,8 @@ int main(void)
 //	CALCUL DU RAPPORT Pbar/P
 ////////////////////////////
 
-	PBAR_OVER_P_IS_SPECTRUM_calculation(PBAR_OVER_P_IS_SPECTRUM, &Proton, &Pbar, &Propagation, alpha_i);
-	PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
+	// PBAR_OVER_P_IS_SPECTRUM_calculation(PBAR_OVER_P_IS_SPECTRUM, &Proton, &Pbar, &Propagation, alpha_i);
+	// PBAR_OVER_P_TOA_SPECTRUM_calculation(PBAR_OVER_P_TOA_SPECTRUM, T_PBAR_OVER_P_TOA, &Proton, &Pbar, &Propagation, alpha_i);
 
 
 	//PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY_calculation(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
@@ -163,7 +166,7 @@ int main(void)
 	print_PROTON_SPECTRUM_exp();
 	print_HELIUM_SPECTRUM_exp();
 
-
+	print_secondary_source_term(PROTON_IS_SPECTRUM,&Cross_Section, DENSITE_H_DISC, Pbar.A_nuclei);
 
 	print_PBAR_IS_SPECTRUM(PBAR_IS_SPECTRUM,Pbar.A_nuclei);
 	print_PBAR_TOA_SPECTRUM(PBAR_TOA_SPECTRUM, T_PBAR_TOA,Pbar.A_nuclei);
@@ -187,12 +190,12 @@ int main(void)
 
 //	TEST
 
-	TnTOA = 100.0;
-	EnTOA = TnTOA + MASSE_PROTON;
-    pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
-
-	flux_TOA = fit_proton_flux_AMS02_yoann(pnTOA);
-	flux_TOA *= EnTOA / pnTOA;
+	// TnTOA = 100.0;
+	// EnTOA = TnTOA + MASSE_PROTON;
+  //   pnTOA = sqrt(pow(EnTOA,2) - pow(MASSE_PROTON,2));
+  //
+	// flux_TOA = fit_proton_flux_AMS02_yoann(pnTOA);
+	// flux_TOA *= EnTOA / pnTOA;
 
 	//printf("TnTOA = %.5e \t flux_TOA = %.5e  \n", EnTOA, flux_TOA);
 
