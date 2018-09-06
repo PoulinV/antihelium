@@ -1,9 +1,34 @@
-//	This is a set of files for the calculation of the antiproton flux at the Earth.
-//	The background of secondary antiprotons originates from the spallation reactions
-//	of cosmic ray (CR) protons and helium nuclei on the interstellar medium (ISM).
+//	09.06.2018
+//	This is a code for the calculation of the antiproton and antinuclei flux at the 
+//	Earth originating from the spallation reactions of cosmic ray (CR) protons and 	
+//	helium nuclei on the  interstellar medium (ISM).
 //	Primary antiprotons are produced directly by the annihilation or decay of dark
 //	matter (DM) species in the halo of the Milky Way.
 
-//	Authors Mathieu Boudaud and Pierre Salati
+//	Authors Mathieu Boudaud and Pierre Salati for the antiproton
+		Vivian Poulin and Pierre Salati for the antinuclei
 
-//	Tuesday March 4 2014
+
+----- COMPILING -----
+mkdir build
+cd build
+cmake ..
+make (-j)
+
+
+---- RUNNING -----
+Running the code currently requires modification of 2 files that you can find in the main directory.
+- COMMON.h: One mostly needs to specify which anti-nuclei is computed. Propagation parameters can also be adjusted there. 
+- MAIN.c: if you want a primary component from DM (only for p-bar), a few lines must be uncommented. To be improved.
+
+then compile and run ./executable
+
+
+---- RESULTS -----
+
+Remember to create a folder ``results'' within which output files will be produced. These contain the results of the calculation. The path to the files is written in COMMON.h.
+
+
+
+
+

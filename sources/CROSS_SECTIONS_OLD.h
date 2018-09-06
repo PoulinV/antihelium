@@ -211,11 +211,6 @@ double dSpbar_sur_dEpbar_SIMPSON_H_ON_H_MDGS_F12(double E_proton,double E_pbar,l
 
 double E_d3S_on_d3P_3HE_H_ON_H_LAB_MDGS_F12_coalescence(double E_proton,double pL,double pT, double P_coal, double A_nuclei, double Z_nuclei);
 double dS3He_sur_sE3He_H_on_H_MDGS_F12_coalescence(double E_proton,double E_pbar, double P_coal, long n_step,double A_nuclei, double Z_nuclei,double M_nuclei);
-
-double dS3He_sur_dE3He_H_on_H_WINKLER_coalescence(double E_proton,double E_pbar,double P_coal,long n_step,double A_nuclei,double Z_nuclei,double M_nuclei);
-double E_d3S_on_d3P_3HE_H_ON_H_LAB_WINKLER_coalescence(double E_proton,double pL,double pT,double P_coal,double A_nuclei,double Z_nuclei);
-double sigma_inelastic_pH_WINKLER(double E_proton);
-double invariant_multiplicity_pH_apX_WINKLER_CMF(double xr,double ptstar,double s);
 /**********************************************************************************************************************************************************************************************************/
 /**********************************************************************************************************************************************************************************************************/
 #endif

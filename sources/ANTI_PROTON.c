@@ -68,13 +68,13 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
       sqrt(pow(2.0*alpha_i[i]/R_GAL,2) + pow(pt_Propagation->VENT_GALACTIQUE*CM_PAR_KPC/K_pbar,2));
 /*    Abar_i est exprime en [cm s^{-1}].  */
       Abar_i  = pt_Propagation->VENT_GALACTIQUE;
-      if(pt_Pbar->A_nuclei == 1) scaling_annihilation_CS =  1;
-      else if(pt_Pbar->A_nuclei == 2) scaling_annihilation_CS =  sigma_total_dbarH(E_proton)/sigma_total_pH(E_proton);
-      else if(pt_Pbar->A_nuclei == 3) scaling_annihilation_CS =  3/2 * sigma_total_dbarH(E_proton)/sigma_total_pH(E_proton);  //we rescale by a factor 3/2*sigma_total_dbarH(E_proton)/sigma_total_pH(E_proton) as in 1711.08465
-      Abar_i += 2.0*E_DISC*CM_PAR_KPC  * scaling_annihilation_CS *
-      ((sigma_inelastic_pbarH_TAN_and_NG(E_pbar)
-      - sigma_inelastic_NOANN_pbarH_TAN_and_NG(E_pbar)) * v_pbar *
-			(DENSITE_H_DISC + pow(4.,(2./3.))*1.0*DENSITE_HE_DISC));
+      if     (pt_Pbar->A_nuclei == 1) scaling_annihilation_CS = (sigma_inelastic_pbarH_TAN_and_NG(E_pbar) - sigma_inelastic_NOANN_pbarH_TAN_and_NG(E_pbar)); //Here it is the annihilation CS
+      else if(pt_Pbar->A_nuclei == 2) scaling_annihilation_CS =  sigma_total_dbarH(E_proton) - SIGMA_DBARP_NOANN; //Here it is the destruction CS
+      else if(pt_Pbar->A_nuclei >= 3) scaling_annihilation_CS =  pow((pt_Pbar->A_nuclei/2),(2.2/3.)) * (sigma_total_dbarH(E_proton) - SIGMA_DBARP_NOANN); //Here it is the destruction CS
+    //else if(pt_Pbar->A_nuclei >= 3) scaling_annihilation_CS =  3/2 * sigma_total_dbarH(E_proton)/sigma_total_pH_MDGS(E_proton)*sigma_inelastic_pbarH_TAN_and_NG(E_pbar);
+    //we rescale by a factor 3/2*sigma_total_dbarH(E_proton)/sigma_total_pH(E_proton) as in 1711.08465 of the TOTINO group.
+      Abar_i += 2.0*E_DISC*CM_PAR_KPC  * scaling_annihilation_CS * v_pbar *
+			(DENSITE_H_DISC + pow(4.,(2./3.))*1.0*DENSITE_HE_DISC);
       Abar_i += K_pbar * Si / CM_PAR_KPC / tanh(Si*pt_Propagation->E_DIFFUS/2.);
       pt_Pbar->TABLE_Abar_i[i_pbar][i] = Abar_i;
 
@@ -83,10 +83,13 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
       {
         E_proton = pow(impulsion_proton[i_proton]*impulsion_proton[i_proton]+MASSE_PROTON*MASSE_PROTON,0.5);
 
-        dsigHe_over_dp_H_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
-        dsigHe_over_dp_He_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton];
-        dsigHe_over_dp_H_on_He_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton];
-        dsigHe_over_dp_He_on_He_i =  pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton];
+        dsigHe_over_dp_H_on_H_i   = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
+        dsigHe_over_dp_He_on_H_i  = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pow( 4,2.2/3); // Rescaling a la Norbury & Towsend 2006 nucl-th/0612081
+        dsigHe_over_dp_H_on_He_i  = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pow( 4,2.2/3);
+        dsigHe_over_dp_He_on_He_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pow(16,2.2/3);
+        // dsigHe_over_dp_He_on_H_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_H[i_pbar][i_proton];
+        // dsigHe_over_dp_H_on_He_i = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_HE[i_pbar][i_proton];
+        // dsigHe_over_dp_He_on_He_i =  pt_Cross_Section->DSPBAR_SUR_DEPBAR_HE_ON_HE[i_pbar][i_proton];
 /*
 *       CONTRIBUTION total
 */
@@ -94,13 +97,13 @@ void calculation_BESSEL_PBAR_SECONDARY_Epbar_i(double alpha_i[NDIM+1], struct St
         pt_Proton->BESSEL_COEF_Enuc_i[i_proton][i] * CELERITY_LIGHT * impulsion_proton[i_proton]*
         weight_SIMSPON[i_proton] * dlog_E_proton; /* [antiprotons GeV^{-1} s^{-1} cm^{-3}] */
         pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] += dsigHe_over_dp_He_on_H_i  * DENSITE_H_DISC *
-        pt_Proton->BESSEL_COEF_Enuc_i[i_proton][i] * CELERITY_LIGHT * impulsion_proton[i_proton]*
+        pt_Helium->BESSEL_COEF_Enuc_i[i_proton][i] * CELERITY_LIGHT * impulsion_proton[i_proton]*
         weight_SIMSPON[i_proton] * dlog_E_proton; /* [antiprotons GeV^{-1} s^{-1} cm^{-3}] */
         pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] += dsigHe_over_dp_H_on_He_i  * DENSITE_HE_DISC *
         pt_Proton->BESSEL_COEF_Enuc_i[i_proton][i] * CELERITY_LIGHT * impulsion_proton[i_proton]*
         weight_SIMSPON[i_proton] * dlog_E_proton; /* [antiprotons GeV^{-1} s^{-1} cm^{-3}] */
         pt_Pbar->BESSEL_PBAR_SEC_Epbar_i[i_pbar][i] += dsigHe_over_dp_He_on_He_i  * DENSITE_HE_DISC *
-        pt_Proton->BESSEL_COEF_Enuc_i[i_proton][i] * CELERITY_LIGHT * impulsion_proton[i_proton]*
+        pt_Helium->BESSEL_COEF_Enuc_i[i_proton][i] * CELERITY_LIGHT * impulsion_proton[i_proton]*
         weight_SIMSPON[i_proton] * dlog_E_proton; /* [antiprotons GeV^{-1} s^{-1} cm^{-3}] */
 
       }
@@ -138,9 +141,8 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
     E_pbar         = T_pbar + pt_Pbar->M_nuclei;
     impulsion_pbar = sqrt(pow(E_pbar,2) - pow(pt_Pbar->M_nuclei,2));
     v_pbar         = CELERITY_LIGHT * impulsion_pbar / E_pbar;
-
-    S_inel_NOANN_fois_v_pbar[i_pbar] = sigma_inelastic_NOANN_pbarH_TAN_and_NG(E_pbar) * pt_Pbar->A_nuclei  //Assume simple factor A  between the pH / DeH / 3HeH cross sections
-    * v_pbar;
+    if(A_NUCLEI == 1) S_inel_NOANN_fois_v_pbar[i_pbar] = sigma_inelastic_NOANN_pbarH_TAN_and_NG(E_pbar)* v_pbar;  //In Duperray et al. PRD083013, there's a factor 2 from isospin symmetry. We neglect it here because we do not use the real fonctional form, such that neglecting this factor leads to a better estimate of the tertiary.
+    else S_inel_NOANN_fois_v_pbar[i_pbar] = pow((pt_Pbar->A_nuclei/2),(2.2/3.)) * SIGMA_DBARP_NOANN * v_pbar; //For all nuclei, we simply rescale compare to Dbar.
   }
 /*
 * On remet a zero le tableau pt_Pbar->BESSEL_PBAR_TER_Epbar_i.
@@ -168,12 +170,13 @@ void calculation_BESSEL_PBAR_TERTIARY_Epbar_i(double alpha_i[NDIM+1], struct Str
         SUM += dlog_T_pbar * S_inel_NOANN_fois_v_pbar[i_pbar] *
         pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
 
-        pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = SUM -
-        S_inel_NOANN_fois_v_pbar[i_pbar] * pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
+        pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i] = SUM
+        - 0;
+        // - S_inel_NOANN_fois_v_pbar[i_pbar] * pt_Pbar->BESSEL_PBAR_TOT_Epbar_i[i_pbar][i];
     /*    S'exprime en unites de [antiprotons GeV^{-1} s^{-1}].
     */
         pt_Pbar->BESSEL_PBAR_TER_Epbar_i[i_pbar][i] *=
-        2. * E_DISC*CM_PAR_KPC * (DENSITE_H_DISC + pow(4.,(2./3.))*1.0*DENSITE_HE_DISC) / Abar_i;
+        2. * E_DISC*CM_PAR_KPC * (DENSITE_H_DISC + pow(4.,(2.2/3.))*DENSITE_HE_DISC) / Abar_i;
     /*    S'exprime maintenant en unites de [antiprotons cm^{-3} GeV^{-1}].
     */
       }

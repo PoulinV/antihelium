@@ -20,6 +20,10 @@ double K_space_diffusion(double energy,double mass,double Z_em, struct Structure
 * Il est exprime en [cm^{2} s^{-1}].
 */
   K        = pt_Propagation->DIFFUSION_0_GV * beta * pow(rigidity,pt_Propagation->PUISSANCE_COEFF_DIFF);
+  if((_DIFFUSION_COEFF_RIGIDITY_BREAK_ > 0) && (rigidity >_DIFFUSION_COEFF_RIGIDITY_BREAK_)){
+    printf("here\n");
+    K        = pt_Propagation->DIFFUSION_0_GV * beta * pow(rigidity,BREAK_PUISSANCE_COEFF_DIFF)*pow(_DIFFUSION_COEFF_RIGIDITY_BREAK_,pt_Propagation->PUISSANCE_COEFF_DIFF-BREAK_PUISSANCE_COEFF_DIFF);
+  }
   return K;
 }
 

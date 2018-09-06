@@ -272,8 +272,12 @@ void print_PBAR_IS_SPECTRUM(double PBAR_IS_SPECTRUM[DIM_TAB_PBAR+1], double A_nu
 		printf("Printing in file: %s\n", Debar_IS_spectrum_file_name);
 	}
 	else if (A_nuclei == 3){
-		results = fopen(Hebar_IS_spectrum_file_name,"w");
-		printf("Printing in file: %s\n", Hebar_IS_spectrum_file_name);
+		results = fopen(He3bar_IS_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", He3bar_IS_spectrum_file_name);
+	}
+	else if (A_nuclei == 4){
+		results = fopen(He4bar_IS_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", He4bar_IS_spectrum_file_name);
 	}
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
@@ -309,8 +313,12 @@ void print_PBAR_TOA_SPECTRUM(double PBAR_TOA_SPECTRUM[DIM_TAB_PBAR+1], double T_
 		printf("Printing in file: %s\n", Debar_TOA_spectrum_file_name);
 	}
 	else if (A_nuclei == 3){
-		results = fopen(Hebar_TOA_spectrum_file_name,"w");
-		printf("Printing in file: %s\n", Hebar_TOA_spectrum_file_name);
+		results = fopen(He3bar_TOA_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", He3bar_TOA_spectrum_file_name);
+	}
+			else if (A_nuclei == 4){
+		results = fopen(He4bar_TOA_spectrum_file_name,"w");
+		printf("Printing in file: %s\n", He4bar_TOA_spectrum_file_name);
 	}
 	for (i_pbar=0;i_pbar<=DIM_TAB_PBAR;i_pbar++)
 	{
@@ -532,7 +540,7 @@ void print_PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY(double PBAR_OVER_P_TOA_SPECTRUM_
 
 void print_secondary_source_term(double PRIMARY_IS_SPECTRUM[DIM_TAB_PROTON_SPECTRUM+1], struct Structure_Cross_Section* pt_Cross_Section, double TARGET_DENSITY,  double A_nuclei){
 
-		double T_proton ,E_proton,T_proton_previous ,E_proton_previous,T_pbar,flux_proton_IS, CS, resultat;
+		double T_proton ,E_proton,T_proton_previous ,E_proton_previous,T_pbar,flux_proton_IS, flux_helium_IS,CS_H_ON_H,CS_H_ON_He,CS_He_ON_H,CS_He_ON_He, resultat;
 
 		FILE* results;
 		results = fopen(secondary_source_term_file_name,"w");
@@ -561,9 +569,14 @@ void print_secondary_source_term(double PRIMARY_IS_SPECTRUM[DIM_TAB_PROTON_SPECT
 						// dE = E_proton - E_proton_previous;
 						// printf("dE %e E_proton %E\n", dE,E_proton_previous);
 						flux_proton_IS = flux_proton_EXP(E_proton);
-						CS = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
-						resultat += 4*PI*flux_proton_IS*TARGET_DENSITY*CS*
-		        weight_SIMSPON[i_proton] * dlog_E_proton * E_proton;
+						flux_helium_IS = flux_helium_EXP(E_proton);
+						CS_H_ON_H = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton];
+						CS_H_ON_He = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pow(4,2.2/3);
+						CS_He_ON_H = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pow(4,2.2/3);
+						CS_He_ON_He = pt_Cross_Section->DSPBAR_SUR_DEPBAR_H_ON_H[i_pbar][i_proton]*pow(16,2.2/3);
+						resultat += 4*PI*(flux_proton_IS*DENSITE_H_DISC*CS_H_ON_H+flux_proton_IS*DENSITE_HE_DISC*CS_H_ON_He+flux_helium_IS*CS_He_ON_H*DENSITE_H_DISC+flux_helium_IS*CS_He_ON_He*DENSITE_HE_DISC)
+							*weight_SIMSPON[i_proton] * dlog_E_proton;
+						//* E_proton;
 				}
 				T_pbar = T_PBAR_MIN * pow((T_PBAR_MAX/T_PBAR_MIN),((double)i_pbar/(double)DIM_TAB_PBAR)); //T/n
 				// fprintf(stderr, " %.10e\t %.10e\t \n", T_pbar, (1.0e06*resultat));											// [#pbar m^{-3} s^{-1} GeV^{-1}]

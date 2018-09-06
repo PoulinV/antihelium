@@ -43,6 +43,7 @@
 #define MASS_HELIUM_TROIS 2809.413
 /* La masse du proton est exprimee en [GeV]. */
 
+#define SIGMA_DBARP_NOANN 4e-27     //in cm^2
 /********************************************************************************************/
 
 //	GALACTIC PARAMETERS
@@ -71,6 +72,15 @@
 #define MED
 // #define MAX
 
+// #define BREAK_IN_DIFFUSION
+
+#ifdef BREAK_IN_DIFFUSION
+  #define _DIFFUSION_COEFF_RIGIDITY_BREAK_ 200. // [GV] Defines the rigidity break of the diffusion coefficient K. If set negative or nul, K will have no break.
+  #define BREAK_PUISSANCE_COEFF_DIFF 0.33 // Defines the value of delta after the rigidity break of the diffusion coefficient K.
+#else
+  #define _DIFFUSION_COEFF_RIGIDITY_BREAK_ 0. // [GV] Defines the rigidity break of the diffusion coefficient K. If set negative or nul, K will have no break.
+  #define BREAK_PUISSANCE_COEFF_DIFF 0. // Defines the value of delta after the rigidity break of the diffusion coefficient K.
+#endif
 //	Nombre de parametres de propagation
 #define nParamProp  5
 
@@ -106,21 +116,29 @@ d'avoir ici un nombre PAIR. */
   #error DIM_TAB_PBAR DOIT ETRE PAIR = LE MODIFIER EN CONSEQUENCE !
 #endif
 
-// /********************************************************************************************/
+// /*********************WHICH NUCLEI SHOULD BE COMPUTED?*******************************************************/
+
+// #define  ANTIPROTON
+// #define  ANTIDEUTERIUM
+// #define  ANTIHELIUM3
+#define  ANTIHELIUM4
+
+///PUT TO FALSE ONCE FILES HAVE BEEN WRITTEN: ACCELERATES GREATLY CALCULATION ///
 // #define WRITE_CROSS_SECTION _TRUE_
 #define WRITE_CROSS_SECTION _FALSE_
+//
 
+//
 #define TERTIARY_COMPUTATION _TRUE_
 // #define TERTIARY_COMPUTATION _FALSE_
 
+//AN ALTERNATIVE SCHEME FOR COALESCENCE, PUT TO FALSE TO FOLLOW 1808.08961 (Poulin++)
 // #define A_LA_CHARDONNET _TRUE_
 #define A_LA_CHARDONNET _FALSE_
 
-// #define  ANTIPROTON
-#define  ANTIDEUTERIUM
-// #define  ANTIHELIUM3
 
 
+// /**************************************************************************/
 //	PROTON SPECTRUM TABLE PARAMETERS
 
 
@@ -129,18 +147,36 @@ d'avoir ici un nombre PAIR. */
   #define M_NUCLEI 0.938
   #define A_NUCLEI 1
   #define Z_NUCLEI 1
+  #define BA_COAL_FID 1 //USELESS
+  #define P_COALESCENCE 0.261 //USELESS
+
 #endif
 #ifdef ANTIDEUTERIUM
   #define E_PROTON_MIN (17.*MASSE_PROTON) //for He3
   #define M_NUCLEI 1.876
   #define A_NUCLEI 2
   #define Z_NUCLEI 1
+  #define BA_COAL_FID 0.016 //From 1709.08522 fig 10
+  #define BA_COAL 0.021 //From 1709.08522 fig 10
+  #define P_COALESCENCE 0.261 //GeV
 #endif
 #ifdef ANTIHELIUM3
   #define E_PROTON_MIN (31.*MASSE_PROTON) //for He3
   #define M_NUCLEI 2.809
   #define A_NUCLEI 3
   #define Z_NUCLEI 2
+  #define BA_COAL_FID 2e-4 //From 1709.08522 fig 11 right panel
+  #define BA_COAL 3e-4  //From 1709.08522 fig 10
+  #define P_COALESCENCE 0.261 //GeV
+#endif
+#ifdef ANTIHELIUM4
+  #define E_PROTON_MIN (49.*MASSE_PROTON) //for He3
+  #define M_NUCLEI 3.730
+  #define A_NUCLEI 4
+  #define Z_NUCLEI 2
+  #define BA_COAL_FID 0.0 //NOT YET MEASURED!
+  #define BA_COAL     0.0 //NOT YET MEASURED!
+  #define P_COALESCENCE 0.261 //GeV
 #endif
 /* E_PROTON_MIN designe l'energie TOTALE MINIMALE des protons. Nous prenons pour l'instant
 le seuil de production des antiprotons lors d'une collision proton + proton -----> pbar + X.
@@ -174,73 +210,7 @@ d'avoir ici un nombre PAIR. */
 /* Nombre de fonctions J0(alpha_i*rho) utilisees dans le developpement en serie de Bessel. */
 
 /********************************************************************************************/
-
-//	EXPERIMENTAL PROTON FLUX PARAMETRIZATION (maintenant le parametrage depend su potentiel de Fisk, voir plus bas)
-
-//	On choisit ici l'experience qui nous donne le flux de protons.
-
-//	New BESS data from Shikaze et al. VERSION AS OF 080903.
-//#define BESS_2008_proton_Shikaze
-
-//	New parametrization from Fiorenza and David fits to H data. VERSION AS OF 081023.
-//#define Fit_2008_proton_Maurin_Donato
-
-//	New parameterization proposed by Julien Lavalle and based on the CREAM high energy CR proton data. The F1p fit is published in arXiv:1011.3063.
-//#define CREAM_2010_proton_Lavalle
-
-//	New parameterization proposed by Julien Lavalle and based on the ATIC_2 high energy CR proton data. The F2p fit is published in arXiv:1011.3063.
-//#define ATIC2_2010_proton_Lavalle
-
-//   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR proton data.
-//#define PAMELA_2012_proton_Delahaye
-
-//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
-//#define AMS02_2013_proton_Donato
-
-//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Kappl and Winkler in arXiv:1408.0299.
-//#define AMS02_2013_proton_Kappl_Winkler
-
-//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
-//#define AMS02_2013_proton_Vittino
-
-//	Fit performed by Manuela Vecchi on data from a forthcoming paper of AMS-02.
-//#define AMS02_2015_proton_manuela
-
-//	Fit performed by Yoann on data from a forthcoming paper of AMS-02.
-//#define AMS02_2015_proton_yoann
-
-
-/********************************************************************************************/
-
-//	EXPERIMENTAL HELIUM FLUX PARAMETRIZATION (maintenant le parametrage depend su potentiel de Fisk, voir plus bas)
-
-//	On choisit ici l'experience qui nous donne le flux d'helium.
-
-//	New BESS data from Shikaze et al. VERSION AS OF 080903.
-//#define BESS_2008_helium_Shikaze
-
-//	New parametrization from Fiorenza and David fits to H data. VERSION AS OF 081023.
-//#define Fit_2008_helium_Maurin_Donato
-
-//	New parameterization proposed by Julien Lavalle and based on the CREAM and ATIC_2 high energy CR helium data. The F1He fit is published in arXiv:1011.3063.
-//#define CREAM_ATIC2_2010_helium_Lavalle
-
-//   New parameterization proposed by Timur Delahaye and based on the PAMELA high energy CR helium data.
-//#define PAMELA_2012_helium_Delahaye
-
-//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Fiorenza Donato in arXiv:1402.0321.
-//#define AMS02_2013_helium_Donato
-
-//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Kappl and Winkler in arXiv:1408.0299.
-//#define AMS02_2013_helium_Kappl_Winkler
-
-//	New AMS02 data presented at ICRC 2013 in Rio de Janeiro Parameterized by Vittino in a forthcoming paper.
-//#define AMS02_2013_helium_Vittino
-
-//	Fit performed by Yoann on data from AMS Days
-//#define AMS02_2015_helium_yoann
-
-
+//	EXPERIMENTAL PROTON FLUX PARAMETRIZATION
 /********************************************************************************************/
 
 // Valeur moyenne pour AMS-02 (2011-2013) donne par Ghelfi et al. 2015
@@ -332,7 +302,8 @@ d'avoir ici un nombre PAIR. */
 //#define DSPBAR_SUR_DEPBAR_H_on_H_unknown
 //#define DSPBAR_SUR_DEPBAR_H_on_H_Duperray
 //#define DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included
-#define DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+//#define DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+#define DSPBAR_SUR_DEPBAR_H_on_H_RW
 
 // #ifdef ANTIPROTON
   #ifdef DSPBAR_SUR_DEPBAR_H_on_H_unknown
@@ -343,6 +314,8 @@ d'avoir ici un nombre PAIR. */
   	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_high_energy_TAN_NG_mass_T_included.txt"
   #elif defined DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
   	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12.txt"
+  #elif defined DSPBAR_SUR_DEPBAR_H_on_H_RW
+  	#define FILE_NAME_H_ON_H	"../sources/cross_section/DSPBAR_SUR_DEPBAR_H_on_H_RW.txt"
   #else
   	#error You must to specify one parametrization for H on H reaction!
   #endif
@@ -365,15 +338,36 @@ d'avoir ici un nombre PAIR. */
   #define FILE_NAME_DE_HE_ON_HE "../sources/cross_section/DSDe_SUR_DEDe_HE_on_HE_MDGS_F12.txt"
 // #endif
 //
-// #ifdef ANTIHELIUM3
-  #if (A_LA_CHARDONNET == _TRUE_)
-    #define FILE_NAME_HE3_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_H_on_H_MDGS_F12_vChardonnet.txt"
-  #else
-    #define FILE_NAME_HE3_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_H_on_H_MDGS_F12.txt"
+  #ifdef DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+    #if (A_LA_CHARDONNET == _TRUE_)
+      #define FILE_NAME_HE3_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_H_on_H_MDGS_F12_vChardonnet.txt"
+    #else
+      #define FILE_NAME_HE3_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_H_on_H_MDGS_F12.txt"
+    #endif
+    #define FILE_NAME_HE3_H_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_H_on_HE_MDGS_F12.txt"
+    #define FILE_NAME_HE3_HE_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_HE_on_H_MDGS_F12.txt"
+    #define FILE_NAME_HE3_HE_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_HE_on_HE_MDGS_F12.txt"
+  #elif defined DSPBAR_SUR_DEPBAR_H_on_H_RW
+    #define FILE_NAME_HE3_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_H_on_H_RW.txt"
+    #define FILE_NAME_HE3_H_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_H_on_HE_RW.txt"
+    #define FILE_NAME_HE3_HE_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_HE_on_H_RW.txt"
+    #define FILE_NAME_HE3_HE_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE3BAR_HE_on_HE_RW.txt"
   #endif
-  #define FILE_NAME_HE3_H_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_H_on_HE_MDGS_F12.txt"
-  #define FILE_NAME_HE3_HE_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_HE_on_H_MDGS_F12.txt"
-  #define FILE_NAME_HE3_HE_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHEBAR_HE_on_HE_MDGS_F12.txt"
+  #ifdef DSPBAR_SUR_DEPBAR_H_on_H_MDGS_F12
+    #if (A_LA_CHARDONNET == _TRUE_)
+      #define FILE_NAME_HE4_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_H_on_H_MDGS_F12_vChardonnet.txt"
+    #else
+      #define FILE_NAME_HE4_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_H_on_H_MDGS_F12.txt"
+    #endif
+    #define FILE_NAME_HE4_H_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_H_on_HE_MDGS_F12.txt"
+    #define FILE_NAME_HE4_HE_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_HE_on_H_MDGS_F12.txt"
+    #define FILE_NAME_HE4_HE_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_HE_on_HE_MDGS_F12.txt"
+  #elif defined DSPBAR_SUR_DEPBAR_H_on_H_RW
+    #define FILE_NAME_HE4_H_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_H_on_H_RW.txt"
+    #define FILE_NAME_HE4_H_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_H_on_HE_RW.txt"
+    #define FILE_NAME_HE4_HE_ON_H "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_HE_on_H_RW.txt"
+    #define FILE_NAME_HE4_HE_ON_HE "../sources/cross_section/DSHEBAR_SUR_DEHE4BAR_HE_on_HE_RW.txt"
+  #endif
 // #endif
 /********************************************************************************************/
 
@@ -466,12 +460,60 @@ d'avoir ici un nombre PAIR. */
 #define helium_exp_spectrum_file_name	"./results/helium_exp_spectrum.txt"
 
 #if (TERTIARY_COMPUTATION == _TRUE_)
-  #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full.txt"
-  #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full.txt"
-  #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full.txt"
-  #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full.txt"
-  #define Hebar_IS_spectrum_file_name	"./results/Hebar_IS_spectrum_full.txt"
-  #define Hebar_TOA_spectrum_file_name	"./results/Hebar_TOA_spectrum_full.txt"
+  #if (A_LA_CHARDONNET == _FALSE_)
+    #ifdef MED
+      #ifdef BREAK_IN_DIFFUSION
+      #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full_MED_BREAK.txt"
+      #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full_MED_BREAK.txt"
+      #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full_MED_BREAK.txt"
+      #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full_MED_BREAK.txt"
+      #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_full_MED_BREAK.txt"
+      #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_full_MED_BREAK.txt"
+      #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_full_MED_BREAK.txt"
+      #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_full_MED_BREAK.txt"
+      #else
+      #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full_MED.txt"
+      #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full_MED.txt"
+      #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full_MED.txt"
+      #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full_MED.txt"
+      #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_full_MED.txt"
+      #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_full_MED.txt"
+      #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_full_MED.txt"
+      #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_full_MED.txt"
+      #endif
+    #endif
+    #ifdef MAX
+      #ifdef BREAK_IN_DIFFUSION
+      #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full_MAX_BREAK.txt"
+      #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full_MAX_BREAK.txt"
+      #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full_MAX_BREAK.txt"
+      #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full_MAX_BREAK.txt"
+      #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_full_MAX_BREAK.txt"
+      #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_full_MAX_BREAK.txt"
+      #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_full_MAX_BREAK.txt"
+      #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_full_MAX_BREAK.txt"
+      #else
+      #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full_MAX.txt"
+      #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full_MAX.txt"
+      #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full_MAX.txt"
+      #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full_MAX.txt"
+      #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_full_MAX.txt"
+      #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_full_MAX.txt"
+      #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_full_MAX.txt"
+      #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_full_MAX.txt"
+      #endif
+    #endif
+
+  #elif (A_LA_CHARDONNET == _TRUE_)
+    #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_full_chardonnet.txt"
+    #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_full_chardonnet.txt"
+    #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_full_chardonnet.txt"
+    #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_full_chardonnet.txt"
+    #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_full_chardonnet.txt"
+    #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_full_chardonnet.txt"
+    #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_full_chardonnet.txt"
+    #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_full_chardonnet.txt"
+  #endif
 #endif
 // #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_ppOnly.txt"
 // #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_ppOnly.txt"
@@ -480,20 +522,70 @@ d'avoir ici un nombre PAIR. */
 // #define Hebar_IS_spectrum_file_name	"./results/Hebar_IS_spectrum_ppOnly.txt"
 // #define Hebar_TOA_spectrum_file_name	"./results/Hebar_TOA_spectrum_ppOnly.txt"
 #if (TERTIARY_COMPUTATION == _FALSE_)
-  #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary.txt"
-  #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary.txt"
-  #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary.txt"
-  #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary.txt"
-  #define Hebar_IS_spectrum_file_name	"./results/Hebar_IS_spectrum_noTertiary.txt"
-  #define Hebar_TOA_spectrum_file_name	"./results/Hebar_TOA_spectrum_noTertiary.txt"
+  #if (A_LA_CHARDONNET == _FALSE_)
+      #ifdef MED
+        #ifdef BREAK_IN_DIFFUSION
+          #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary_MED_BREAK.txt"
+          #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary_MED_BREAK.txt"
+          #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary_MED_BREAK.txt"
+          #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary_MED_BREAK.txt"
+          #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_noTertiary_MED_BREAK.txt"
+          #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_noTertiary_MED_BREAK.txt"
+          #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_noTertiary_MED_BREAK.txt"
+          #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_noTertiary_MED_BREAK.txt"
+        #else
+          #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary_MED.txt"
+          #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary_MED.txt"
+          #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary_MED.txt"
+          #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary_MED.txt"
+          #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_noTertiary_MED.txt"
+          #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_noTertiary_MED.txt"
+          #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_noTertiary_MED.txt"
+          #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_noTertiary_MED.txt"
+        #endif
+      #endif
+      #ifdef MAX
+        #ifdef BREAK_IN_DIFFUSION
+          #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary_MAX_BREAK.txt"
+          #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary_MAX_BREAK.txt"
+          #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary_MAX_BREAK.txt"
+          #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary_MAX_BREAK.txt"
+          #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_noTertiary_MAX_BREAK.txt"
+          #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_noTertiary_MAX_BREAK.txt"
+          #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_noTertiary_MAX_BREAK.txt"
+          #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_noTertiary_MAX_BREAK.txt"
+        #else
+          #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary_MAX.txt"
+          #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary_MAX.txt"
+          #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary_MAX.txt"
+          #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary_MAX.txt"
+          #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_noTertiary_MAX.txt"
+          #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_noTertiary_MAX.txt"
+          #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_noTertiary_MAX.txt"
+          #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_noTertiary_MAX.txt"
+        #endif
+      #endif
+
+    #elif (A_LA_CHARDONNET == _TRUE_)
+      #define pbar_IS_spectrum_file_name	"./results/pbar_IS_spectrum_noTertiary_chardonnet.txt"
+      #define pbar_TOA_spectrum_file_name	"./results/pbar_TOA_spectrum_noTertiary_chardonnet.txt"
+      #define Debar_IS_spectrum_file_name	"./results/Debar_IS_spectrum_noTertiary_chardonnet.txt"
+      #define Debar_TOA_spectrum_file_name	"./results/Debar_TOA_spectrum_noTertiary_chardonnet.txt"
+      #define He3bar_IS_spectrum_file_name	"./results/He3bar_IS_spectrum_noTertiary_chardonnet.txt"
+      #define He4bar_IS_spectrum_file_name	"./results/He4bar_IS_spectrum_noTertiary_chardonnet.txt"
+      #define He3bar_TOA_spectrum_file_name	"./results/He3bar_TOA_spectrum_noTertiary_chardonnet.txt"
+      #define He4bar_TOA_spectrum_file_name	"./results/He4bar_TOA_spectrum_noTertiary_chardonnet.txt"
+    #endif
 #endif
 
 #define pbar_over_p_IS_spectrum_file_name	"./results/pbar_over_p_IS_spectrum.txt"
 #define pbar_over_p_TOA_spectrum_file_name	"./results/pbar_over_p_TOA_spectrum.txt"
 #define Debar_over_p_IS_spectrum_file_name	"./results/Debar_over_p_IS_spectrum.txt"
 #define Debar_over_p_TOA_spectrum_file_name	"./results/Debar_over_p_TOA_spectrum.txt"
-#define Hebar_over_p_IS_spectrum_file_name	"./results/Hebar_over_p_IS_spectrum.txt"
-#define Hebar_over_p_TOA_spectrum_file_name	"./results/Hebar_over_p_TOA_spectrum.txt"
+#define He3bar_over_p_IS_spectrum_file_name	"./results/He3bar_over_p_IS_spectrum.txt"
+#define He4bar_over_p_IS_spectrum_file_name	"./results/He4bar_over_p_IS_spectrum.txt"
+#define He3bar_over_p_TOA_spectrum_file_name	"./results/He3bar_over_p_TOA_spectrum.txt"
+#define He4bar_over_p_TOA_spectrum_file_name	"./results/He4bar_over_p_TOA_spectrum.txt"
 
 #define pbar_IS_spectra_MIN_MED_MAX_file_name	"./results/pbar_IS_spectra_MIN_MED_MAX.txt"
 #define pbar_TOA_spectra_MIN_MED_MAX_file_name	"./results/pbar_TOA_spectra_MIN_MED_MAX.txt"
@@ -501,13 +593,28 @@ d'avoir ici un nombre PAIR. */
 #define pbar_over_p_IS_uncertainty_spectrum_file_name	"./results/pbar_over_p_IS_uncertainty_spectrum.txt"
 #define pbar_over_p_TOA_uncertainty_spectrum_file_name	"./results/pbar_over_p_TOA_uncertainty_spectrum.txt"
 #ifdef ANTIPROTON
-  #define secondary_source_term_file_name "./results/pbar_H_on_H_source_term.txt"
+    #define secondary_source_term_file_name "./results/pbar_H_on_H_source_term.txt"
 #endif
 #ifdef ANTIDEUTERIUM
-#define secondary_source_term_file_name "./results/Debar_H_on_H_source_term.txt"
+  #if (A_LA_CHARDONNET == _TRUE_)
+    #define secondary_source_term_file_name "./results/Debar_H_on_H_source_term_chardonnet.txt"
+  #else
+    #define  secondary_source_term_file_name "./results/Debar_H_on_H_source_term.txt"
+  #endif
 #endif
 #ifdef ANTIHELIUM3
-#define secondary_source_term_file_name "./results/HE3bar_H_on_H_source_term.txt"
+  #if (A_LA_CHARDONNET == _TRUE_)
+    #define secondary_source_term_file_name "./results/HE3bar_H_on_H_source_term_chardonnet.txt"
+  #else
+      #define secondary_source_term_file_name "./results/HE3bar_H_on_H_source_term.txt"
+  #endif
+#endif
+#ifdef ANTIHELIUM4
+  #if (A_LA_CHARDONNET == _TRUE_)
+    #define secondary_source_term_file_name "./results/HE4bar_H_on_H_source_term_chardonnet.txt"
+  #else
+      #define secondary_source_term_file_name "./results/HE4bar_H_on_H_source_term.txt"
+  #endif
 #endif
 /********************************************************************************************/
 /********************************************************************************************/

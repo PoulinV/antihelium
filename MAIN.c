@@ -46,7 +46,6 @@ int main(void)
 	t1 = time(NULL);
 	printf("\n");
 
-
 //	DECLARATION DES VARIABLES
 	/////////////////////////
 
@@ -66,7 +65,8 @@ int main(void)
 	double PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2], PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY[DIM_TAB_PBAR+1][2];
 
 	double EnTOA, pnTOA, flux_TOA, TnTOA;
-	Cross_Section.P_coal = 0.248; //In GeV
+//Cross_Section.P_coal = 0.261; //In GeV
+  Cross_Section.P_coal = P_COALESCENCE; //In GeV
 	Pbar.Tertiary_computation = TERTIARY_COMPUTATION;
 	Pbar.A_nuclei = A_NUCLEI;
 	Pbar.Z_nuclei = Z_NUCLEI;
@@ -77,7 +77,8 @@ int main(void)
 	probleme = fopen("PB_SUMMARY","w");
 
 
-// 	CALCULS PRELIMINAIRES
+//I) 	CALCULS PRELIMINAIRES:
+// LOAD PROPAGATION PARAMETER; COMPUTE OR READ CROSS SECTION
 	/////////////////////
 
 	TABLE_PROPAGATION_loading(&Propagation);
@@ -91,6 +92,7 @@ int main(void)
 	bessel_preliminary_read_file (alpha_i, &Proton, &Helium);
 
 	CLEANING_ALL_THE_DSPBAR_SUR_DEPBAR   (&Cross_Section);
+
 	if (WRITE_CROSS_SECTION == _TRUE_){
 		DSPBAR_SUR_DEPBAR_H_ON_H_write_file  (&Cross_Section,Pbar.A_nuclei,Pbar.Z_nuclei,Pbar.M_nuclei);
 		// DSPBAR_SUR_DEPBAR_H_ON_HE_write_file (&Cross_Section,Pbar.A_nuclei);
@@ -104,7 +106,7 @@ int main(void)
 	// DSPBAR_SUR_DEPBAR_HE_ON_HE_read_file (&Cross_Section,Pbar.A_nuclei); //To do
 
 
-	// DM_source_term_calculation(&Primary_Source_Term);
+	// DM_source_term_calculation(&Primary_Source_Term); //UNCOMMENT TO ADD DM COMPONENT
 
 	PROTON_SPECTRUM_initialization(PROTON_IS_SPECTRUM);
 	PROTON_SPECTRUM_initialization(PROTON_TOA_SPECTRUM);
@@ -115,17 +117,17 @@ int main(void)
 	// PBAR_SPECTRUM_initialization(PBAR_OVER_P_TOA_SPECTRUM);
 
 
-//	CALCUL DU FLUX DES PROTONS
+//II)	CALCUL DU FLUX DES PROTONS
 //////////////////////////////////////////
 
 	PROTON_IS_SPECTRUM_calculation(PROTON_IS_SPECTRUM, &Proton, &Propagation, alpha_i);
 	PROTON_TOA_SPECTRUM_calculation(PROTON_IS_SPECTRUM, PROTON_TOA_SPECTRUM, T_PROTON_TOA, &Propagation);
 
 
-//	CALCUL DES Pi DES ANTIPROTONS
+//III)	CALCUL DES Pi DES ANTIPROTONS //MAIN PART OF THE CALCULATION
 /////////////////////////////////
 
-//	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS.
+//	CALCUL DE LA CONTRIBUTION PRIMAIRE PROVENANT DE L'ANNIHILATION DES NEUTRALINOS. UNCOMMENT TO ADD DM CONTRIBUTION.
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,500, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 	//calculation_BESSEL_PBAR_PRIMARY_Epbar_i(100,1000, alpha_i, &Pbar, &Propagation, &Primary_Source_Term);
 
@@ -137,12 +139,15 @@ int main(void)
 
 
 //	CALCUL DES Pi DES PBAR EN PRENANT EN COMPTE LES PERTES D'ENERGIE ET LA REACCELERATION DIFFUSIVE.
-	ELDR_effect_calculation(&Propagation, &Pbar, alpha_i);
+  // tertiary_component_effect_calculation(&Pbar,alpha_i);
+	ELDR_effect_calculation(&Propagation, &Pbar, alpha_i); //most advanced calculation
 
 
 
-//	CALCUL DU FLUX D'ANTIPROTONS
-////////////////////////////////
+//	CALCUL DU FLUX D'ANTIPROTONS ou d'ANTINOYAUX (CALCULATE SPECTRUM FROM RESULTS OF Pi + PROPAGATION)
+// IS = INTERSTELLAR
+// TOA = TOP OF ATMOSPHERE (i.e. measured by AMS)
+////////////////////////////////////
 
 	PBAR_IS_SPECTRUM_calculation(PBAR_IS_SPECTRUM, &Pbar, &Propagation, alpha_i);
 	PBAR_TOA_SPECTRUM_calculation(PBAR_IS_SPECTRUM, PBAR_TOA_SPECTRUM, T_PBAR_TOA, &Pbar, &Propagation);
@@ -158,7 +163,7 @@ int main(void)
 	//PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY_calculation_1(PBAR_OVER_P_IS_SPECTRUM_UNCERTAINTY, PBAR_OVER_P_TOA_SPECTRUM_UNCERTAINTY, T_PBAR_OVER_P_TOA, &Proton, &Helium, &Pbar, &Cross_Section, &Propagation, alpha_i);
 
 
-//	AFFICHAGE DES SPECTRES
+//IV)	AFFICHAGE DES SPECTRES (PRINTING IN FILES)
 //////////////////////////
 
 	print_PROTON_IS_SPECTRUM(PROTON_IS_SPECTRUM);
